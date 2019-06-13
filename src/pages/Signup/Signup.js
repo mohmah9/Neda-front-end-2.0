@@ -9,7 +9,12 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 
 function TabContainer({ children, dir }) {
@@ -38,16 +43,132 @@ const styles = theme => ({
 class FullWidthTabs extends React.Component {
   state = {
     value: 0,
+    first_name: "",
+    last_name: "",
+    username: "",
+    password: "",
+    mobile_number: "",
+    province: null,
+    email: "",
+    is_doctor: false,
+    is_patient: false,
+    is_hospital: false,
+    social_number: "",
+    gender: "",
+    phone_number: "",
+    address: "",
+    date_of_birth: "1360-01-14",
+    medical_system_number: "",
+    expertise: "",
+    post_code: ""
+
   };
 
   handleChange = (event, value) => {
     this.setState({ value });
   };
-
+  handleChangerr = event => {
+    this.setState({ value: event.target.value });
+    this.setState({[event.target.name]:event.target.value})
+  };
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+  handleChanger(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
+  handleSubmitpatient= e => {
+    let gen=false;
+    gen= this.state.gender == "female" ? false : true;
+    fetch('http://127.0.0.1:8000/users/', {
+        mode:"cors",
+        method: 'POST',
+        body: JSON.stringify({
+          first_name: this.state.first_name,
+          last_name: this.state.last_name,
+          username: this.state.username,
+          password: this.state.password,
+          mobile_number: this.state.mobile_number,
+          email: this.state.email,
+          is_doctor: false,
+          is_patient: true,
+          is_hospital: false,
+          social_number :this.state.social_number ,
+          gender: gen,
+        }),
+        headers: {
+        "Content-type": "application/json; charset=UTF-8"
+        }
+        }).then(response => {
+        return response.json()
+        }).then(json => {
+                console.log(json)
+            });
+
+        };
+
+
+        handleSubmitDoctor= e => {
+          let gen=false;
+          gen= this.state.gender == "female" ? false : true;
+          fetch('http://127.0.0.1:8000/users/', {
+              mode:"cors",
+              method: 'POST',
+              body: JSON.stringify({
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                username: this.state.username,
+                password: this.state.password,
+                mobile_number: this.state.mobile_number,
+                email: this.state.email,
+                is_doctor: true,
+                is_patient: false,
+                is_hospital: false,
+                date_of_birth :this.state.date_of_birth,
+                medical_system_number:this.state.medical_system_number ,
+                gender: gen,
+                expertise:this.state.expertise,
+              }),
+              headers: {
+              "Content-type": "application/json; charset=UTF-8"
+              }
+              }).then(response => {
+              return response.json()
+              }).then(json => {
+                      console.log(json)
+                  });
+      
+              };
+
+              handleSubmitHospital= e => {
+                fetch('http://127.0.0.1:8000/users/', {
+                    mode:"cors",
+                    method: 'POST',
+                    body: JSON.stringify({
+                      first_name: this.state.first_name,
+                      address : this.state.address,
+                      username: this.state.username,
+                      password: this.state.password,
+                      email: this.state.email,
+                      is_doctor: false,
+                      is_patient: false,
+                      is_hospital: true,
+                      phone_number : this.state.phone_number,
+                      post_code:this.state.post_code ,
+                      province: this.state.province,
+                    }),
+                    headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                    }
+                    }).then(response => {
+                    return response.json()
+                    }).then(json => {
+                            console.log(json)
+                        });
+            
+                    };
+      
   render() {
     const { classes, theme } = this.props;
 
@@ -74,77 +195,133 @@ class FullWidthTabs extends React.Component {
         >
           <TabContainer dir={theme.direction} ><h1 ><center>Patient</center></h1>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="Name" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="first_name" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Last name"type="email"autoComplete="current-password"margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Last name" name ="last_name" type="Name" margin="normal"/>
+                </div>
+                {/* <div className="fields">
+                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Gender" name ="Gender" type="checkbox" margin="normal"/>
+                </div> */}
+                <div className="fields">
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className ="usertext" label="User Name" type="Name" name="username"  margin="normal"/>
                 </div>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="User Name" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Email" type="eamil" name="email" autoComplete="email" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Password"type="password"autoComplete="current-password"margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Password" name="password" type="password" margin="normal"/>
                 </div>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="Social Number" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Social Number" type="text" name="social_number" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Phon Nmber"type="password"autoComplete="current-password"margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="mobile Number" type="tel" name = "mobile_number" margin="normal"/>
+                </div>
+                <div style={{paddingLeft:"15%"}}>
+                <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Gender</FormLabel>
+                <RadioGroup
+                  aria-label="Gender"
+                  name="gender"
+                  className={classes.group}
+                  value={this.state.value}
+                  onChange={this.handleChangerr}
+                >
+                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                  <FormControlLabel value="male" control={<Radio />} label="Male" />
+                  </RadioGroup>
+                  </FormControl>
                 </div>
                 <div className='btn-submit'>
-                    <Button variant="contained" color = "primary" fullWidth>
+                    <Button onClick={this.handleSubmitpatient} variant="contained" color = "primary" fullWidth>
                         submit
                     </Button>
                 </div>      
                 </TabContainer>
           <TabContainer dir={theme.direction}><h1 ><center>Doctor</center></h1>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="Name" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="first_name" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Last name"type="email"autoComplete="current-password"margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Last name"name = "last_name" type="Name" margin="normal"/>
                 </div>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="User Name" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)}  fullWidth className="usertext" label="User Name" type="Name" name="username" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Password"type="password"autoComplete="current-password"margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Email" type="Name" name="email" autoComplete="email" margin="normal"/>
                 </div>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="Social Number" type="email" name="email" autoComplete="email" margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Password"type="password" name ="password"  margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Phon Nmber"type="password"autoComplete="current-password"margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Medical system Number" type="text " name="medical_system_number" margin="normal"/>
                 </div>
-                <Button variant="contained" color = "primary" fullWidth>
+                <div className="fields">
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="mobile Number" name = "mobile_number" type="tel" margin="normal"/>
+                </div >
+                <div className="fields">
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Expertise" name = "expertise" type="text" margin="normal"/>
+                </div >
+                <div className="fields">
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Expertise" name = "expertise" type="text" margin="normal"/>
+                </div >
+                <div style={{paddingLeft:"15%"}}>
+                <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Gender</FormLabel>
+                <RadioGroup
+                  aria-label="Gender"
+                  name="gender"
+                  className={classes.group}
+                  value={this.state.value}
+                  onChange={this.handleChangerr}
+                >
+                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                  <FormControlLabel value="male" control={<Radio />} label="Male" />
+                  </RadioGroup>
+                  </FormControl>
+                </div>
+                <div className='btn-submit'>
+                <Button variant="contained" onClick = {this.handleSubmitDoctor} color = "primary" fullWidth>
                         submit
                     </Button>
+                  </div>
                 </TabContainer>
           <TabContainer dir={theme.direction}><h1 ><center>Hospital</center></h1>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="Name" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="first_name" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Last name"type="email"autoComplete="current-password"margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)}  fullWidth className="passtext" label="Address"type="text" name="address" margin="normal"/>
                 </div>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="User Name" type="email" name="email" autoComplete="email" margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="User Name" type="Name" name="username" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Password"type="password"autoComplete="current-password"margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Email" type="Name" name="email" autoComplete="email" margin="normal"/>
                 </div>
                 <div className="fields">
-                 <TextField id="outlined-email-input" fullWidth className="usertext" label="Social Number" type="email" name="email" autoComplete="email" margin="normal"/>
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Password" name = "password" type="password" margin="normal"/>
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" fullWidth className="passtext" label="Phone Number"type="password"autoComplete="current-password"margin="normal"/>
+                 <TextField id="outlined-email-input" onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Postal code" type="test" name="post_code"  margin="normal"/>
                 </div>
-                <Button variant="contained" color = "primary" fullWidth>
+                <div className="fields">
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="province" name = "province" type="text" margin="normal"/>
+                </div>
+                <div className="fields">
+                    <TextField id="outlined-password-input" onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="phone number" name = "phone_number" type="text" margin="normal"/>
+                </div>
+                <div className='btn-submit'>
+                <Button variant="contained" onClick = {this.handleSubmitHospital} color = "primary" fullWidth>
                         submit
                     </Button>
+                </div>
                 </TabContainer>
         </SwipeableViews>
       </div>
+      <br />
       </div>
     );
   }
