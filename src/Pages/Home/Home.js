@@ -10,7 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Slides from './slides.js';
-import Paper from '@material-ui/core/Paper';د
+import Paper from '@material-ui/core/Paper';
 import FullWidthGrid from './grid';
 import Search_com from './search';
 
@@ -34,7 +34,7 @@ const styles = {
 
 class MenuAppBar extends React.Component {
   state = {
-    // auth: true,
+    loaded_doctors: [],
     anchorEl: null,
   };
 
@@ -49,23 +49,15 @@ class MenuAppBar extends React.Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-
+  
   render() {
     const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
     <div>
       <div className={classes.root} >
-        {/* <FormGroup> */}
-          {/* <FormControlLabel */}
-            {/* control={ */}
-              {/* <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" /> */}
-            {/* } */}
-            {/* label={auth ? 'Logout' : 'Login'} */}
-          {/* /> */}
-        {/* </FormGroup> */}
         <AppBar position='static' style={bar_style}>
           <Toolbar>
             <IconButton className={classes.menuButton} style={bar_style} color="inherit" aria-label="Menu">
