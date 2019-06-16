@@ -22,7 +22,7 @@ export default class Calender extends React.Component{
   
   handleDayClick(day, { selected }) {
     this.setState({
-      selectedDay: selected ? undefined : day,
+      selectedDay: selected ? undefined : day ,
     });
   }
   
@@ -32,7 +32,11 @@ export default class Calender extends React.Component{
     
     return(
       <main>
-          <div style = {{'marginLeft' : "20%",  display : "flex" , backgroundColor : "white"}}>
+          <div style = {{'marginLeft' : "10%",  display : "flex" , backgroundColor : "white"}}>
+          <div style = {{'marginLeft' : "10%" , width : "50%"}}>
+            {this.state.selectedDay ? <AppointmentTime/> : null}
+            <br />
+         </div>
             <div>
             <DayPicker 
           selectedDays={this.state.selectedDay}
@@ -48,10 +52,8 @@ export default class Calender extends React.Component{
             },]}
          
         />
-            </div>
-         <div style = {{'marginLeft' : "10%" , width : "50%"}}>
-            {this.state.selectedDay ? <AppointmentTime/> : null}
-         </div>
+      </div>
+        
        
       </div>
     </main>

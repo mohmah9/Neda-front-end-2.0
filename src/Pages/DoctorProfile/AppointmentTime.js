@@ -63,8 +63,7 @@ export default class AppointmentTime extends React.Component{
         return(
             <div>
                 <ClickAwayListener onClickAway={this.handleClickAway}>
-                        {btn}
-                    
+                        {btn}    
                 </ClickAwayListener>
             </div>
             
