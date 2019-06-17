@@ -1,0 +1,35 @@
+.login_paper{
+    margin-left: 35%;
+    margin-top: 6%;
+    margin-right: 35%;
+    padding-top:1%;
+    }
+.fields{
+    
+    padding-right: 15%;
+    padding-left: 15%;
+    }
+.btn-submit{
+    padding-bottom: 3%;
+    padding-top: 3%;
+    padding-right: 15%;
+    padding-left: 15%;
+}
+.forgot_password{
+    padding-left: 15%;
+    padding-bottom: 15%;
+    font: caption;
+}
+.check_box{
+    padding-left: 13%;
+}
+.signup{
+    padding-bottom: 2%;
+    text-align: center;
+    font: small-caption;
+}
+body{
+ /* background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROhnVuq-Gbugb1zR8RmAO98q9na8HhmQq9zFqDZEkMC8fs1fuHug); */
+ /* background-size: cover ; */
+}
+
