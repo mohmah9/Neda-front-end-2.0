@@ -6,6 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Searchcom from './search';
 import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Filters from "./Filters"
+import { Button } from '@material-ui/core';
+
 
 const styles = theme => ({
   root: {
@@ -17,45 +20,48 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
 });
-class ViewInfo extends React.Component{
-  constructor(props){
+class ViewInfo extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       // doctors : []
     }
   }
-  movetodoctor= e =>{
+  movetodoctor = e => {
     return (
       <div>
-      <DoctorProfile Doctor = {this.props.Doctor}/>
+        <DoctorProfile Doctor={this.props.Doctor} />
       </div>
     )
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
-        <Link to={{ pathname: '/DoctorProfile', Doctor: this.props.Doctor}} >
-        <Paper onClick={this.movetodoctor} style={{boxShadow:"2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}>
-        <div>
-        <div>
-          <img src = {this.props.Doctor.picture} style = {{ width: "75px",
-                   height: "75px",position : "absolute" , left : "5%", paddingTop : "2%"}}/>
-        </div>
-        <div style = {{'textAlign' : "right",'marginLeft' : "30%", paddingRight : "2%"}}>
-              <br/>
-              <p>دکتر {this.props.Doctor.first_name + " " + this.props.Doctor.last_name}</p> 
-              <p>تخصص و فوق تخصص :  {this.props.Doctor.expertise}</p>
-              <p> درباره پزشک : {this.props.Doctor.bio}</p>
-               <br/>
-        </div> 
-        </div>
-        
-      </Paper>
-      </Link>
-      <br/>
+        <Link to={{ pathname: '/DoctorProfile', Doctor: this.props.Doctor }} style={{ textDecoration: "none" }} >
+          <Button fullWidth >
+            <Paper onClick={this.movetodoctor} style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
+              <div>
+                <div>
+                  <img src={this.props.Doctor.picture} style={{
+                    width: "75px",
+                    height: "75px", position: "absolute", left: "5%", paddingTop: "2%"
+                  }} />
+                </div>
+                <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
+                  <br />
+                  <p>دکتر {this.props.Doctor.user.first_name + " " + this.props.Doctor.user.last_name}</p>
+                  <p>تخصص و فوق تخصص :  {this.props.Doctor.expertise}</p>
+                  <p> درباره پزشک : {this.props.Doctor.bio}</p>
+                  <br />
+                </div>
+              </div>
+            </Paper>
+          </Button>
+        </Link>
+        <br />
       </div>
-      
+
     )
   }
 }
@@ -63,49 +69,51 @@ class ViewInfo extends React.Component{
 // let doctorlist= doctors.map(d => d.username)
 // const doctorlist = [{"username" : "dsha"},{"username" : "fbhds"}]
 class FullWidthGrid extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      doctors : []
+      doctors: [],
+      filters: []
     }
   }
 
-  componentDidMount(){
-    return fetch('http://127.0.0.1:8000/doctors/', {
-      mode:"cors",
+  componentDidMount() {
+    return fetch('http://nedabackend.pythonanywhere.com/doctors/', {
+      mode: "cors",
       method: 'GET',
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
-      }).then(response => {
-        return response.json()
-      }).then(json => {
-                this.setState({
-                  doctors: json
-                })
-                console.log(json)
-            });
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      this.setState({
+        doctors: json
+      })
+      console.log(json)
+    });
   }
 
-
-  render(){
+  render() {
     const { classes } = this.props;
+    // console.log(this.props.data)
     return (
       <div className={classes.root}>
-      <Grid container spacing={24}>
-        <Grid item sm={9}>
-            {this.state.doctors.length >= 1 ?(
+        <Grid container spacing={24}>
+          <Grid item sm={9}>
+            {this.state.doctors.length >= 1 ? (
               <div>
-               {this.state.doctors.map(doctor => <ViewInfo Doctor = {doctor}/>)}
+                {this.state.doctors.map(doctor => <ViewInfo Doctor={doctor} />)}
               </div>
-            ) : null }         
+            ) : null}
+          </Grid>
+          <Grid item sm={3}>
+            <Paper className={classes.paper}>
+              <Filters />
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item sm={3}>
-          <Paper className={classes.paper}>
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
+      </div>
     )
   }
 }

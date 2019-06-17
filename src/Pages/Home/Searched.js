@@ -10,8 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Slides from './slides.js';
-import Paper from '@material-ui/core/Paper';
-import FullWidthGrid from './grid';
+import FullWidthGrid from './Searchgrid';
 import Search_com from './search';
 import { Link } from '@material-ui/core';
 
@@ -33,7 +32,7 @@ const styles = {
 	},
 };
 
-class MenuAppBar extends React.Component {
+class Searched extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -60,7 +59,7 @@ class MenuAppBar extends React.Component {
 		const { classes } = this.props;
 		const { anchorEl } = this.state;
 		const open = Boolean(anchorEl);
-		console.log(this.props.location.token)
+		console.log(this.props.location.data)
 		return (
 			<div>
 				<div className={classes.root} >
@@ -94,8 +93,7 @@ class MenuAppBar extends React.Component {
 										horizontal: 'right',
 									}}
 									open={open}
-									onClose={this.handleClose}
-								>
+									onClose={this.handleClose}>
 									<MenuItem onClickAway={this.handleClose} ><Link to={{ pathname: "/Login", data: "hgfgh" }} style={{ textDecoration: "none" }}>profile</Link></MenuItem>
 									<a href="/Login" style={{ textDecoration: "none" }}><MenuItem onClickAway={this.handleClose} >Logout </MenuItem></a>
 								</Menu>
@@ -114,7 +112,7 @@ class MenuAppBar extends React.Component {
 					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 				</div >
 				<div style={{ marginLeft: '1%', marginRight: '1%' }}>
-					<FullWidthGrid />
+					<FullWidthGrid  data={this.props.location.data} />
 
 				</div>
 			</div>
@@ -122,8 +120,8 @@ class MenuAppBar extends React.Component {
 	}
 }
 
-MenuAppBar.propTypes = {
+Searched.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default withStyles(styles)(Searched);
