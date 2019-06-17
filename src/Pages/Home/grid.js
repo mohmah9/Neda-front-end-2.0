@@ -38,15 +38,15 @@ class ViewInfo extends React.Component {
   render() {
     return (
       <div>
-        <Link to={{ pathname: '/DoctorProfile', Doctor: this.props.Doctor }} style={{ textDecoration: "none" }} >
+        <Link to={{ pathname: '/DoctorProfile', data : { Doctor: this.props.Doctor , token : this.props.token}}} style={{ textDecoration: "none" }} >
           <Button fullWidth >
             <Paper onClick={this.movetodoctor} style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
               <div>
                 <div>
                   <img src={this.props.Doctor.picture} style={{
                     width: "75px",
-                    height: "75px", position: "absolute", left: "5%", paddingTop: "2%"
-                  }} />
+                    height: "75px", position: "absolute", left: "5%", paddingTop: "2%" 
+                  }}  alt = " "/>
                 </div>
                 <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
                   <br />
@@ -77,39 +77,24 @@ class FullWidthGrid extends React.Component {
     }
   }
 
-  componentDidMount() {
-    return fetch('http://nedabackend.pythonanywhere.com/doctors/', {
-      mode: "cors",
-      method: 'GET',
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then(response => {
-      return response.json()
-    }).then(json => {
-      this.setState({
-        doctors: json
-      })
-      console.log(json)
-    });
-  }
+
 
   render() {
     const { classes } = this.props;
-    // console.log(this.props.data)
+
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item sm={9}>
-            {this.state.doctors.length >= 1 ? (
+            {this.props.result.length >= 1 ? (
               <div>
-                {this.state.doctors.map(doctor => <ViewInfo Doctor={doctor} />)}
+                {this.props.result.map(doctor => <ViewInfo Doctor={doctor} token = {this.props.token} />)}
               </div>
             ) : null}
           </Grid>
           <Grid item sm={3}>
             <Paper className={classes.paper}>
-              <Filters />
+              <Filters filtering={this.props.filtering} />
             </Paper>
           </Grid>
         </Grid>
