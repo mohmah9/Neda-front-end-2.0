@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Button, Icon } from '@material-ui/core';
@@ -52,41 +50,6 @@ function Information(props) {
 
 }
 
-class ViewInfo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            // doctors : []
-        }
-    }
-
-
-    render() {
-        console.log(this.props.clinic)
-        return (
-            <div>
-                {/* <Link to={{ pathname: '/DoctorProfile', Doctor: this.props.Doctor}} > */}
-                <MenuItem>
-                    <Button onClick={this.movetodoctor} /*style={{boxShadow:"2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}*/>
-
-                        <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
-                            <br />
-                            <p>مطب {this.props.clinic.name + " "}</p>
-                            {/* <p>تخصص و فوق تخصص :  {this.props.clinic.expertise}</p>
-              <p> درباره پزشک : {this.props.Doctor.bio}</p>
-               <br/> */}
-                        </div>
-
-                    </Button>
-                </MenuItem>
-                {/* </Link> */}
-                <br />
-            </div>
-
-        )
-    }
-}
-
 
 export default class DoctorProfile extends React.Component {
 
@@ -124,10 +87,8 @@ export default class DoctorProfile extends React.Component {
 
     changestate = event => {
         this.setState({ clickOnClinic: true })
-        //console.log(e)
         console.log(event)
         this.setState({ selectedClinic: event.target.value })
-        //console.log(this.state.selectedClinic)
     }
 
     render() {
@@ -145,7 +106,7 @@ export default class DoctorProfile extends React.Component {
                     </Grid>
                     <Grid item sm={5} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
                         <Paper style={{ opacity: "0.9" }}>
-                            {this.state.clickOnClinic ? <Calender Doctor={this.props.location.data.Doctor} clinic={this.state.selectedClinic} token = {this.props.location.data.token} /> : null}
+                            {this.state.clickOnClinic ? <Calender Doctor={this.props.location.data.Doctor} clinic={this.state.selectedClinic} token={this.props.location.data.token} /> : null}
                         </Paper>
                     </Grid>
                     <Grid item sm={2} style={{ paddingTop: "2%", paddingRight: "5%" }}>
@@ -153,12 +114,10 @@ export default class DoctorProfile extends React.Component {
                             <MenuList>
                                 <p style={{ 'paddingRight': "5%", 'textAlign': "right" }}>مطب ها و بیمارستان ها</p>
                                 {this.state.clinics.map(clinic =>
-                                    <MenuItem style={{ 'paddingRight': "5%", 'textAlign': "right" }} value={clinic} onClick={() => this.setState({ selectedClinic: clinic, clickOnClinic: true })}>
+                                    <MenuItem style={{ 'paddingRight': "5%", 'textAlign': "right" }} value={clinic}
+                                        onClick={() => this.setState({ selectedClinic: clinic, clickOnClinic: true })}>
                                         <p style={{ direction: 'rtl' }}>{clinic.name}</p>
                                         <br />
-                                        <p style={{ direction: 'rtl' }}>{clinic.address}</p>
-                                        <br />
-                                        <p style={{ direction: 'rtl' }}>{clinic.phone_number}</p>
                                     </MenuItem>)}
                             </MenuList>
                         </Paper>
@@ -170,6 +129,7 @@ export default class DoctorProfile extends React.Component {
                             <Image Doctor={this.props.location.data.Doctor} />
                             <Information Doctor={this.props.location.data.Doctor} />
                             <br />
+
                         </Paper>
                     </Grid>
                 </Grid>

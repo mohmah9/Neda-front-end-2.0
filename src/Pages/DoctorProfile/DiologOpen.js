@@ -7,28 +7,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-// let Doctor = {
-//     Name : 'رامین',
-//     LastName : 'محمدی',
-//     Image : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfbpodSecGGEBqQrCtXK4iq9CHc2zWZg8aS9pkU6haUX4YgVm5',
-//     MedicalSystemNumber : 84771,
-//     Expertise : 'جراح مغز و اعصاب',
-//     Address : "تهران خیابان شریعتی بالاتر از ظفر قبل از بیمارستان ایرانمهر خیابان پور مشکانی یا کودکان غزه ساختمان پزشکان بزرگمهر طبقه پنجم",
-//     phone : "۰۲۱-۲۲۶۱۷۳۰۵",
-//     Bio : "انجام نوار مغز نوار عصب داپلر گردن نوار چشم"
-//   };
-
-let patient = {
-  Name: 'مریم',
-  LastName: 'افشار',
-};
-
 function ViewAppointmentInformation(props) {
 
   return (
     <div style={{ 'textAlign': "right" }}>
-      <p> {props.patient.Name} {props.patient.LastName} عزیز</p>
-      <p>برای تاریخ 10  تیر ساعت 4 بعد از ظهر در مطب دکتر {props.Doctor.first_name} {props.Doctor.last_name} برای شمارزرو موقت شد </p>
+      <p>  کاربر عزیز</p>
+      <p>رزرو موقت با موفقیت انجام شد </p>
       <p>برای قطعی شدن رزرو کلید پرداخت را بزنید</p>
 
     </div>
@@ -67,14 +51,13 @@ export default class DiologOpen extends React.Component {
       })
       
       this.setState({open : false})
-      // x = await x.json()
       console.log(x)
   };
 
   
 
   render() {
-    //const [open, setOpen] = React.useState(true);
+
     console.log(this.props.token)
     return (
       <div>
@@ -87,7 +70,7 @@ export default class DiologOpen extends React.Component {
           <DialogTitle id="alert-dialog-title"></DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <ViewAppointmentInformation Doctor={this.props.Doctor} patient={patient} />
+              <ViewAppointmentInformation Doctor={this.props.Doctor} time = {this.props.time}/>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -2,29 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './AppointmentTime.css'
-import Times from './Times'
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import DiologOpen from './DiologOpen';
-
-let patient = {
-  Name : 'مریم',
-  LastName : 'افشار',
-};
-
-function ViewAppointmentInformation(props){
-
-  return(
-    <div style = {{'textAlign' : "right"}}>
-      <p> {props.patient.Name} {props.patient.LastName} عزیز</p>
-      <p>برای تاریخ 10  تیر ساعت 4 بعد از ظهر در مطب دکتر {props.Doctor.first_name} {props.Doctor.last_name} برای شمارزرو موقت شد </p>
-      <p>برای قطعی شدن رزرو کلید پرداخت را بزنید</p>
-  
-    </div>
-    
-  )
-}
 
 class TimeTable extends React.Component {
 
@@ -47,12 +27,14 @@ class TimeTable extends React.Component {
   };
 
   render() {
+    
+    let time = this.props.time.date_time.split('T')
     return (
       <div>
 
           <Button  variant = "contained" color = "primary" fullWidth style = {{'marginTop' : "10%"}}
             onClick = {this.handleClick}>
-            {this.props.time.date_time}
+            {time[1].slice(0, -1)}
            </Button>
           {this.state.open ? <DiologOpen Doctor = {this.props.Doctor} time = {this.props.time} token = {this.props.token} /> : null}
       </div>
@@ -63,8 +45,6 @@ class TimeTable extends React.Component {
 TimeTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-// const btn  = Times.map(time => <TimeTable  Start = {time.start}/>)
 
 
 export default class AppointmentTime extends React.Component{
@@ -101,7 +81,9 @@ export default class AppointmentTime extends React.Component{
         return(
             <div>
                 <ClickAwayListener onClickAway={this.handleClickAway}>
-                 {this.state.appointment_times.map(time => !time.has_reserved ? <TimeTable  Doctor = {this.props.Doctor} time = {time} token = {this.props.token}/> : null)}
+                 {this.state.appointment_times.map(time => !time.has_reserved 
+                  ? <TimeTable  Doctor = {this.props.Doctor} time = {time} token = {this.props.token}/> 
+                  : null)}
                 </ClickAwayListener>
             </div>
             
