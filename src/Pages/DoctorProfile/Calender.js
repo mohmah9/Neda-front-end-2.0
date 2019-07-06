@@ -21,11 +21,17 @@ export default class Calender extends React.Component {
 
 
   handleDayClick(day, { selected }) {
+    let dayy=day.toLocaleDateString().split("/")
+    if (dayy[0].length==1){
+      dayy[0]="0"+dayy[0]
+    }
+    if (dayy[1].length==1){
+      dayy[1]="0"+dayy[1]
+    } 
+    console.log(dayy)
     this.setState({
-      selectedDay: selected ? undefined : day,
+      selectedDay: selected ? undefined : dayy,
     });
-    console.log(day)
-    console.log(this.props.clinic)
   }
 
 
@@ -36,7 +42,7 @@ export default class Calender extends React.Component {
         <div style={{ 'marginLeft': "10%", display: "flex", backgroundColor: "white" }}>
           <div style={{ 'marginLeft': "10%", width: "50%" }}>
             {this.state.selectedDay ? 
-            <AppointmentTime Doctor={this.props.Doctor} clinic={this.props.clinic} token = {this.props.token}/> 
+            <AppointmentTime Doctor={this.props.Doctor} clinic={this.props.clinic} Day = {this.state.selectedDay}/> 
             : null}
             <br />
           </div>

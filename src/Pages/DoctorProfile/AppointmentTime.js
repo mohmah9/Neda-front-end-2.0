@@ -11,12 +11,14 @@ class TimeTable extends React.Component {
     
   state = {
     open: false,
+    color : "primary"
   };
 
   
   handleClick = () => {
     this.setState(state => ({
       open: !state.open,
+      color : "secondary"
     }));
   };
 
@@ -27,16 +29,15 @@ class TimeTable extends React.Component {
   };
 
   render() {
-    
     let time = this.props.time.date_time.split('T')
     return (
       <div>
 
-          <Button  variant = "contained" color = "primary" fullWidth style = {{'marginTop' : "10%"}}
+          <Button  variant = "contained" color = {this.State.color} fullWidth style = {{'marginTop' : "10%"}}
             onClick = {this.handleClick}>
-            {time[1].slice(0, -1)}
+            { time[1].slice(0, -1)}
            </Button>
-          {this.state.open ? <DiologOpen Doctor = {this.props.Doctor} time = {this.props.time} token = {this.props.token} /> : null}
+          {this.state.open ? <DiologOpen Doctor = {this.props.Doctor} time = {this.props.time} /> : null}
       </div>
     );
   }
@@ -77,13 +78,17 @@ export default class AppointmentTime extends React.Component{
     };  
     
     render(){
-      
+      // {this.state.appointment_times.length >= 1 ? console.log(this.state.appointment_times.date_time.substring(0,4)) :null }
         return(
             <div>
                 <ClickAwayListener onClickAway={this.handleClickAway}>
-                 {this.state.appointment_times.map(time => !time.has_reserved 
-                  ? <TimeTable  Doctor = {this.props.Doctor} time = {time} token = {this.props.token}/> 
+                 {this.state.appointment_times.length >= 1 ?
+                 <div>
+                    {this.state.appointment_times.map(time => !time.has_reserved && time.date_time.substring(0,4)==this.props.Day[2] && time.date_time.substring(5,7)==this.props.Day[0] &&time.date_time.substring(8,10)==this.props.Day[1]
+                  ? <TimeTable  Doctor = {this.props.Doctor} time = {time} /> 
                   : null)}
+                 </div>
+                  : null}
                 </ClickAwayListener>
             </div>
             

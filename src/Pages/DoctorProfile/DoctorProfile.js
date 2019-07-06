@@ -106,7 +106,7 @@ export default class DoctorProfile extends React.Component {
                     </Grid>
                     <Grid item sm={5} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
                         <Paper style={{ opacity: "0.9" }}>
-                            {this.state.clickOnClinic ? <Calender Doctor={this.props.location.data.Doctor} clinic={this.state.selectedClinic} token={this.props.location.data.token} /> : null}
+                            {this.state.clickOnClinic ? <Calender Doctor={this.props.location.data.Doctor} clinic={this.state.selectedClinic} /> : null}
                         </Paper>
                     </Grid>
                     <Grid item sm={2} style={{ paddingTop: "2%", paddingRight: "5%" }}>
