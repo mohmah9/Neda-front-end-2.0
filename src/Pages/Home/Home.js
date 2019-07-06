@@ -109,7 +109,6 @@ class MenuAppBar extends React.Component {
     const { classes } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    console.log(this.props.location.token)
     return (
       <div>
         <div className={classes.root} >
@@ -120,7 +119,6 @@ class MenuAppBar extends React.Component {
               </IconButton>
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 NEDA
-              {this.props.token}
               </Typography>
               <div>
                 <IconButton style={bar_style}
@@ -163,7 +161,7 @@ class MenuAppBar extends React.Component {
           <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         </div >
         <div style={{ marginLeft: '1%', marginRight: '1%' }}>
-          <FullWidthGrid filtering={this.handlefilter} result={this.state.result} token={this.props.location.token} />
+          <FullWidthGrid filtering={this.handlefilter} result={this.state.result} />
 
         </div>
       </div>

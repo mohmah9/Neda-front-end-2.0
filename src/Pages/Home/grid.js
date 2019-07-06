@@ -38,7 +38,7 @@ class ViewInfo extends React.Component {
   render() {
     return (
       <div>
-        <Link to={{ pathname: '/DoctorProfile', data : { Doctor: this.props.Doctor , token : this.props.token}}} style={{ textDecoration: "none" }} >
+        <Link to={{ pathname: '/DoctorProfile', data : { Doctor: this.props.Doctor}}} style={{ textDecoration: "none" }} >
           <Button fullWidth >
             <Paper onClick={this.movetodoctor} style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
               <div>
@@ -88,7 +88,7 @@ class FullWidthGrid extends React.Component {
           <Grid item sm={9}>
             {this.props.result.length >= 1 ? (
               <div>
-                {this.props.result.map(doctor => <ViewInfo Doctor={doctor} token = {this.props.token} />)}
+                {this.props.result.map(doctor => <ViewInfo Doctor={doctor} />)}
               </div>
             ) : null}
           </Grid>
