@@ -15,7 +15,7 @@ export default class Login extends React.Component {
         checkedA: true,
         username: "",
         password: "",
-        token: "",
+        // token: "",
         loged: false,
         wrong_input: ""
     };
@@ -40,10 +40,12 @@ export default class Login extends React.Component {
         })
 
         x = await x.json()
-        x = x.token
-        await this.setState({
-            token: x
-        })
+        // x = x.token
+        // await this.setState({
+        //     token: x
+        // })
+        localStorage.setItem('token' , x.token)
+        localStorage.setItem('kind' , x.kind)
         if (typeof (x) == "undefined") {
             this.setState({
                 wrong_input: "Your username or password is wrong !!!"
@@ -54,6 +56,8 @@ export default class Login extends React.Component {
             })
 
         }
+        console.log(localStorage.getItem('token'))
+        console.log(localStorage.getItem('kind'))
         console.log(x)
         console.log(typeof ({ "aaa": "nn" }.aaa))
 
@@ -65,7 +69,7 @@ export default class Login extends React.Component {
 
     render() {
         const { loged, wrong_input } = this.state
-        if (loged) return <Redirect to={{ pathname: '/Homepage', token: { token: this.state.token } }} />
+        if (loged) return <Redirect to={{ pathname: '/Homepage' }} />
         return (
 
             <div className="login_form">
