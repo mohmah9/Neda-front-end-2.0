@@ -80,7 +80,7 @@ class ViewAndEditPatientInformation extends React.Component{
     first_name: this.props.patient.user.first_name,
     last_name: this.props.patient.user.last_name,
     username: this.props.patient.user.username,
-    password: "",
+    password: this.props.patient.user.password,
     mobile_number: this.props.patient.mobile_number,
     province: this.props.patient.user.province,
     email: this.props.patient.user.email,
@@ -106,6 +106,39 @@ handleChangerr = event => {
   console.log(this.selectedFilters)
 
 }
+
+handleEditpatient= e => {
+  fetch('http://nedabackend.pythonanywhere.com/patients/0012356987/', {
+      mode:"cors",
+      method: 'PUT',
+      body: JSON.stringify({
+        user : {
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        username: this.state.username,
+        password: this.state.password,
+        province: this.state.province,
+        email: this.state.email,
+        },
+        mobile_number: this.state.mobile_number,
+        social_number: this.state.social_number,
+        phone_number: this.state.phone_number,
+        address: this.state.address,
+        date_of_birth: "1360-01-14",
+        gender : this.state.gender,
+        medical_system_number: this.state.medical_system_number
+      }),
+      headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      "Authorization": "Token " + localStorage.getItem('token')
+      }
+      }).then(response => {
+      return response.json()
+      }).then(json => {
+              console.log(json)
+          });
+
+      };
 
   render(){
     return(
@@ -164,7 +197,7 @@ handleChangerr = event => {
                 
                 <br/>
                 <div className="fields">
-                <Button  variant="contained" onClick = {this.handleSubmitHospital} color = "primary" fullWidth>
+                <Button  variant="contained" onClick = {this.handleEditpatient} color = "primary" fullWidth>
                     Edit
                  </Button>
                 </div>
@@ -227,7 +260,6 @@ class ViewInfo extends React.Component {
 
   render() {
     if (this.state.cancelled) return <Redirect to={{ pathname: '/PatientProfile' }} />
-    console.log(this.props.Appointment)
     return (
       <div>
 
