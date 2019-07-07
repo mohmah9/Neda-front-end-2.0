@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import MenuAppBar from './NavBar'
 import DoctorProfile from "../DoctorProfile/DoctorProfile"
@@ -16,60 +15,62 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+
+
 const BootstrapInput = withStyles(theme => ({
   root: {
-      'label + &': {
-          marginTop: theme.spacing.unit * 3,
-      },
+    'label + &': {
+      marginTop: theme.spacing.unit * 3,
+    },
   },
   input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    width: 'auto',
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
       borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      width: 'auto',
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-      fontFamily: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
-          '"Helvetica Neue"',
-          'Arial',
-          'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-          borderRadius: 4,
-          borderColor: '#80bdff',
-          boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
   },
 }))(InputBase);
 
 
-const patient = {
+let patient = {
   "url": "http://nedabackend.pythonanywhere.com/patients/0012356987/",
-        "user": {
-            "url": "http://nedabackend.pythonanywhere.com/users/3/",
-            "username": "ali",
-            "password": "pbkdf2_sha256$150000$cb62Qy8vGzJl$CFOx1RsLyXmwRptul4e8HK92LjtKsqeNebY3bq45VpI=",
-            "first_name": "علی",
-            "last_name": "عالی",
-            "email": "ali@gmail.com",
-            "province": ""
-        },
-        "social_number": "0012356987",
-        "gender": "مرد",
-        "mobile_number": "09368968789",
-        "phone_number": "",
-        "address": "",
-        "date_of_birth": null,
-        "picture": "http://nedabackend.pythonanywhere.com/Media/Profile%20Pictures/Patients/default.png",
+  "user": {
+    "url": "http://nedabackend.pythonanywhere.com/users/3/",
+    "username": "ali",
+    "password": "pbkdf2_sha256$150000$cb62Qy8vGzJl$CFOx1RsLyXmwRptul4e8HK92LjtKsqeNebY3bq45VpI=",
+    "first_name": "علی",
+    "last_name": "عالی",
+    "email": "ali@gmail.com",
+    "province": ""
+  },
+  "social_number": "0012356987",
+  "gender": "مرد",
+  "mobile_number": "09368968789",
+  "phone_number": "",
+  "address": "",
+  "date_of_birth": null,
+  "picture": "http://nedabackend.pythonanywhere.com/Media/Profile%20Pictures/Patients/default.png",
 }
 
 class ViewAndEditPatientInformation extends React.Component{
@@ -98,7 +99,7 @@ class ViewAndEditPatientInformation extends React.Component{
 handleChanger(e) {
   this.setState({ [e.target.name]: e.target.value });
 };
-handleChanger = event => {
+handleChangerr = event => {
   // this.setState({ selectedFilter: event.target.value })
   this.selectedFilters =event.target.value
   this.setState({ province: event.target.value })
@@ -146,7 +147,7 @@ handleChanger = event => {
                     </InputLabel>
                     <Select
                         value={this.state.province}
-                        onChange={this.handleChanger}
+                        onChange={this.handleChangerr}
                         name="province"
                         input={<BootstrapInput name="age" id="age-customized-select" />}
                         style = {{ 'marginLeft' : "50%"}}
@@ -173,177 +174,174 @@ handleChanger = event => {
     )
   }
 }
-  class ViewInfo extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        Doctor : '',
-        Clinic : '',
-      }
+class ViewInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Doctor: '',
+      Clinic: '',
+      time: this.props.Appointment,
+      cancelled: false
     }
-    
+  }
 
-  componentWillMount(){
+
+  componentWillMount() {
     Promise.all([
       fetch(this.props.Appointment.doctor).then(value => value.json()),
       fetch(this.props.Appointment.clinic).then(value => value.json()),
-      ])
+    ])
       .then((value) => {
-         console.log(value[0])
-         this.setState({
-                     Doctor: value[0],
-                     Clinic : value[1]
-                   });
+        this.setState({
+          Doctor: value[0],
+          Clinic: value[1],
+
+        });
       })
       .catch((err) => {
-          console.log(err);
+        console.log(err);
       });
-     
+
   }
-    movetodoctor = e => {
-      return (
-        <div>
-          <DoctorProfile Doctor={this.props.Doctor} />
-        </div>
-      )
-    }
 
-    reserveTime = async (e) => {
 
-      let x = await fetch('http://nedabackend.pythonanywhere.com/appointment_times/'+ this.props.time.id+'/' , {
-          mode: "cors",
-          method: 'PUT',
-          body: JSON.stringify({
-              has_reserved : true,
-          }),
-          headers: {
-              "Content-type": "application/json;charset=UTF-8",
-              "Authorization" : "Token " + this.props.token.token
-          }
-      })
-      
-      this.setState({open : false})
-      console.log(x)
+  reserveTime = async (e) => {
+    console.log(this.props.Appointment)
+    let x = await fetch(this.props.Appointment.url, {
+      mode: "cors",
+      method: 'PUT',
+      body: JSON.stringify({
+        has_reserved: false,
+      }),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8",
+        "Authorization": "Token " + localStorage.getItem('token')
+      }
+    })
+
+    await this.setState({ open: false })    
+    this.setState({ cancelled:true })
   };
 
   
-    render() {
-      console.log(this.state.Doctor)
-      console.log(this.state.Clinic)
-      return (
-        <div>
-                 
-            <Button fullWidth >
-              <Paper /*onClick={this.movetodoctor}*/ style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
-                <div>
+
+  render() {
+    if (this.state.cancelled) return <Redirect to={{ pathname: '/PatientProfile' }} />
+    console.log(this.props.Appointment)
+    return (
+      <div>
+
+        <Button fullWidth >
+          <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
+            <div>
+              <div>
+
+                <img src={this.state.Doctor.picture} style={{
+                  width: "75px",
+                  height: "75px", position: "absolute", left: "5%", paddingTop: "2%"
+                }} alt=" " />
+              </div>
+              <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
+                <br />
+                {this.state.Doctor.user ?
+                  <p>دکتر {this.state.Doctor.user.first_name + " " + this.state.Doctor.user.last_name}</p>
+                  : "Loading ..."}
+                <p>تخصص و فوق تخصص :  {this.state.Doctor.expertise}</p>
+                <p>{this.props.Appointment.date_time.substring(0, 10)} : تاریخ </p>
+                <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
+                {this.state.Clinic ?
                   <div>
-                   
-                    <img src={this.state.Doctor.picture} style={{
-                      width: "75px",
-                      height: "75px", position: "absolute", left: "5%", paddingTop: "2%" 
-                    }}  alt = " "/> 
-                  </div> 
-                  <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
-                    <br />
-                    {this.state.Doctor.user ? 
-                      <p>دکتر {this.state.Doctor.user.first_name + " " + this.state.Doctor.user.last_name}</p>
-                    : "Loading ..."}
-                    <p>تخصص و فوق تخصص :  {this.state.Doctor.expertise}</p>
-                    <p>{this.props.Appointment.date_time.substring(0, 10)} : تاریخ </p>
-                    <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
-                    {this.state.Clinic ? 
-                    <div>
-                      <p>آدرس مطب : {this.state.Clinic.address}</p>
+                    <p>آدرس مطب : {this.state.Clinic.address}</p>
                     <p>تلفن : {this.state.Clinic.phone_number}</p>
-                    </div>
-                    : null
-                    }
-                    
-                    
-                    <br />
                   </div>
-                </div>
-              </Paper>
-            </Button>
-            <Button variant="contained" fullWidth  color="primary" /*onClick={reserveTime}*/>
-                   کنسل
+                  : null
+                }
+
+
+                <br />
+              </div>
+            </div>
+          </Paper>
+        </Button>
+        <Button variant="contained" fullWidth color="primary" onClick={this.reserveTime}>
+          کنسل
               </Button>
-          
-          <br />
-        </div>
-  
-      )
-    }
+
+        <br />
+      </div>
+
+    )
+  }
+}
+
+
+export default class PatientProfile extends React.Component {
+
+  constructor(props) {
+    super(props);
+
   }
 
-  
-  export default class PatientProfile extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-    }
-
-    componentWillMount() {
-        return fetch( 'http://nedabackend.pythonanywhere.com/patients/0012356987/' , {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            this.setState({
-              Patient: json
-            });
-        });
-    }
+  componentWillMount() {
+    return fetch('http://nedabackend.pythonanywhere.com/patients/0012356987/', {
+      mode: "cors",
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => {
+      return response.json()
+    }).then(json => {
+      this.setState({
+        Patient: json
+      });
+    });
+  }
 
 
 
-    state = {
-        clickOnClinic: false,
-        Patient : '',
-        ReservatiomTime: []
+  state = {
+    clickOnClinic: false,
+    Patient: '',
+    ReservatiomTime: []
 
-    };
+  };
 
 
-    changestate = event => {
-        this.setState({ clickOnClinic: true })
-        console.log(event)
-        this.setState({ selectedClinic: event.target.value })
-    }
+  changestate = event => {
+    this.setState({ clickOnClinic: true })
+    console.log(event)
+    this.setState({ selectedClinic: event.target.value })
+  }
 
-    render() {
-      console.log(this.state.Patient.appointment_time_patient);
-        return (
-            <div>
-                <MenuAppBar />
+  render() {
 
-                <Grid container spacing={24}>
+    return (
+      <div>
+        <MenuAppBar />
 
-                    <Grid item xs={12}>
-                        <Paper></Paper>
-                    </Grid>
-                    <Grid item sm={7} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-                       {this.state.Patient.appointment_time_patient ? (
-                          <div>
-                                {this.state.Patient.appointment_time_patient.map(appointment => <ViewInfo Appointment={appointment}/>)}
-                            </div>
-                            ) : null}
-         
-                     </Grid>
+        <Grid container spacing={24}>
 
-                    <Grid style={{ paddingRight: "4%" }} item sm={5}>
-                        <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
-                             <ViewAndEditPatientInformation  patient = {patient}/>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </div>
+          <Grid item xs={12}>
+            <Paper></Paper>
+          </Grid>
+          <Grid item sm={7} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
+            {this.state.Patient.appointment_time_patient ? (
+              <div>
+                {this.state.Patient.appointment_time_patient.map(appointment => <ViewInfo Appointment={appointment} />)}
+              </div>
+            ) : null}
 
-        )
-    }
+          </Grid>
+
+          <Grid style={{ paddingRight: "4%" }} item sm={5}>
+            <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
+              <ViewAndEditPatientInformation patient={patient} />
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+
+    )
+  }
 }

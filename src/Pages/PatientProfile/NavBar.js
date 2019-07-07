@@ -9,7 +9,7 @@ import MenuIcon from '../../../node_modules/@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 
 const bar_style={
     background: 'rgba(0, 167, 210, 1)  ',
