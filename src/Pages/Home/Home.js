@@ -10,10 +10,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Slides from './slides.js';
-import Paper from '@material-ui/core/Paper';
 import FullWidthGrid from './grid';
 import Search_com from './search';
-import { Link } from '@material-ui/core';
+import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
 
 const bar_style = {
   background: 'rgba(0, 167, 210, 1)  ',
@@ -40,7 +39,8 @@ class MenuAppBar extends React.Component {
       loaded_doctors: [],
       anchorEl: null,
       result: [],
-      filters: []
+      filters: [],
+      prof:false,
 
     };
   }
@@ -80,15 +80,15 @@ class MenuAppBar extends React.Component {
   handlefilter = async keyfilter => {
     console.log(keyfilter)
     let x = await fetch('http://nedabackend.pythonanywhere.com/doctors/?gender=' + keyfilter[0] + '&user__province=' + keyfilter[1], {
-        mode: "cors",
-        method: 'GET',
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
+      mode: "cors",
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
     })
     x = await x.json()
     await this.setState({
-        result: x
+      result: x
     })
     console.log(x)
   };
@@ -102,13 +102,16 @@ class MenuAppBar extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+
+    this.setState({ anchorEl: null ,
+    prof:true });
   };
 
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    if (this.state.prof && localStorage.getItem('kind') == "patient") return <Redirect to={{ pathname: '/PatientProfile' }} />
     return (
       <div>
         <div className={classes.root} >
@@ -143,8 +146,9 @@ class MenuAppBar extends React.Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClickAway={this.handleClose} ><Link to={{ pathname: "/Login", data: "hgfgh" }} style={{ textDecoration: "none" }}>profile</Link></MenuItem>
-                  <a href="/Login" style={{ textDecoration: "none" }}><MenuItem onClickAway={this.handleClose} >Logout </MenuItem></a>
+
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleClose} >Logout </MenuItem>
                 </Menu>
               </div>
             </Toolbar>

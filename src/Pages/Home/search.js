@@ -24,20 +24,13 @@ class Search_com extends React.Component {
             result: "b"
         }
     }
-    
+
 
     handleChanger = (e) => {
         this.setState({ search_bar: e.target.value });
-        // console.log(this.state.search_bar)
     }
-    // handleseach() {
-    
-    // }
-        
-
     render() {
         const { search_bar, done } = this.state
-        // if (done) return <Redirect to={{ pathname: '/Searched', data: { search_barr: this.state.result } }} />
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={24}>

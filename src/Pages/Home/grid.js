@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Searchcom from './search';
 import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Filters from "./Filters"
@@ -66,8 +64,7 @@ class ViewInfo extends React.Component {
   }
 }
 
-// let doctorlist= doctors.map(d => d.username)
-// const doctorlist = [{"username" : "dsha"},{"username" : "fbhds"}]
+
 class FullWidthGrid extends React.Component {
   constructor(props) {
     super(props);
