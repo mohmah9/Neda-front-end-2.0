@@ -18,7 +18,7 @@ class TimeTable extends React.Component {
   handleClick = () => {
     this.setState(state => ({
       open: !state.open,
-      color : "secondary"
+      color : "primary"
     }));
   };
 
@@ -33,11 +33,11 @@ class TimeTable extends React.Component {
     return (
       <div>
 
-          <Button  variant = "contained" color = {this.State.color} fullWidth style = {{'marginTop' : "10%"}}
+          <Button  variant = "contained"  fullWidth style = {{'marginTop' : "10%"}}
             onClick = {this.handleClick}>
             { time[1].slice(0, -1)}
            </Button>
-          {this.state.open ? <DiologOpen Doctor = {this.props.Doctor} time = {this.props.time} /> : null}
+          {this.state.open ? <DiologOpen  time = {this.props.time} color = {this.state.color}/> : null}
       </div>
     );
   }
@@ -85,7 +85,7 @@ export default class AppointmentTime extends React.Component{
                  {this.state.appointment_times.length >= 1 ?
                  <div>
                     {this.state.appointment_times.map(time => !time.has_reserved && time.date_time.substring(0,4)==this.props.Day[2] && time.date_time.substring(5,7)==this.props.Day[0] &&time.date_time.substring(8,10)==this.props.Day[1]
-                  ? <TimeTable  Doctor = {this.props.Doctor} time = {time} /> 
+                  ? <TimeTable time = {time} /> 
                   : null)}
                  </div>
                   : null}

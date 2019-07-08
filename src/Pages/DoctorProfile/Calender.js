@@ -42,7 +42,7 @@ export default class Calender extends React.Component {
         <div style={{ 'marginLeft': "10%", display: "flex", backgroundColor: "white" }}>
           <div style={{ 'marginLeft': "10%", width: "50%" }}>
             {this.state.selectedDay ? 
-            <AppointmentTime Doctor={this.props.Doctor} clinic={this.props.clinic} Day = {this.state.selectedDay}/> 
+            <AppointmentTime  clinic={this.props.clinic} Day = {this.state.selectedDay}/> 
             : null}
             <br />
           </div>
