@@ -112,6 +112,7 @@ class MenuAppBar extends React.Component {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
     if (this.state.prof && localStorage.getItem('kind') == "patient") return <Redirect to={{ pathname: '/PatientProfile' }} />
+    if (this.state.prof && localStorage.getItem('kind') == "doctor") return <Redirect to={{ pathname: '/Doctor' }} />
     return (
       <div>
         <div className={classes.root} >
