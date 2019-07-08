@@ -5,49 +5,30 @@ import MenuAppBar from './NavBar'
 import ViewInfo from "./AppointmentTimeInfo"
 import ViewAndEditPatientInformation from "./PatientInfo"
 
-  
-let patient = {
-  "url": "http://nedabackend.pythonanywhere.com/patients/0012356987/",
-  "user": {
-    "url": "http://nedabackend.pythonanywhere.com/users/3/",
-    "username": "ali",
-    "password": "pbkdf2_sha256$150000$cb62Qy8vGzJl$CFOx1RsLyXmwRptul4e8HK92LjtKsqeNebY3bq45VpI=",
-    "first_name": "علی",
-    "last_name": "عالی",
-    "email": "ali@gmail.com",
-    "province": ""
-  },
-  "social_number": "0012356987",
-  "gender": "مرد",
-  "mobile_number": "09368968789",
-  "phone_number": "",
-  "address": "",
-  "date_of_birth": null,
-  "picture": "http://nedabackend.pythonanywhere.com/Media/Profile%20Pictures/Patients/default.png",
-}
-
-
 export default class PatientProfile extends React.Component {
 
   constructor(props) {
     super(props);
     this. state = {
       clickOnClinic: false,
-      Patient: '',
+      Patient: [],
       ReservatiomTime: []
   
     };
   
   }
 
-  componentWillMount() {
-    return fetch('http://nedabackend.pythonanywhere.com/patients/0012356987/', {
+  componentWillMount() {   
+
+    return fetch('http://nedabackend.pythonanywhere.com/patients/', {
       mode: "cors",
       method: 'GET',
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization" : "Token " + localStorage.getItem('token')
       }
-    }).then(response => {
+    })
+    .then(response => {
       return response.json()
     }).then(json => {
       console.log(json)
@@ -60,7 +41,7 @@ export default class PatientProfile extends React.Component {
 
  
   render() {
-
+    console.log(this.state.Patient)
     return (
       <div>
         <MenuAppBar />
@@ -69,15 +50,18 @@ export default class PatientProfile extends React.Component {
             <Paper></Paper>
           </Grid>
           <Grid item sm={7} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-            {this.state.Patient.patient_appointment_times ? (
+            {this.state.Patient.length >= 1  ? (
               <div>
-                {this.state.Patient.patient_appointment_times.map(appointment => <ViewInfo Appointment={appointment} />)}
-              </div>
+                {this.state.Patient[0].patient_appointment_times.map(appointment => <ViewInfo Appointment={appointment} />)}
+              </div>  
             ) : "loading ..."}
           </Grid>
           <Grid style={{ paddingRight: "4%" }} item sm={5}>
             <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
-              <ViewAndEditPatientInformation patient={patient} />
+              {this.state.Patient.length >= 1
+              ? <ViewAndEditPatientInformation patient={this.state.Patient[0]} />
+              : null}
+              
             </Paper>
           </Grid>
         </Grid>

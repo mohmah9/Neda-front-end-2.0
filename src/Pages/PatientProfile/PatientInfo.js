@@ -71,15 +71,12 @@ const BootstrapInput = withStyles(theme => ({
       this.setState({ [e.target.name]: e.target.value });
     };
     handleChangerr = event => {
-      // this.setState({ selectedFilter: event.target.value })
-      this.selectedFilters = event.target.value
       this.setState({ province: event.target.value })
-      console.log(this.selectedFilters)
   
     }
   
     handleEditpatient = e => {
-      fetch('http://nedabackend.pythonanywhere.com/patients/0012356987/', {
+      fetch('http://nedabackend.pythonanywhere.com/patients/' + this.props.patient.social_number + '/', {
         mode: "cors",
         method: 'PUT',
         body: JSON.stringify({
@@ -159,18 +156,18 @@ const BootstrapInput = withStyles(theme => ({
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {Province.map(p => (<MenuItem name={p.value} value={p.value} /*onclick = {() => this.setState({selectedFilter : p.value})}*/ onclick={this.handleChanger.bind(this)}>{p.value}</MenuItem>))}
+                {Province.map(p => (<MenuItem name={p.value} value={p.value}  onclick={this.handleChanger.bind(this)}>{p.value}</MenuItem>))}
   
               </Select>
             </FormControl>
           </div>
-  
-  
+          
           <br />
+          
           <div className="fields">
             <Button variant="contained" onClick={this.handleEditpatient} color="primary" fullWidth>
               Edit
-                   </Button>
+            </Button>
           </div>
           <br />
   

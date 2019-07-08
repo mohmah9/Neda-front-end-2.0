@@ -47,7 +47,7 @@ export default class ViewInfo extends React.Component {
     })
 
     await this.setState({ open: false })
-    this.setState({ cancelled: true })
+    //this.setState({ cancelled: true })
   };
 
 
