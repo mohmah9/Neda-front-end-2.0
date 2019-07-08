@@ -62,23 +62,32 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 let patient = {
-    "url": "http://nedabackend.pythonanywhere.com/patients/0012356987/",
+    "url": "http://nedabackend.pythonanywhere.com/doctors/%D8%AF156-589/",
     "user": {
-        "url": "http://nedabackend.pythonanywhere.com/users/3/",
-        "username": "ali",
-        "password": "pbkdf2_sha256$150000$cb62Qy8vGzJl$CFOx1RsLyXmwRptul4e8HK92LjtKsqeNebY3bq45VpI=",
-        "first_name": "علی",
-        "last_name": "عالی",
-        "email": "ali@gmail.com",
-        "province": ""
+        "url": "http://nedabackend.pythonanywhere.com/users/4/",
+        "username": "reza",
+        "password": "pbkdf2_sha256$150000$090a5AZMEuWS$egQSdcqU25xenJv6/rwP73Aw+q2SchK9rHXz9uoR4PM=",
+        "first_name": "رضا",
+        "last_name": "راضی",
+        "email": "reza@gmail.com",
+        "province": "تهران"
     },
-    "social_number": "0012356987",
     "gender": "مرد",
-    "mobile_number": "09368968789",
-    "phone_number": "",
-    "address": "",
+    "medical_system_number": "د156-589",
+    "expertise": "متخصص قلب و عروق",
     "date_of_birth": null,
-    "picture": "http://nedabackend.pythonanywhere.com/Media/Profile%20Pictures/Patients/default.png",
+    "mobile_number": "09368968781",
+    "bio": "درباره شما :)",
+    "picture": "http://nedabackend.pythonanywhere.com/Media/Profile%20Pictures/Doctors/default.png",
+    "doctor_rates": [
+        {
+            "url": "http://nedabackend.pythonanywhere.com/doctor_rates/1/",
+            "rate": 2.5,
+            "user": "http://nedabackend.pythonanywhere.com/users/2/",
+            "doctor": "http://nedabackend.pythonanywhere.com/doctors/%D8%AF156-589/"
+        }
+    ],
+    "doctor_comments": []
 }
 
 class ViewAndEditPatientInformation extends React.Component {
@@ -227,14 +236,11 @@ class ViewInfo extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.Appointment.patient)
-        console.log(this.props.Appointment.clinic)
         Promise.all([
             fetch('http://nedabackend.pythonanywhere.com/patients/' + this.props.Appointment.patient + '/').then(value => value.json()),
             fetch('http://nedabackend.pythonanywhere.com/clinics/' + this.props.Appointment.clinic + '/').then(value => value.json()),
         ])
             .then((value) => {
-                console.log(value)
                 this.setState({
                     patient: value[0],
                     Clinic: value[1]
@@ -245,6 +251,24 @@ class ViewInfo extends React.Component {
             });
 
     }
+    reserveTime = async (e) => {
+        console.log(this.props.Appointment.url)
+
+        let x = await fetch(this.props.Appointment.url, {
+            mode: "cors",
+            method: 'PUT',
+            body: JSON.stringify({
+                has_reserved: false,
+            }),
+            headers: {
+                "Content-type": "application/json;charset=UTF-8",
+                "Authorization": "Token " + localStorage.getItem('token')
+            }
+        })
+
+        await this.setState({ open: false })
+        this.setState({ cancelled: true })
+    };
 
     render() {
         return (
@@ -253,14 +277,22 @@ class ViewInfo extends React.Component {
                 <Paper /*onClick={this.movetodoctor}*/ style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
                     <div>
 
-                        <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
+
+                        <div style={{ 'textAlign': "right", 'marginLeft': "0%", paddingRight: "2%" }}>
                             <br />
+                            <p>
+                                {this.state.patient.user ?
+                                    <div>
+                                        <p> {this.state.patient.user.first_name} {this.state.patient.user.last_name}</p>
+                                    </div>
+                                    : null
+                                }
+                            </p>
                             <p>{this.props.Appointment.date_time.substring(0, 10)} : تاریخ </p>
                             <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
                             {this.state.Clinic ?
                                 <div>
-                                    <p>آدرس مطب : {this.state.Clinic.address}</p>
-                                    <p>تلفن : {this.state.Clinic.phone_number}</p>
+                                    <p> مطب : {this.state.Clinic.name}</p>
                                 </div>
                                 : null
                             }
@@ -268,6 +300,8 @@ class ViewInfo extends React.Component {
 
                             <br />
                         </div>
+                        <Button variant="contained" color="primary" fullWidth onClick={this.reserveTime}>
+                            کنسل</Button>
                     </div>
                 </Paper>
 
@@ -279,6 +313,99 @@ class ViewInfo extends React.Component {
     }
 
 }
+class Addclinic extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            doctors: [],
+            filters: [],
+            social: "د156-589",
+            timeresult: [],
+            clinicname: "",
+            clinic_phone_number: "",
+            clinicaddress: "",
+            clinicprovince: ""
+
+        }
+    }
+
+    handleChanger(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+    handleChangerr = event => {
+        this.selectedFilters =event.target.value
+        this.setState({ clinicprovince: event.target.value })
+        console.log(this.selectedFilters)
+      }
+    // "name": "تهرانپارس",
+    // "province": "تهران",
+    // "phone_number": "77889568",
+    // "address": "تهرانپارس، میدان رسالت",
+    // "doctor": "د156-589"
+    handleaddclinic = e => {
+        fetch('http://nedabackend.pythonanywhere.com/clinics/', {
+            mode: "cors",
+            method: 'POST',
+            body: JSON.stringify({
+                name: this.state.clinicname,
+                province: this.state.clinicprovince,
+                phone_number: this.state.clinic_phone_number,
+                address: this.state.clinicaddress,
+                doctor: patient.medical_system_number
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + localStorage.getItem('token')
+            }
+        }).then(response => {
+            return response.json()
+        }).then(json => {
+            console.log(json)
+        });
+
+    }
+    render() {
+        return (
+            <div>
+                <h4>Add Clinic</h4>
+                <div className="fields">
+                    <TextField id="outlined-email-input" required onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="clinicname" margin="normal" />
+                </div>
+                <div className="fields">
+                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="Phone number" name="clinic_phone_number" type="tel" margin="normal" />
+                </div>
+                <div className="fields">
+                    <TextField id="outlined-email-input" required onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Address" type="Name" name="clinicaddress" margin="normal" />
+                </div>
+                <div className="fields">
+                    <FormControl className="fields" style={{ display: "block" }}>
+                        <InputLabel htmlFor="age-customized-select" >
+                            Province
+                    </InputLabel>
+                        <Select
+                            value={this.state.clinicprovince}
+                            onChange={this.handleChangerr}
+                            name="clinicprovince"
+                            input={<BootstrapInput name="age" id="age-customized-select" />}
+                            style={{ 'marginLeft': "50%" }}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {Province.map(p => (<MenuItem name={p.value} value={p.value} onclick={this.handleChanger.bind(this)}>{p.value}</MenuItem>))}
+
+                        </Select>
+                    </FormControl>
+                </div>
+                <br/>
+                <Button  variant="contained" onClick = {this.handleaddclinic} color = "primary" fullWidth>
+                    Add clinic
+                 </Button>
+            </div>
+        )
+    }
+
+}
 class Doc extends React.Component {
     constructor(props) {
         super(props);
@@ -286,7 +413,8 @@ class Doc extends React.Component {
             doctors: [],
             filters: [],
             social: "د156-589",
-            timeresult: []
+            timeresult: [],
+            addclinic: false
         }
     }
 
@@ -305,12 +433,13 @@ class Doc extends React.Component {
                 timeresult: json
             })
             console.log(json)
-            this.handlepatient(json)
         });
     }
-    handlepatient(times) {
 
-        // this.setState({ [e.target.name]: e.target.value });
+    handleclinic = (e) => {
+        this.setState({
+            addclinic: true
+        })
     }
     render() {
         const { classes } = this.props;
@@ -319,19 +448,26 @@ class Doc extends React.Component {
                 <MenuAppBar />
                 <div className={classes.root}>
                     <Grid container spacing={24}>
-                        <Grid item sm={9}>
-                            <Paper className={classes.paper}>
-                                {this.state.timeresult ?
-                                    <div>
-                                        {this.state.timeresult.map(time => <ViewInfo Appointment={time} />)}
-                                    </div>
-                                    : "loading ...."
-                                }
-                            </Paper>
+                        <Grid item sm={7} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
+                            {/* <Paper className={classes.paper} > */}
+                            {this.state.timeresult ?
+                                <div>
+                                    {this.state.timeresult.map(time => <ViewInfo Appointment={time} />)}
+                                </div>
+                                : "loading ...."
+                            }
+                            {/* </Paper> */}
                         </Grid>
-                        <Grid item sm={3}>
+                        <Grid item sm={5} style={{ paddingTop: "2%", paddingRight: "2%" }}>
                             <Paper className={classes.paper}>
                                 <ViewAndEditPatientInformation patient={patient} />
+                            </Paper>
+                            <Paper className={classes.paper} style={{ marginTop: "3%" }}>
+                                {this.state.addclinic ?
+                                    <Addclinic />
+                                    : <Button variant="contained" color="primary" fullWidth onClick={this.handleclinic}>
+                                        <h4>Add clinic</h4>
+                                    </Button>}
                             </Paper>
                         </Grid>
                     </Grid>
@@ -340,7 +476,4 @@ class Doc extends React.Component {
         )
     }
 }
-
 export default withStyles(styles)(Doc);
-
-
