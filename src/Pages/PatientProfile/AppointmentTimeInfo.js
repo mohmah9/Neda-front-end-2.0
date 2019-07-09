@@ -9,7 +9,6 @@ export default class ViewInfo extends React.Component {
     this.state = {
       Doctor: '',
       Clinic: '',
-      cancelled: false
     }
   }
 
@@ -47,13 +46,11 @@ export default class ViewInfo extends React.Component {
     })
 
     await this.setState({ open: false })
-    //this.setState({ cancelled: true })
   };
 
 
 
   render() {
-    if (this.state.cancelled) return <Redirect to={{ pathname: '/PatientProfile' }} />
     return (
       <div>
 

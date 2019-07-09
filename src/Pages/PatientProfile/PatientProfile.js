@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import MenuAppBar from './NavBar'
@@ -9,62 +10,82 @@ export default class PatientProfile extends React.Component {
 
   constructor(props) {
     super(props);
-    this. state = {
+    this.state = {
       clickOnClinic: false,
       Patient: [],
-      ReservatiomTime: []
-  
+      ReservatiomTime: [],
+      info: false,
+      reserve: false,
     };
-  
+
   }
 
-  componentWillMount() {   
+  componentWillMount() {
 
     return fetch('http://nedabackend.pythonanywhere.com/patients/', {
       mode: "cors",
       method: 'GET',
       headers: {
         "Content-type": "application/json; charset=UTF-8",
-        "Authorization" : "Token " + localStorage.getItem('token')
+        "Authorization": "Token " + localStorage.getItem('token')
       }
     })
-    .then(response => {
-      return response.json()
-    }).then(json => {
-      console.log(json)
-      this.setState({
-        Patient: json
+      .then(response => {
+        return response.json()
+      }).then(json => {
+        console.log(json)
+        this.setState({
+          Patient: json
+        });
       });
-    });
+  }
+
+  handleinfo = (e) => {
+    this.setState({
+      info: true,
+      reserve: false,
+    })
+  }
+
+  handlereserve = (e) => {
+    this.setState({
+      reserve: true,
+      info: false
+    })
   }
 
 
- 
   render() {
     console.log(this.state.Patient)
     return (
       <div>
-        <MenuAppBar />
-        <Grid container spacing={24}>
-          <Grid item xs={12}>
-            <Paper></Paper>
+        <MenuAppBar />.
+        <div /*className={classes.root}*/>
+          <Grid container spacing={24}>
+            <Grid item sm={9} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
+              {this.state.reserve & this.state.Patient.length >= 1  ? (
+                <div>
+                  {this.state.Patient[0].patient_appointment_times.map(appointment => <ViewInfo Appointment={appointment} />)}
+                </div>
+              )
+                : this.state.info & this.state.Patient.length >= 1 ?
+                  <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
+                       <ViewAndEditPatientInformation patient={this.state.Patient[0]} />
+                  </Paper>
+                  : "welcome ...   "
+              }
+            </Grid>
+            <Grid item sm={3} style={{ paddingTop: "2%", paddingRight: "2%" }}>
+
+              <Button variant="outlined" fullWidth onClick={this.handleinfo} style={{ paddingBottom: "0", paddingTop: "0", borderRadius: '12%' }}>
+                <h4>مشخصات</h4>
+              </Button>
+              <Button variant="outlined" fullWidth onClick={this.handlereserve} style={{ paddingBottom: "0", paddingTop: "0", borderRadius: '12%' }}>
+                <h4>وقت های رزرو شده</h4>
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item sm={7} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-            {this.state.Patient.length >= 1  ? (
-              <div>
-                {this.state.Patient[0].patient_appointment_times.map(appointment => <ViewInfo Appointment={appointment} />)}
-              </div>  
-            ) : "loading ..."}
-          </Grid>
-          <Grid style={{ paddingRight: "4%" }} item sm={5}>
-            <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
-              {this.state.Patient.length >= 1
-              ? <ViewAndEditPatientInformation patient={this.state.Patient[0]} />
-              : null}
-              
-            </Paper>
-          </Grid>
-        </Grid>
+        </div>
       </div>
 
     )
