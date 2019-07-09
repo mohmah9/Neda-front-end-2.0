@@ -2,7 +2,6 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
-import MenuAppBar from './NavBar'
 import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import TextField from '@material-ui/core/TextField';
 import Province from '../PatientProfile/Province'
