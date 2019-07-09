@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css'
 import Calender from './Calender';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuAppBar from './NavBar'
+import MenuAppBar from '../Home/NavBar'
 import { connect } from 'net';
 
 function Image(props) {
