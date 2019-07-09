@@ -115,7 +115,7 @@ class UIPickers extends React.Component {
         console.log(this.state.selectedDate.toTimeString().split(" "))
         
         return (
-            <div >
+            <div style={{paddingLeft:"30%"}}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <TimePicker
                         margin="normal"
