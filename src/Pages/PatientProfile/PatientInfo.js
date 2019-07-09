@@ -111,6 +111,7 @@ const BootstrapInput = withStyles(theme => ({
     render() {
       return (
         <div>
+          <br />
           <div className="fields">
             <TextField id="outlined-email-input" value={this.state.first_name} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="first_name" margin="normal" variant="outlined" />
           </div>
