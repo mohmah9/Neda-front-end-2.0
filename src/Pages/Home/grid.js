@@ -6,7 +6,7 @@ import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Filters from "./Filters"
 import { Button } from '@material-ui/core';
-
+import Rate from '../Rate/Rate'
 
 const styles = theme => ({
   root: {
@@ -36,15 +36,21 @@ class ViewInfo extends React.Component {
   render() {
     return (
       <div>
-        <Link to={{ pathname: '/DoctorProfile', data : { Doctor: this.props.Doctor}}} style={{ textDecoration: "none" }} >
+        <Link to={{ pathname: '/DoctorProfile', data: { Doctor: this.props.Doctor } }} style={{ textDecoration: "none" }} >
           <Button fullWidth >
             <Paper onClick={this.movetodoctor} style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
               <div>
                 <div>
                   <img src={this.props.Doctor.picture} style={{
                     width: "75px",
-                    height: "75px", position: "absolute", left: "5%", paddingTop: "2%" 
-                  }}  alt = " "/>
+                    height: "75px", position: "absolute", left: "5%", paddingTop: "2%"
+                  }} alt=" " />
+                </div>
+                <div style={{ position: "absolute", top: "60%", left: "5.5%" }}>
+                  {this.props.Doctor.doctor_rates.length >= 1 ?
+                    <Rate Rate={this.props.Doctor.doctor_rates[0].rate} /> :
+                    <Rate Rate={0} />
+                  }
                 </div>
                 <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
                   <br />
