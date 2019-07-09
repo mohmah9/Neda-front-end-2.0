@@ -5,18 +5,21 @@ import './AppointmentTime.css'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import DiologOpen from './DiologOpen';
+import Dialogfalse from './Diologfalse'
 
 class TimeTable extends React.Component {
 
     
   state = {
     open: false,
+    color : "primary"
   };
 
   
   handleClick = () => {
     this.setState(state => ({
       open: !state.open,
+      color : "primary"
     }));
   };
 
@@ -27,16 +30,15 @@ class TimeTable extends React.Component {
   };
 
   render() {
-    
     let time = this.props.time.date_time.split('T')
     return (
       <div>
 
-          <Button  variant = "contained" color = "primary" fullWidth style = {{'marginTop' : "10%"}}
+          <Button  variant = "contained"  fullWidth style = {{'marginTop' : "10%"}}
             onClick = {this.handleClick}>
-            {time[1].slice(0, -1)}
+            { time[1].slice(0, -1)}
            </Button>
-          {this.state.open ? <DiologOpen Doctor = {this.props.Doctor} time = {this.props.time} token = {this.props.token} /> : null}
+          {this.state.open ? localStorage.getItem('kind')=="patient"? <DiologOpen  time = {this.props.time} color = {this.state.color}/>:<Dialogfalse/>  : null}
       </div>
     );
   }
@@ -77,13 +79,16 @@ export default class AppointmentTime extends React.Component{
     };  
     
     render(){
-      
         return(
             <div>
                 <ClickAwayListener onClickAway={this.handleClickAway}>
-                 {this.state.appointment_times.map(time => !time.has_reserved 
-                  ? <TimeTable  Doctor = {this.props.Doctor} time = {time} token = {this.props.token}/> 
+                 {this.state.appointment_times.length >= 1 ?
+                 <div>
+                    {this.state.appointment_times.map(time => !time.has_reserved && time.date_time.substring(0,4)==this.props.Day[2] && time.date_time.substring(5,7)==this.props.Day[0] &&time.date_time.substring(8,10)==this.props.Day[1]
+                  ? <TimeTable time = {time} /> 
                   : null)}
+                 </div>
+                  : null}
                 </ClickAwayListener>
             </div>
             

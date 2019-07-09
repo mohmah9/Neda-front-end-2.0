@@ -37,7 +37,7 @@ export default class DiologOpen extends React.Component {
     this.setState({open : false})
   }
   reserveTime = async (e) => {
-
+      localStorage.setItem("btncolor" , "secondary")
       let x = await fetch('http://nedabackend.pythonanywhere.com/appointment_times/'+ this.props.time.id+'/' , {
           mode: "cors",
           method: 'PUT',
@@ -46,19 +46,17 @@ export default class DiologOpen extends React.Component {
           }),
           headers: {
               "Content-type": "application/json;charset=UTF-8",
-              "Authorization" : "Token " + this.props.token.token
+              "Authorization" : "Token " + localStorage.getItem('token')
           }
       })
       
-      this.setState({open : false})
-      console.log(x)
+      await this.setState({open : false})
+      /// this.props.color = "secondary"
   };
 
   
 
   render() {
-
-    console.log(this.props.token)
     return (
       <div>
         <Dialog
@@ -70,7 +68,7 @@ export default class DiologOpen extends React.Component {
           <DialogTitle id="alert-dialog-title"></DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <ViewAppointmentInformation Doctor={this.props.Doctor} time = {this.props.time}/>
+              <ViewAppointmentInformation  time = {this.props.time}/>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
