@@ -8,7 +8,7 @@ import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuAppBar from '../Home/NavBar'
 import { connect } from 'net';
-
+import Rate from '../Rate/Rate'
 function Image(props) {
 
     return (
@@ -36,6 +36,11 @@ function Information(props) {
         <div style={{ 'textAlign': "right", 'marginLeft': "30%" }}>
             <div style={{ 'paddingTop': "2%" }}>
                 <p>دکتر {JSON.parse(localStorage.getItem("selecteddoctor")).user.first_name + " " + JSON.parse(localStorage.getItem("selecteddoctor")).user.last_name}</p>
+            </div>
+            <div>
+                {JSON.parse(localStorage.getItem("selecteddoctor")).doctor_rates.length >= 1 ?
+                    <Rate Rate={JSON.parse(localStorage.getItem("selecteddoctor")).doctor_rates[0].rate} /> :
+                    <Rate Rate={0} />}
             </div>
             <div style={{ 'paddingTop': "2%" }}>
                 <p>درباره پزشک</p>
@@ -90,16 +95,9 @@ export default class DoctorProfile extends React.Component {
     };
 
     handleclick = async (clinic) => {
-        console.log(clinic)
-        // if (!this.state.clickOnClinic) {
-        await this.setState({ selectedClinic: null, clickOnClinic: false})
+        await this.setState({ selectedClinic: null, clickOnClinic: false })
         this.setState({ selectedClinic: clinic, clickOnClinic: true })
 
-        // }
-        // else {
-        //     this.setState({ clickOnClinic: false })
-
-        // }
     }
     changestate = event => {
         this.setState({ clickOnClinic: true })
