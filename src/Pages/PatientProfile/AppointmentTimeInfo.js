@@ -1,7 +1,9 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Button } from '@material-ui/core';
+import AddRate from '../Rate/AddRate'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import Rate from '../Rate/Rate';
 
 export default class ViewInfo extends React.Component {
   constructor(props) {
@@ -53,8 +55,6 @@ export default class ViewInfo extends React.Component {
   render() {
     return (
       <div>
-
-        <Button fullWidth >
           <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
             <div>
               <div>
@@ -79,11 +79,11 @@ export default class ViewInfo extends React.Component {
                   </div>
                   : "Loading ..."
                 }
-                <br />
+                <AddRate  Doctor = {this.state.Doctor}/>
               </div>
             </div>
           </Paper>
-        </Button>
+          <br/>
         <Button variant="contained" fullWidth color="primary" onClick={this.reserveTime}>
           کنسل
           </Button>
