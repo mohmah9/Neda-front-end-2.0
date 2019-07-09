@@ -35,12 +35,17 @@ class MenuAppBar extends React.Component {
     state = {
         loaded_doctors: [],
         anchorEl: null,
+        prof:false,
+        logout:false,
+        home:false
     };
 
     handleChange = event => {
         this.setState({ auth: event.target.checked });
     };
-
+    handlehome=event =>{
+        this.setState({home:true})
+    }
     handleMenu = event => {
         this.setState({ anchorEl: event.currentTarget });
     };
@@ -49,12 +54,17 @@ class MenuAppBar extends React.Component {
         this.setState({ anchorEl: null,
             prof: true });
     };
+    handleCloser = () => {
+        this.setState({ anchorEl: null,
+            logout: true });
+    };
 
     render() {
         const { classes } = this.props;
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
-        console.log(window.location.href.split("/")[3])
+        if (this.state.home & window.location.href.split("/")[3]!="Homepage") {return <Redirect to={{ pathname: '/Homepage' }} />}
+        if (this.state.logout) {return <Redirect to={{ pathname: '/login' }} />}
         if (this.state.prof && localStorage.getItem('kind') == "patient") {if(window.location.href.split("/")[3]!="PatientProfile") return <Redirect to={{ pathname: '/PatientProfile' }} />}
         if (this.state.prof && localStorage.getItem('kind') == "doctor") {if(window.location.href.split("/")[3]!="Doctor") return <Redirect to={{ pathname: '/Doctor' }} />}
         return (
@@ -62,7 +72,7 @@ class MenuAppBar extends React.Component {
                 <div className={classes.root} >
                     <AppBar position='static' style={bar_style}>
                         <Toolbar>
-                            <IconButton className={classes.menuButton} style={bar_style} color="inherit" aria-label="Menu">
+                            <IconButton onClick={this.handlehome} className={classes.menuButton} style={bar_style} color="inherit" aria-label="Menu">
                                 <MenuIcon />
                             </IconButton>
                             <Typography variant="h6" color="inherit" className={classes.grow}>
@@ -92,7 +102,7 @@ class MenuAppBar extends React.Component {
                                     onClose={this.handleClose}
                                 >
                                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                    <MenuItem onClick={this.handleCloser}>Logout</MenuItem>
                                 </Menu>
                             </div>
                         </Toolbar>
