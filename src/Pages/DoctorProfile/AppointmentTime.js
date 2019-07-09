@@ -5,6 +5,7 @@ import './AppointmentTime.css'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import DiologOpen from './DiologOpen';
+import Dialogfalse from './Diologfalse'
 
 class TimeTable extends React.Component {
 
@@ -37,7 +38,7 @@ class TimeTable extends React.Component {
             onClick = {this.handleClick}>
             { time[1].slice(0, -1)}
            </Button>
-          {this.state.open ? <DiologOpen  time = {this.props.time} color = {this.state.color}/> : null}
+          {this.state.open ? localStorage.getItem('kind')=="patient"? <DiologOpen  time = {this.props.time} color = {this.state.color}/>:<Dialogfalse/>  : null}
       </div>
     );
   }
@@ -78,7 +79,6 @@ export default class AppointmentTime extends React.Component{
     };  
     
     render(){
-      // {this.state.appointment_times.length >= 1 ? console.log(this.state.appointment_times.date_time.substring(0,4)) :null }
         return(
             <div>
                 <ClickAwayListener onClickAway={this.handleClickAway}>

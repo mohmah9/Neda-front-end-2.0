@@ -62,8 +62,9 @@ export default class DoctorProfile extends React.Component {
 
 
     componentWillMount() {
-        if (typeof(this.props.location.data)!="undefined"){
-        localStorage.setItem("selecteddoctor", JSON.stringify(this.props.location.data.Doctor))}
+        if (typeof (this.props.location.data) != "undefined") {
+            localStorage.setItem("selecteddoctor", JSON.stringify(this.props.location.data.Doctor))
+        }
         console.log(JSON.parse(localStorage.getItem("selecteddoctor")))
         return fetch('http://nedabackend.pythonanywhere.com/clinics/?doctor=' + JSON.parse(localStorage.getItem("selecteddoctor")).medical_system_number, {
             mode: "cors",
@@ -88,7 +89,18 @@ export default class DoctorProfile extends React.Component {
 
     };
 
+    handleclick = async (clinic) => {
+        console.log(clinic)
+        // if (!this.state.clickOnClinic) {
+        await this.setState({ selectedClinic: null, clickOnClinic: false})
+        this.setState({ selectedClinic: clinic, clickOnClinic: true })
 
+        // }
+        // else {
+        //     this.setState({ clickOnClinic: false })
+
+        // }
+    }
     changestate = event => {
         this.setState({ clickOnClinic: true })
         console.log(event)
@@ -119,7 +131,7 @@ export default class DoctorProfile extends React.Component {
                                 <p style={{ 'paddingRight': "5%", 'textAlign': "right" }}>مطب ها و بیمارستان ها</p>
                                 {this.state.clinics.map(clinic =>
                                     <MenuItem style={{ 'paddingRight': "5%", 'textAlign': "right" }} value={clinic}
-                                        onClick={() => this.setState({ selectedClinic: clinic, clickOnClinic: true })}>
+                                        onClick={() => this.handleclick(clinic)}>
                                         <p style={{ direction: 'rtl' }}>{clinic.name}</p>
                                         <br />
                                     </MenuItem>)}
@@ -131,7 +143,7 @@ export default class DoctorProfile extends React.Component {
                         <Paper elevation={5} style={{ 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
 
                             <Image />
-                            <Information  />
+                            <Information />
                             <br />
 
                         </Paper>
