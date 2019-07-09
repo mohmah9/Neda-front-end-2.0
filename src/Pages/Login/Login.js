@@ -15,7 +15,6 @@ export default class Login extends React.Component {
         checkedA: true,
         username: "",
         password: "",
-        token: "",
         loged: false,
         wrong_input: ""
     };
@@ -40,32 +39,25 @@ export default class Login extends React.Component {
         })
 
         x = await x.json()
-        x = x.token
-        await this.setState({
-            token: x
-        })
-        if (typeof (x) == "undefined") {
+
+        if (typeof (x.token) == "undefined") {
             this.setState({
                 wrong_input: "Your username or password is wrong !!!"
             })
         } else {
+            localStorage.setItem('token', x.token)
+            localStorage.setItem('kind', x.kind)
             this.setState({
                 loged: true
             })
 
         }
-        console.log(x)
-        console.log(typeof ({ "aaa": "nn" }.aaa))
-
-
-
-
     };
 
 
     render() {
         const { loged, wrong_input } = this.state
-        if (loged) return <Redirect to={{ pathname: '/Homepage', token: { token: this.state.token } }} />
+        if (loged) return <Redirect to={{ pathname: '/Homepage' }} />
         return (
 
             <div className="login_form">
@@ -87,11 +79,9 @@ export default class Login extends React.Component {
                     <p style={{ color: 'red' }}>{wrong_input}</p>
                     </div>
                     <div className='btn-submit'>
-                        {/* <Link to={{ pathname: '/Homepage', token: this.state.token }} > */}
                         <Button variant="contained" color="primary" fullWidth onClick={this.handleSubmit}>
                             Log in
                     </Button>
-                        {/* </Link> */}
                     </div>
                     <h3 className="forgot_password">forgot your password? </h3>
                     <h5 className="signup">not a member ? <a href="/Signup">sign up now</a> </h5>
