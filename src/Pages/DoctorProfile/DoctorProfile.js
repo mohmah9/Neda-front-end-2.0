@@ -38,9 +38,7 @@ function Information(props) {
                 <p>دکتر {JSON.parse(localStorage.getItem("selecteddoctor")).user.first_name + " " + JSON.parse(localStorage.getItem("selecteddoctor")).user.last_name}</p>
             </div>
             <div>
-                {JSON.parse(localStorage.getItem("selecteddoctor")).doctor_rates.length >= 1 ?
-                    <Rate Rate={JSON.parse(localStorage.getItem("selecteddoctor")).doctor_rates[0].rate} /> :
-                    <Rate Rate={0} />}
+                    <Rate Rate={JSON.parse(localStorage.getItem("selecteddoctor")).doctor_rates.rate} /> :
             </div>
             <div style={{ 'paddingTop': "2%" }}>
                 <p>درباره پزشک</p>

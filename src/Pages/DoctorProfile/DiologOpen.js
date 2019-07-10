@@ -43,6 +43,8 @@ export default class DiologOpen extends React.Component {
           method: 'PUT',
           body: JSON.stringify({
               has_reserved : true,
+              visiting:false,
+              visited:false
           }),
           headers: {
               "Content-type": "application/json;charset=UTF-8",
