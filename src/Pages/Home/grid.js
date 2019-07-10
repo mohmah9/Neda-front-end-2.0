@@ -47,10 +47,7 @@ class ViewInfo extends React.Component {
                   }} alt=" " />
                 </div>
                 <div style={{ position: "absolute", top: "60%", left: "5.5%" }}>
-                  {this.props.Doctor.doctor_rates.length >= 1 ?
-                    <Rate Rate={this.props.Doctor.doctor_rates[0].rate} /> :
-                    <Rate Rate={0} />
-                  }
+                    <Rate Rate={this.props.Doctor.doctor_rates.rate} />      
                 </div>
                 <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
                   <br />
@@ -79,9 +76,6 @@ class FullWidthGrid extends React.Component {
       filters: []
     }
   }
-
-
-
   render() {
     const { classes } = this.props;
 
@@ -105,5 +99,4 @@ class FullWidthGrid extends React.Component {
     )
   }
 }
-
 export default withStyles(styles)(FullWidthGrid);
