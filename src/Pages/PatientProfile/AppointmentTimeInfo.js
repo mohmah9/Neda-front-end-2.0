@@ -40,6 +40,8 @@ export default class ViewInfo extends React.Component {
       method: 'PUT',
       body: JSON.stringify({
         has_reserved: false,
+        visiting : false,
+        visited : false
       }),
       headers: {
         "Content-type": "application/json;charset=UTF-8",
