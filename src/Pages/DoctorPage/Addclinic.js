@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
-
+import  Dialogfalse from './Diologfalse'
 
 
 const styles = theme => ({
@@ -73,7 +73,8 @@ export default class Addclinic extends React.Component {
             clinicname: "",
             clinic_phone_number: "",
             clinicaddress: "",
-            clinicprovince: ""
+            clinicprovince: "",
+            open : false
 
         }
     }
@@ -88,6 +89,7 @@ export default class Addclinic extends React.Component {
     }
 
     handleaddclinic = e => {
+        this.setState({open : true})
         fetch('http://nedabackend.pythonanywhere.com/clinics/', {
             mode: "cors",
             method: 'POST',
@@ -146,6 +148,8 @@ export default class Addclinic extends React.Component {
                 <Button variant="contained" onClick={this.handleaddclinic} color="primary" fullWidth>
                     Add clinic
                  </Button>
+
+                 {this.state.open ? <Dialogfalse /> : null}
             </div>
         )
     }

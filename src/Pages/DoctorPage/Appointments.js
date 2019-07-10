@@ -13,6 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { thisExpression } from '@babel/types';
 
 const styles = theme => ({
     root: {
@@ -32,6 +33,7 @@ export default class Appointment extends React.Component {
         this.state = {
             patient: '',
             Clinic: '',
+            open : false
         }
     }
 
@@ -53,12 +55,14 @@ export default class Appointment extends React.Component {
     }
     reserveTime = async (e) => {
         console.log(this.props.Appointment.url)
-
+        this.setState({open : true})
         let x = await fetch(this.props.Appointment.url, {
             mode: "cors",
             method: 'PUT',
             body: JSON.stringify({
                 has_reserved: false,
+                visiting : false,
+                visited : false
             }),
             headers: {
                 "Content-type": "application/json;charset=UTF-8",
@@ -104,7 +108,7 @@ export default class Appointment extends React.Component {
                             کنسل</Button>
                     </div>
                 </Paper>
-
+                
 
                 <br />
             </div>
