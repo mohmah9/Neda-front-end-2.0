@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as search_api from "../../Redux/Search/Search_action"
 
 const styles = theme => ({
     root: {
@@ -20,8 +22,6 @@ class Search_com extends React.Component {
         super(props);
         this.state = {
             search_bar: "",
-            done: false,
-            result: "b"
         }
     }
 
@@ -30,7 +30,7 @@ class Search_com extends React.Component {
         this.setState({ search_bar: e.target.value });
     }
     render() {
-        const { search_bar, done } = this.state
+        const { search_bar } = this.state
         return (
             <div className={this.props.classes.root}>
                 <Grid container spacing={24}>
@@ -38,7 +38,7 @@ class Search_com extends React.Component {
                         <Paper className={this.props.classes.paper} style={{ backgroundColor: "rgba(255,255,255,0.5 )" }}>
                             <div>
                                 <TextField onChange={this.handleChanger} value={search_bar} name="search_bar" variant="outlined" id="standard-search" fullWidth label="Search field" type="search" margin="normal" />
-                                <Button onClick={() => this.props.searcher(this.state.search_bar)} variant="outlined" color="rgba(33,66,99,1)" >
+                                <Button onClick={() => this.props.search(this.state.search_bar)} variant="outlined" color="rgba(33,66,99,1)" >
                                     Search
                 </Button>
                             </div>
@@ -48,5 +48,12 @@ class Search_com extends React.Component {
         )
     }
 }
+const mapStateToProps = state => ({
+    ...state
+});
 
-export default withStyles(styles)(Search_com);
+const mapDispatchToProps = dispatch => ({
+    search: (keyword) => dispatch(search_api.search(keyword))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Search_com));
