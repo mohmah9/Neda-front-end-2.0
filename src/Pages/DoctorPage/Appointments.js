@@ -1,19 +1,10 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+
 import { Button } from '@material-ui/core';
-import DoctorProfile from "../DoctorProfile/DoctorProfile"
-import TextField from '@material-ui/core/TextField';
-import Province from '../PatientProfile/Province'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputBase from '@material-ui/core/InputBase';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
-import { thisExpression } from '@babel/types';
+import { connect } from "react-redux";
+import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
+import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 const styles = theme => ({
     root: {
@@ -26,7 +17,7 @@ const styles = theme => ({
     },
 });
 
-export default class Appointment extends React.Component {
+class Appointment extends React.Component {
 
     constructor(props) {
         super(props);
@@ -38,41 +29,9 @@ export default class Appointment extends React.Component {
     }
 
     componentWillMount() {
-        Promise.all([
-            fetch('http://nedabackend.pythonanywhere.com/patients/' + this.props.Appointment.patient + '/').then(value => value.json()),
-            fetch('http://nedabackend.pythonanywhere.com/clinics/' + this.props.Appointment.clinic + '/').then(value => value.json()),
-        ])
-            .then((value) => {
-                this.setState({
-                    patient: value[0],
-                    Clinic: value[1]
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
+        this.props.appointmenttimeClinic_load('http://172.17.3.103:8000/clinics/' + this.props.Appointment.clinic + '/')
+        this.props.appointmenttimeDoctor_load('http://172.17.3.103:8000/patients/' + this.props.Appointment.patient + '/')
     }
-    reserveTime = async (e) => {
-        console.log(this.props.Appointment.url)
-        this.setState({open : true})
-        let x = await fetch(this.props.Appointment.url, {
-            mode: "cors",
-            method: 'PUT',
-            body: JSON.stringify({
-                has_reserved: false,
-                visiting : false,
-                visited : false
-            }),
-            headers: {
-                "Content-type": "application/json;charset=UTF-8",
-                "Authorization": "Token " + localStorage.getItem('token')
-            }
-        })
-
-        await this.setState({ open: false })
-        this.setState({ cancelled: true })
-    };
 
     render() {
         return (
@@ -85,9 +44,9 @@ export default class Appointment extends React.Component {
                         <div style={{ 'textAlign': "right", 'marginLeft': "0%", paddingRight: "2%" }}>
                             <br />
                             <p>
-                                {this.state.patient.user ?
+                                {this.props.patient.user ?
                                     <div>
-                                        <p> {this.state.patient.user.first_name} {this.state.patient.user.last_name}</p>
+                                        <p> {this.props.patient.user.first_name} {this.props.patient.user.last_name}</p>
                                     </div>
                                     : null
                                 }
@@ -96,7 +55,7 @@ export default class Appointment extends React.Component {
                             <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
                             {this.state.Clinic ?
                                 <div>
-                                    <p> مطب : {this.state.Clinic.name}</p>
+                                    <p> مطب : {this.props.Clinic.name}</p>
                                 </div>
                                 : null
                             }
@@ -104,10 +63,10 @@ export default class Appointment extends React.Component {
 
                             <br />
                         </div>
-                        <Button variant="contained" color="primary" fullWidth onClick={this.reserveTime}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => this.props.PatientProfile_cancel(this.props.Appointment.url)}>
                             کنسل</Button>
                     </div>
-                </Paper>
+                    </Paper>
                 
 
                 <br />
@@ -117,3 +76,17 @@ export default class Appointment extends React.Component {
     }
 
 }
+const mapStateToProps = state => ({
+    ...state,
+    patient :state.PatientProfile_reducer.appointmentDoctor_result,
+    Clinic :state.PatientProfile_reducer.appointmentClinic_result
+    
+  });
+  
+  const mapDispatchToProps = dispatch => ({
+    appointmenttimeClinic_load : (url) => dispatch(patientProfile_api.appointmenttimeClinic_load(url)),
+    appointmenttimeDoctor_load : (url) => dispatch(patientProfile_api.appointmenttimeDoctor_load(url)),
+    PatientProfile_cancel: (url) => dispatch(patientProfile_api.PatientProfile_cancel(url))
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Appointment)
