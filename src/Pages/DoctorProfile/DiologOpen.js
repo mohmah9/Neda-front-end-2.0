@@ -5,6 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { connect } from "react-redux";
+import * as doctorProfile_api from "../../Redux/DoctorProfile/DoctorProfile_action"
 
 
 function ViewAppointmentInformation(props) {
@@ -21,8 +23,7 @@ function ViewAppointmentInformation(props) {
 }
 
 
-
-export default class DiologOpen extends React.Component {
+class DiologOpen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,24 +37,10 @@ export default class DiologOpen extends React.Component {
   handleClose() {
     this.setState({open : false})
   }
-  reserveTime = async (e) => {
-      localStorage.setItem("btncolor" , "secondary")
-      let x = await fetch('http://nedabackend.pythonanywhere.com/appointment_times/'+ this.props.time.id+'/' , {
-          mode: "cors",
-          method: 'PUT',
-          body: JSON.stringify({
-              has_reserved : true,
-              visiting:false,
-              visited:false
-          }),
-          headers: {
-              "Content-type": "application/json;charset=UTF-8",
-              "Authorization" : "Token " + localStorage.getItem('token')
-          }
-      })
-      
+  reserveTime = async (e) => {      
+      this.props.reserve_time(this.props.time.id)
       await this.setState({open : false})
-      /// this.props.color = "secondary"
+      
   };
 
   
@@ -88,4 +75,17 @@ export default class DiologOpen extends React.Component {
   }
 
 }
+const mapStateToProps = state => ({
+  ...state,
+  appointment_times : state.DoctorProfile_reducer.appointmentTime_result,
+ 
+});
+
+const mapDispatchToProps = dispatch => ({
+  reserve_time : (id) => dispatch(doctorProfile_api.reserve_time(id)),
+  appointmenttime_load: (id) => dispatch(doctorProfile_api.appointmenttime_load(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DiologOpen)
+
 

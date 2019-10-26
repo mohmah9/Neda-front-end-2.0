@@ -22,10 +22,10 @@ export default class Calender extends React.Component {
 
   handleDayClick(day, { selected }) {
     let dayy=day.toLocaleDateString().split("/")
-    if (dayy[0].length==1){
+    if (dayy[0].length===1){
       dayy[0]="0"+dayy[0]
     }
-    if (dayy[1].length==1){
+    if (dayy[1].length===1){
       dayy[1]="0"+dayy[1]
     } 
     console.log(dayy)
@@ -36,7 +36,7 @@ export default class Calender extends React.Component {
 
 
   render() {
-
+    console.log(this.props.clinic)
     return (
       <main>
         <div style={{ 'marginLeft': "10%", display: "flex", backgroundColor: "white" }}>
