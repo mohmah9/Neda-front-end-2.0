@@ -2,17 +2,18 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import MenuAppBar from '../Home/NavBar'
-import ViewInfo from "./AppointmentTimeInfo"
-import ViewAndEditPatientInformation from "./PatientInfo"
+import MenuAppBar from '../Home/NavBar';
+import ViewInfo from "./AppointmentTimeInfo";
+import ViewAndEditPatientInformation from "./PatientInfo";
+import { connect } from "react-redux";
+import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
 
-export default class PatientProfile extends React.Component {
+class PatientProfile extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             clickOnClinic: false,
-            Patient: [],
             ReservatiomTime: [],
             info: false,
             reserve: true,
@@ -21,23 +22,8 @@ export default class PatientProfile extends React.Component {
     }
 
     componentWillMount() {
+        this.props.PatientProfile_load()
 
-        return fetch('http://nedabackend.pythonanywhere.com/patients/', {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Authorization": "Token " + localStorage.getItem('token')
-            }
-        })
-            .then(response => {
-                return response.json()
-            }).then(json => {
-                console.log(json)
-                this.setState({
-                    Patient: json
-                });
-            });
     }
 
     handleinfo = (e) => {
@@ -51,26 +37,31 @@ export default class PatientProfile extends React.Component {
         this.setState({
             reserve: true,
             info: false
+
         })
     }
 
 
     render() {
-        console.log(this.state.Patient)
+        console.log(this.props.Patient[0])
         return (
             <div>
                 <MenuAppBar />
-        <div>
+            <div>
                     <Grid container spacing={24}>
                         <Grid item sm={9} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-                            {this.state.reserve & this.state.Patient.length >= 1 ? (
-                                <div>
-                                    {this.state.Patient[0].patient_appointment_times.map(appointment => <ViewInfo Appointment={appointment} />)}
+                            {this.state.reserve  ? (
+                                <div>           
+                                    {typeof(this.props.Patient[0])!= "undefined" ? 
+                                        <div>
+                                            {this.props.Patient[0].patient_appointment_times.map(appointment => <ViewInfo Appointment={appointment} />)}
+                                        </div>
+                                    :console.log("khodeti")}             
                                 </div>
                             )
-                                : this.state.info & this.state.Patient.length >= 1 ?
+                                :this.state.info ?
                                     <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
-                                        <ViewAndEditPatientInformation patient={this.state.Patient[0]} />
+                                        <ViewAndEditPatientInformation/>
                                     </Paper>
                                     : "welcome ...   "
                             }
@@ -91,3 +82,13 @@ export default class PatientProfile extends React.Component {
         )
     }
 }
+    const mapStateToProps = state => ({
+        ...state,
+        Patient:state.PatientProfile_reducer.patientProfile_load_result
+    });
+    
+    const mapDispatchToProps = dispatch => ({
+        PatientProfile_load: () => dispatch(patientProfile_api.PatientProfile_load())
+    });
+
+export default connect(mapStateToProps, mapDispatchToProps)(PatientProfile)

@@ -8,6 +8,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
+import { connect } from "react-redux";
+import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
+
+
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -44,7 +48,7 @@ const BootstrapInput = withStyles(theme => ({
   },
 }))(InputBase);
 
-export default class ViewAndEditPatientInformation extends React.Component {
+class ViewAndEditPatientInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,6 +70,9 @@ export default class ViewAndEditPatientInformation extends React.Component {
     }
   }
 
+  componentWillMount() {
+    this.props.PatientProfile_load()
+  }
 
   handleChanger(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -75,40 +82,8 @@ export default class ViewAndEditPatientInformation extends React.Component {
 
   }
 
-  handleEditpatient = e => {
-    fetch('http://nedabackend.pythonanywhere.com/patients/' + this.props.patient.social_number + '/', {
-      mode: "cors",
-      method: 'PUT',
-      body: JSON.stringify({
-        user: {
-          first_name: this.state.first_name,
-          last_name: this.state.last_name,
-          username: this.state.username,
-          password: this.state.password,
-          province: this.state.province,
-          email: this.state.email,
-        },
-        mobile_number: this.state.mobile_number,
-        social_number: this.state.social_number,
-        phone_number: this.state.phone_number,
-        address: this.props.patient.address,
-        date_of_birth: "1360-01-14",
-        gender: this.state.gender,
-        medical_system_number: this.props.patient.user.medical_system_number
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Authorization": "Token " + localStorage.getItem('token')
-      }
-    }).then(response => {
-      return response.json()
-    }).then(json => {
-      console.log(json)
-    });
-
-  };
-
   render() {
+    console.log(this.props.patient)
     return (
       <div>
         <br />
@@ -119,13 +94,10 @@ export default class ViewAndEditPatientInformation extends React.Component {
           <TextField id="outlined-password-input" value={this.state.last_name} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Last name" name="last_name" type="Name" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-email-input" fullWidth className="usertext" label="User Name" type="Name" name="username" margin="normal" variant="outlined" />
-        </div>
-        <div className="fields">
           <TextField id="outlined-email-input" value={this.state.email} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Email" type="eamil" name="email" autoComplete="email" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-password-input" fullWidth className="passtext" label="Password" name="password" type="password" margin="normal" variant="outlined" />
+          <TextField id="outlined-password-input" fullWidth className="passtext" onChange={this.handleChanger.bind(this)} label="Password" name="password" type="password" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
           <TextField id="outlined-email-input" value={this.state.social_number} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Social Number" type="text" name="social_number" margin="normal" variant="outlined" />
@@ -146,7 +118,7 @@ export default class ViewAndEditPatientInformation extends React.Component {
           <FormControl className="fields" style={{ display: "block" }}>
             <InputLabel htmlFor="age-customized-select" >
               Province
-                      </InputLabel>
+            </InputLabel>
             <Select
               value={this.state.province}
               onChange={this.handleChangerr}
@@ -162,11 +134,9 @@ export default class ViewAndEditPatientInformation extends React.Component {
             </Select>
           </FormControl>
         </div>
-
         <br />
-
         <div className="fields">
-          <Button variant="contained" onClick={this.handleEditpatient} color="primary" fullWidth>
+          <Button variant="contained" onClick={() => this.props.PatientProfile_edit(this.state.first_name,this.state.last_name,this.state.address, this.state.username, this.state.password, this.state.mobile_number,this.state.email, this.state.social_number,this.state.phone_number, this.state.province, this.state.medical_system_number, this.state.gender)} color="primary" fullWidth>
             Edit
             </Button>
         </div>
@@ -176,3 +146,18 @@ export default class ViewAndEditPatientInformation extends React.Component {
     )
   }
 }
+const mapStateToProps = state => ({
+
+  ...state,
+  patient:state.PatientProfile_reducer.patientProfile_load_result[0]
+
+});
+
+const mapDispatchToProps = dispatch => ({
+
+  PatientProfile_load: () => dispatch(patientProfile_api.PatientProfile_load()),
+  PatientProfile_edit: (first_name,last_name,address, username, password, mobile_number,email, social_number,phone_number, province, medical_system_number, gender)  => dispatch(patientProfile_api.PatientProfile_edit(first_name,last_name,address, username, password, mobile_number,email, social_number,phone_number, province, medical_system_number, gender))
+    
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewAndEditPatientInformation) 
