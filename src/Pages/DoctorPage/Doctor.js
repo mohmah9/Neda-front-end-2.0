@@ -1,25 +1,13 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import ViewAndEditDoctorInformation from './Viewinfo'
-import Appointment from './Appointments'
-import Addclinic from './Addclinic'
-import WorkingHour from './WorkingHour'
-import MenuAppBar from '../Home/NavBar'
-
-
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-});
+import ViewAndEditDoctorInformation from './Viewinfo';
+import Appointment from './Appointments';
+import Addclinic from './Addclinic';
+import WorkingHour from './WorkingHour';
+import MenuAppBar from '../Home/NavBar';
+import { connect } from "react-redux";
+import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 class ViewAppointment extends React.Component {
 
@@ -32,8 +20,9 @@ class ViewAppointment extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.Doctor.medical_system_number)
-        return fetch("http://nedabackend.pythonanywhere.com/appointment_times/?doctor=" + this.props.Doctor.medical_system_number, {
+        console.log(this.props.doctor)
+        
+        return fetch("http://172.17.3.103:8000/appointment_times/?doctor=" + this.props.Doctor.medical_system_number, {
             mode: "cors",
             method: 'GET',
             headers: {
@@ -51,11 +40,12 @@ class ViewAppointment extends React.Component {
     
 
     render() {
+        console.log(this.state.timeresult)
         return (
             <div>
                 {this.state.timeresult.length >= 1 ?
                     <div>
-                        {this.state.timeresult.map(time => time.has_reserved != false
+                        {this.state.timeresult.map(time => time.has_reserved !== false
                             ? <Appointment Appointment={time} /> : null)}
 
                     </div>
@@ -81,21 +71,7 @@ class Doc extends React.Component {
     }
 
     componentWillMount() {
-        fetch('http://nedabackend.pythonanywhere.com/doctors/', {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Authorization": "Token " + localStorage.getItem('token')
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-            this.setState({ doctor: json })
-        });
-
-
+        this.props.doctorPage_load()
     }
 
     handleclinic = (e) => {
@@ -103,6 +79,7 @@ class Doc extends React.Component {
             addclinic: true
         })
     }
+
     handleinfo = (e) => {
         this.setState({
             info: true,
@@ -111,6 +88,7 @@ class Doc extends React.Component {
             workhours: false
         })
     }
+
     handlereserve = (e) => {
         this.setState({
             reserve: true,
@@ -119,6 +97,7 @@ class Doc extends React.Component {
             info: false
         })
     }
+
     handleclinic = (e) => {
         this.setState({
             clinic: true,
@@ -127,6 +106,7 @@ class Doc extends React.Component {
             workhours: false
         })
     }
+
     handleworkhours = (e) => {
         this.setState({
             workhours: true,
@@ -135,26 +115,24 @@ class Doc extends React.Component {
             clinic: false
         })
     }
+
     render() {
-        const { classes } = this.props;
-        console.log(this.state.doctor)
-        console.log(this.state.timeresult)
+        console.log(this.props.doctor)
         return (
             <div>
                 <MenuAppBar />
-                <div className={classes.root}>
+                <div>
                     <Grid container spacing={24}>
                         <Grid item sm={9} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-                            {this.state.reserve & this.state.doctor.length >= 1 ?
-                                <ViewAppointment Doctor={this.state.doctor[0]} />
-                                : this.state.info & this.state.doctor.length >= 1 ?
-                                    <ViewAndEditDoctorInformation doctor={this.state.doctor[0]} />
+                            {this.state.reserve & this.props.doctor.length >= 1?
+                                <ViewAppointment Doctor={this.props.doctor[0]} />
+                                : this.state.info ?
+                                <ViewAndEditDoctorInformation />        
                                     : this.state.clinic ?
-                                        <Addclinic doctor={this.state.doctor[0]} />
-                                        : this.state.workhours & this.state.doctor.length >= 1 ?
-                                            <WorkingHour data={this.state.doctor[0].doctor_clinics} />
+                                        <Addclinic/>
+                                        : this.state.workhours & this.props.doctor.length >= 1?
+                                            <WorkingHour/>
                                             :"WELCOME ..."
-
                             }
                         </Grid>
                         <Grid item sm={3} style={{ paddingTop: "2%", paddingRight: "2%" }}>
@@ -174,46 +152,17 @@ class Doc extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
-                {/* <div className={classes.root}>
-                    <Grid container spacing={24}>
-                        <Grid item sm={7} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-                            {this.state.doctor.length >= 1 ?
-                                <ViewAppointment Doctor={this.state.doctor[0]} />
-                                : "loading ...."
-                            }
-                        </Grid>
-                        <Grid item sm={5} style={{ paddingTop: "2%", paddingRight: "2%" }}>
-                            <Paper className={classes.paper}>
-                                {this.state.doctor.length >= 1 ?
-                                    <ViewAndEditDoctorInformation doctor={this.state.doctor[0]} />
-                                    : null
-                                }
-                            </Paper>
-                            <Paper className={classes.paper} style={{ marginTop: "3%" }}>
-                                {this.state.addclinic ?
-                                    <Addclinic doctor={this.state.doctor[0]} />
-                                    : <Button variant="contained" color="primary" fullWidth onClick={this.handleclinic}>
-                                        <h4>Add clinic</h4>
-                                    </Button>}
-                                    
-                            </Paper>
-                            <br/>
-                            {this.state.doctor.length >= 1 ?
-                                    <WorkingHour data={this.state.doctor[0].doctor_clinics}/>
-                                    : null
-                                }
-                            
-                        </Grid>
-                    </Grid>
-
-                    <Grid container spacing={24}>
-                        <Grid item sm={12} style={{paddingRight:"2%", paddingLeft:"2%"}}>
-                           
-                        </Grid>
-                    </Grid>
-                </div> */}
             </div>
         )
     }
 }
-export default withStyles(styles)(Doc);
+
+const mapStateToProps = state => ({
+    ...state,
+    doctor: state.DoctorPage_reducer.doctorPage_load_result
+});
+
+const mapDispatchToProps = dispatch => ({
+    doctorPage_load: () => dispatch(doctorPage_api.doctorPage_load())
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Doc);

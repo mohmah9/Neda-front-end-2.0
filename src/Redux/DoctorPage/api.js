@@ -1,0 +1,164 @@
+import { async } from "q";
+
+class api{
+    static doctorPage_default = async() => {                                      
+        let x = await fetch('http://172.17.3.103:8000/doctors/', {
+            mode: "cors",
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + sessionStorage.getItem('token'),
+            }
+        })
+        x = await x.json()
+
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            return x;
+         }
+    };
+
+    ///in mige permossion nadari :///// ?????????/
+    static handleEditdoctor = async(first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, bio, url) => {
+        console.log(url)
+        let x = await fetch(url, {
+            mode: "cors",
+            method: 'PUT',
+            body: JSON.stringify({
+                user: {
+                    first_name: first_name,
+                    last_name: last_name,
+                    username:  username,
+                    password:  password,
+                    province:  province,
+                    email:  email,
+                },
+                expertise:expertise,
+                medical_system_number:medical_system_number,
+                mobile_number:  mobile_number,
+                social_number:  social_number,
+                phone_number:  phone_number,
+                bio : bio,
+                address:  address,
+                date_of_birth: "1360-01-14",
+                gender:  gender,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + localStorage.getItem('token')
+            }
+        })
+
+        x = await x.json()
+
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            console.log(x)
+            return x;
+         }
+    };
+
+    static handleaddclinic = async(clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number) => {
+        let x = await fetch('http://172.17.3.103:8000/clinics/', {
+            mode: "cors",
+            method: 'POST',
+            body: JSON.stringify({
+                name:  clinicname,
+                province:  clinicprovince,
+                phone_number:  clinic_phone_number,
+                address:  clinicaddress,
+                doctor: medical_system_number
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + sessionStorage.getItem('token')
+            }
+        })
+
+        x = await x.json()
+
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            console.log(x)
+            return x;
+         }
+
+    };
+    
+    static addWorkingHour = async(dclinic, day, price, period,selectedDate, selectedDateE, clinics) => {
+        let clinicid = 0
+        clinics.forEach(element => {
+            if (element.name === dclinic){
+                clinicid = element.url.split('/')[4]
+            }
+        });
+
+        let x = await fetch(' http://172.17.3.103:8000/working_hours/', {
+            mode: "cors",
+            method: 'POST',
+            body: JSON.stringify({
+                hospital: null,
+                clinic:clinicid,
+                day: day,
+                price: price,
+                period:period,
+                start:selectedDate.toTimeString().split(" ")[0].substring(0,5)+"00",
+                end:selectedDateE.toTimeString().split(" ")[0].substring(0,5)+"00"
+
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + sessionStorage.getItem('token')
+            }
+        }) 
+
+        x = await x.json()
+
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            console.log(x)
+            return x;
+         }
+
+    };
+
+    static loadAppointment_patient = async (url) => {
+
+        let x = await fetch(url, {
+          mode: "cors",
+          method: 'GET',
+    
+        })
+    
+        x = await x.json()
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            return x;
+        }
+      };
+      
+      static loadAppointment_clinic = async (url) => {
+    
+        let x = await fetch(url, {
+          mode: "cors",
+          method: 'GET',
+    
+        })
+    
+        x = await x.json()
+      
+        if (typeof (x.address) == "undefined") {
+            return false
+        } else {
+            return x;
+        }
+      };
+      
+}
+
+export default api;

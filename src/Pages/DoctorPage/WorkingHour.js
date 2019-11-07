@@ -61,7 +61,6 @@ class WorkingHour extends React.Component {
 
     render() {
         const { expanded } = this.state;
-        console.log(this.props.data)
         return (
             <div>
                 <ExpansionPanel
@@ -73,7 +72,7 @@ class WorkingHour extends React.Component {
                         <Typography>شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <UIPickers  day ={"شنبه"} clinics={this.props.data}/>
+                        <UIPickers  day ={"شنبه"}  />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -85,7 +84,7 @@ class WorkingHour extends React.Component {
                         <Typography>یکشنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <UIPickers day ={"یکشنبه"} clinics={this.props.data} />
+                        <UIPickers day ={"یکشنبه"}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -97,7 +96,7 @@ class WorkingHour extends React.Component {
                         <Typography>دوشنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <UIPickers day ={"دوشنبه"} clinics={this.props.data}/>
+                        <UIPickers day ={"دوشنبه"} />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -109,7 +108,7 @@ class WorkingHour extends React.Component {
                         <Typography>سه شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <UIPickers day ={"سه شنبه"} clinics={this.props.data}/>
+                        <UIPickers day ={"سه شنبه"}  />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -121,7 +120,7 @@ class WorkingHour extends React.Component {
                         <Typography>چهار شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails >
-                            <UIPickers day ={"چهارشنبه"} clinics={this.props.data}/>
+                            <UIPickers day ={"چهارشنبه"}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -133,7 +132,7 @@ class WorkingHour extends React.Component {
                         <Typography>پنج شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <UIPickers day ={"پنج شنبه"} clinics={this.props.data}/>
+                        <UIPickers day ={"پنج شنبه"}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -145,7 +144,7 @@ class WorkingHour extends React.Component {
                         <Typography>جمعه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <UIPickers day ={"جمعه"} clinics={this.props.data}/>
+                        <UIPickers day ={"جمعه"}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </div >

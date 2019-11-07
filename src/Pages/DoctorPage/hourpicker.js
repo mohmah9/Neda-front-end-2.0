@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import { MuiPickersUtilsProvider, TimePicker } from 'material-ui-pickers';
@@ -11,8 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
-import Province from '../PatientProfile/Province'
 import TextField from '@material-ui/core/TextField';
+import { connect } from "react-redux";
+import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 
 const styles = {
@@ -70,52 +69,23 @@ class UIPickers extends React.Component {
     handleDateChangeE = date => {
         this.setState({ selectedDateE: date });
     };
-    savetime = () => {
-        let clinicid=0
-        this.props.clinics.forEach(element => {
-            if (element.name==this.state.dclinic){
-                clinicid=element.url.split('/')[4]
-            }
-        });
-        fetch(' http://nedabackend.pythonanywhere.com/working_hours/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify({
-                hospital: null,
-                clinic:clinicid,
-                day:this.props.day,
-                price:this.state.price,
-                period:this.state.period,
-                start:this.state.selectedDate.toTimeString().split(" ")[0].substring(0,5)+"00",
-                end:this.state.selectedDateE.toTimeString().split(" ")[0].substring(0,5)+"00"
 
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Authorization": "Token " + localStorage.getItem('token')
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-        });
+    componentWillMount() {
+        this.props.doctorPage_load()
     }
+
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
-        console.log(e.target.name)
+
     };
     handleChangerr = event => {
         this.selectedFilters = event.target.value
         this.setState({ dclinic: event.target.value })
-        console.log(this.selectedFilters)
     }
     render() {
-        const { classes } = this.props;
         const { selectedDate , selectedDateE } = this.state;
-        console.log(this.state.selectedDate.toTimeString().split(" "))
-        
         return (
-            <div style={{paddingLeft:"30%"}}>
+            <div>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <TimePicker
                         margin="normal"
@@ -161,7 +131,7 @@ class UIPickers extends React.Component {
                 </div>
                 <br />
                 <div>
-                    <Button variant="contained" style={{ background: "linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)" }} fullWidth onClick={this.savetime}>
+                    <Button variant="contained" style={{ background: "linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)" }} fullWidth onClick={() => this.props.doctorPage_addWorkingHour(this.state.dclinic, this.props.day, this.state.price, this.state.period,this.state.selectedDate, this.state.selectedDateE, this.props.clinics)}>
                         ثبت</Button>
                 </div>
             </div>
@@ -169,4 +139,17 @@ class UIPickers extends React.Component {
         );
     }
 }
-export default withStyles(styles)(UIPickers);
+
+const mapStateToProps = state => ({
+    ...state,
+    clinics: state.DoctorPage_reducer.doctorPage_load_result[0].doctor_clinics
+});
+
+const mapDispatchToProps = dispatch => ({
+
+    doctorPage_load: () => dispatch(doctorPage_api.doctorPage_load()),
+    doctorPage_addWorkingHour: (dclinic, day, price, period,selectedDate, selectedDateE, clinics) => dispatch(doctorPage_api.doctorPage_addWorkingHour(dclinic, day, price, period,selectedDate, selectedDateE, clinics))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UIPickers));

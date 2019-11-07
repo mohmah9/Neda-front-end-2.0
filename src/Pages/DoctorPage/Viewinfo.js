@@ -1,18 +1,15 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
-import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import TextField from '@material-ui/core/TextField';
 import Province from '../PatientProfile/Province'
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 const styles = theme => ({
     root: {
@@ -61,7 +58,7 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 
-export default class ViewAndEditDoctorInformation extends React.Component {
+class ViewAndEditDoctorInformation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,15 +75,20 @@ export default class ViewAndEditDoctorInformation extends React.Component {
             phone_number: this.props.doctor.phone_number,
             address: this.props.doctor.address,
             date_of_birth: "1360-01-14",
-            medical_system_number: this.props.doctor.user.medical_system_number
+            medical_system_number: this.props.doctor.medical_system_number
 
         }
+    }
+    
+    componentWillMount() {
+        this.props.doctorPage_load()
     }
 
 
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
     };
+
     handleChangerr = event => {
         this.selectedFilters = event.target.value
         this.setState({ province: event.target.value })
@@ -94,42 +96,43 @@ export default class ViewAndEditDoctorInformation extends React.Component {
 
     }
 
-    handleEditdoctor = e => {
-        fetch('http://nedabackend.pythonanywhere.com/doctors/'+this.props.doctor.medical_system_number +'/', {
-            mode: "cors",
-            method: 'PUT',
-            body: JSON.stringify({
-                user: {
-                    first_name: this.state.first_name,
-                    last_name: this.state.last_name,
-                    username: this.state.username,
-                    password: this.state.password,
-                    province: this.state.province,
-                    email: this.state.email,
-                },
-                expertise:this.props.doctor.expertise,
-                medical_system_number:this.props.doctor.medical_system_number,
-                mobile_number: this.state.mobile_number,
-                social_number: this.state.social_number,
-                phone_number: this.state.phone_number,
-                bio : this.props.doctor.bio,
-                address: this.state.address,
-                date_of_birth: "1360-01-14",
-                gender: this.state.gender,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Authorization": "Token " + localStorage.getItem('token')
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-        });
+    // handleEditdoctor = e => {
+    //     fetch('http://nedabackend.pythonanywhere.com/doctors/'+this.props.doctor.medical_system_number +'/', {
+    //         mode: "cors",
+    //         method: 'PUT',
+    //         body: JSON.stringify({
+    //             user: {
+    //                 first_name: this.state.first_name,
+    //                 last_name: this.state.last_name,
+    //                 username: this.state.username,
+    //                 password: this.state.password,
+    //                 province: this.state.province,
+    //                 email: this.state.email,
+    //             },
+    //             expertise:this.props.doctor.expertise,
+    //             medical_system_number:this.props.doctor.medical_system_number,
+    //             mobile_number: this.state.mobile_number,
+    //             social_number: this.state.social_number,
+    //             phone_number: this.state.phone_number,
+    //             bio : this.props.doctor.bio,
+    //             address: this.state.address,
+    //             date_of_birth: "1360-01-14",
+    //             gender: this.state.gender,
+    //         }),
+    //         headers: {
+    //             "Content-type": "application/json; charset=UTF-8",
+    //             "Authorization": "Token " + localStorage.getItem('token')
+    //         }
+    //     }).then(response => {
+    //         return response.json()
+    //     }).then(json => {
+    //         console.log(json)
+    //     });
 
-    };
+    // };
 
     render() {
+        console.log(this.props.doctor)
         return (
             <div>
                 <div className="fields">
@@ -186,7 +189,7 @@ export default class ViewAndEditDoctorInformation extends React.Component {
 
                 <br />
                 <div className="fields">
-                    <Button variant="contained" onClick={this.handleEditdoctor} color="primary" fullWidth>
+                    <Button variant="contained" onClick={() => this.props.doctorPage_Edit(this.state.first_name, this.state.last_name, this.state.username, this.state.password, this.state.mobile_number, this.state.email, this.state.medical_system_number, this.state.gender, this.state.province, this.state.social_number, this.state.phone_number, this.state.address, this.state.expertise, this.state.bio, this.props.doctor.url) } color="primary" fullWidth>
                         Edit
                    </Button>
                 </div>
@@ -196,3 +199,16 @@ export default class ViewAndEditDoctorInformation extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    ...state,
+    doctor: state.DoctorPage_reducer.doctorPage_load_result[0]
+});
+
+const mapDispatchToProps = dispatch => ({
+
+    doctorPage_load: () => dispatch(doctorPage_api.doctorPage_load()),
+    doctorPage_Edit: (first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, bio, url) => dispatch(doctorPage_api.doctorPage_Edit(first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, bio, url))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(ViewAndEditDoctorInformation)

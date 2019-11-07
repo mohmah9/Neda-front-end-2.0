@@ -1,19 +1,16 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
-import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import TextField from '@material-ui/core/TextField';
 import Province from '../PatientProfile/Province'
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
-import  Dialogfalse from './Diologfalse'
+import  Dialogfalse from './Diologfalse';
+import { connect } from "react-redux";
+import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 
 const styles = theme => ({
@@ -63,7 +60,7 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 
-export default class Addclinic extends React.Component {
+class Addclinic extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -82,36 +79,12 @@ export default class Addclinic extends React.Component {
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
     };
+
     handleChangerr = event => {
-        this.selectedFilters = event.target.value
         this.setState({ clinicprovince: event.target.value })
-        console.log(this.selectedFilters)
-    }
-
-    handleaddclinic = e => {
-        this.setState({open : true})
-        fetch('http://nedabackend.pythonanywhere.com/clinics/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify({
-                name: this.state.clinicname,
-                province: this.state.clinicprovince,
-                phone_number: this.state.clinic_phone_number,
-                address: this.state.clinicaddress,
-                doctor: this.props.doctor.medical_system_number
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Authorization": "Token " + localStorage.getItem('token')
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-        });
-
     }
     render() {
+        console.log(this.state.clinicprovince)
         return (
             <div>
                 <h4>Add Clinic</h4>
@@ -145,7 +118,7 @@ export default class Addclinic extends React.Component {
                     </FormControl>
                 </div>
                 <br />
-                <Button variant="contained" onClick={this.handleaddclinic} color="primary" fullWidth>
+                <Button variant="contained" onClick={() => this.props.doctorPage_addClinic(this.state.clinicname, this.state.clinicprovince, this.state.clinic_phone_number, this.state.clinicaddress, this.props.doctor.medical_system_number)} color="primary" fullWidth>
                     Add clinic
                  </Button>
 
@@ -155,3 +128,15 @@ export default class Addclinic extends React.Component {
     }
 
 }
+
+const mapStateToProps = state => ({
+    ...state,
+	data: state.DoctorPage_reducer.doctorPage_load_result[0].doctor_clinics,
+    doctor: state.DoctorPage_reducer.doctorPage_load_result
+});
+
+const mapDispatchToProps = dispatch => ({
+    doctorPage_addClinic: (clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number) => dispatch(doctorPage_api.doctorPage_addClinic(clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Addclinic)
