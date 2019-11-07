@@ -2,11 +2,10 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Filters from "./Filters"
-import { Button } from '@material-ui/core';
-import Rate from '../Rate/Rate'
+import ViewInfo from "./Viewinfo"
+import { connect } from "react-redux";
 
 const styles = theme => ({
   root: {
@@ -18,55 +17,6 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
 });
-class ViewInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // doctors : []
-    }
-  }
-  movetodoctor = e => {
-    return (
-      <div>
-        <DoctorProfile Doctor={this.props.Doctor} />
-      </div>
-    )
-  }
-
-  render() {
-    return (
-      <div>
-        <Link to={{ pathname: '/DoctorProfile', data: { Doctor: this.props.Doctor } }} style={{ textDecoration: "none" }} >
-          <Button fullWidth >
-            <Paper onClick={this.movetodoctor} style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
-              <div>
-                <div>
-                  <img src={this.props.Doctor.picture} style={{
-                    width: "75px",
-                    height: "75px", position: "absolute", left: "5%", paddingTop: "2%"
-                  }} alt=" " />
-                </div>
-                <div style={{ position: "absolute", top: "60%", left: "5.5%" }}>
-                    <Rate Rate={this.props.Doctor.doctor_rates.rate} />      
-                </div>
-                <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
-                  <br />
-                  <p>دکتر {this.props.Doctor.user.first_name + " " + this.props.Doctor.user.last_name}</p>
-                  <p>تخصص و فوق تخصص :  {this.props.Doctor.expertise}</p>
-                  <p> درباره پزشک : {this.props.Doctor.bio}</p>
-                  <br />
-                </div>
-              </div>
-            </Paper>
-          </Button>
-        </Link>
-        <br />
-      </div>
-
-    )
-  }
-}
-
 
 class FullWidthGrid extends React.Component {
   constructor(props) {
@@ -83,15 +33,13 @@ class FullWidthGrid extends React.Component {
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item sm={9}>
-            {this.props.result.length >= 1 ? (
               <div>
-                {this.props.result.map(doctor => <ViewInfo Doctor={doctor} />)}
+                {this.props.doctor_result.home_default_result.map(doctor => <ViewInfo Doctor={doctor} />)}
               </div>
-            ) : null}
           </Grid>
           <Grid item sm={3}>
             <Paper className={classes.paper}>
-              <Filters filtering={this.props.filtering} />
+              <Filters />
             </Paper>
           </Grid>
         </Grid>
@@ -99,4 +47,8 @@ class FullWidthGrid extends React.Component {
     )
   }
 }
-export default withStyles(styles)(FullWidthGrid);
+const mapStateToProps = state => ({
+  doctor_result: state.Homepage_reducer
+});
+
+export default connect(mapStateToProps, undefined)(withStyles(styles)(FullWidthGrid));

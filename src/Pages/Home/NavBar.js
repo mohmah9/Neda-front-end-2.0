@@ -10,6 +10,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as token_api from "../../Redux/Login/Login_Action";
+import * as viewinfo_action from "../../Redux/Home_viewinfo/viewinfo_action"
 
 
 
@@ -44,6 +47,7 @@ class MenuAppBar extends React.Component {
         this.setState({ auth: event.target.checked });
     };
     handlehome=event =>{
+        this.props.go_back_home()
         this.setState({home:true})
     }
     handleMenu = event => {
@@ -55,6 +59,7 @@ class MenuAppBar extends React.Component {
             prof: true });
     };
     handleCloser = () => {
+        this.props.logout();
         this.setState({ anchorEl: null,
             logout: true });
     };
@@ -117,4 +122,13 @@ MenuAppBar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+const mapStateToProps = state => ({
+    mine : state.Login_reducer.logged_in
+});
+
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(token_api.logout_success()),
+    go_back_home:() => dispatch(viewinfo_action.go_back_home())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MenuAppBar));

@@ -8,6 +8,8 @@ import InputBase from '@material-ui/core/InputBase';
 import { Button } from '@material-ui/core';
 import Province from '../PatientProfile/Province'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as filter_api from "../../Redux/Filter/Filter_action";
 
 const BootstrapInput = withStyles(theme => ({
     root: {
@@ -58,7 +60,7 @@ const styles = theme => ({
 });
 
 
-export default class Filters extends React.Component {
+class Filters extends React.Component {
     constructor(props) {
         super(props)
         let genderr = ""
@@ -83,7 +85,7 @@ export default class Filters extends React.Component {
         this.genderr = event.target.value
     }
     render() {
-        if (this.state.done) return <Redirect to={{ pathname: '/searched', data: { search_barr: this.state.result } }} />
+        // if (this.state.done) return <Redirect to={{ pathname: '/searched', data: { search_barr: this.state.result } }} />
         return (
             <div>
                 <FormControl style={{ display: "block" }}>
@@ -120,7 +122,7 @@ export default class Filters extends React.Component {
                         <MenuItem name="gender" value="مرد" onclick={this.handleChangerr.bind(this)}>مرد</MenuItem>
 
                     </Select>
-                    <Button style={{ display: 'block' }} onClick={() => this.props.filtering([this.genderr, this.state.province])} variant="outlined" color="rgba(33,66,99,1)" >
+                    <Button style={{ display: 'block' }} onClick={() => this.props.filter([this.genderr, this.state.province])} variant="outlined" color="rgba(33,66,99,1)" >
                         filter
           </Button>
                 </FormControl>
@@ -129,3 +131,13 @@ export default class Filters extends React.Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+    filter: (keyfilter) => dispatch(filter_api.filter(keyfilter))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filters);

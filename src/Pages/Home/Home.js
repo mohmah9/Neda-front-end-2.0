@@ -1,24 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Slides from './slides.js';
 import FullWidthGrid from './grid';
 import Search_com from './search';
 import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
 import MenuAppBar from './NavBar'
-
-const bar_style = {
-    background: 'rgba(0, 167, 210, 1)  ',
-    boxShadow: '0.5px 0px 0px 3px rgba(255, 255, 255, .3)'
-}
+import { connect } from "react-redux";
+import * as home_default_api from "../../Redux/Homepage/Homepage_action";
 
 const styles = {
     root: {
@@ -39,70 +28,18 @@ class MenuApp extends React.Component {
         this.state = {
             loaded_doctors: [],
             anchorEl: null,
-            result: [],
             filters: [],
             prof: false,
 
         };
     }
 
-    componentDidMount() {
-        return fetch('http://nedabackend.pythonanywhere.com/doctors/', {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            this.setState({
-                result: json
-            })
-            console.log(json)
-        });
+    componentWillMount() {
+        this.props.home_default()
     }
-
-    handlesearch = async keyword => {
-        console.log(keyword)
-        let x = await fetch('http://nedabackend.pythonanywhere.com/doctors/?search=' + keyword, {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-        x = await x.json()
-        await this.setState({
-            result: x
-        })
-
-    }
-    handlefilter = async keyfilter => {
-        console.log(keyfilter)
-        let x = await fetch('http://nedabackend.pythonanywhere.com/doctors/?gender=' + keyfilter[0] + '&user__province=' + keyfilter[1], {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-        x = await x.json()
-        await this.setState({
-            result: x
-        })
-        console.log(x)
-    };
-
-    handleChange = event => {
-        this.setState({ auth: event.target.checked });
-    };
-
 
     render() {
-        const { classes } = this.props;
-        const { anchorEl } = this.state;
-       
+        console.log(this.props.doctor_result.home_default_result)
         return (
             <div>
                 <div >
@@ -113,13 +50,13 @@ class MenuApp extends React.Component {
                     <Slides />
                 </div>
                 <div style={{ left: "25%", top: "90%", width: "50%", position: 'absolute' }}>
-                    <Search_com searcher={this.handlesearch} />
+                    <Search_com />
                 </div>
                 <div>
                     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                 </div >
                 <div style={{ marginLeft: '1%', marginRight: '1%' }}>
-                    <FullWidthGrid filtering={this.handlefilter} result={this.state.result} />
+                    <FullWidthGrid />
 
                 </div>
             </div>
@@ -127,4 +64,12 @@ class MenuApp extends React.Component {
     }
 }
 
-export default withStyles(styles)(MenuApp);
+const mapStateToProps = state => ({
+    doctor_result: state.Homepage_reducer
+});
+
+const mapDispatchToProps = dispatch => ({
+    home_default: () => dispatch(home_default_api.home_default())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MenuApp));
