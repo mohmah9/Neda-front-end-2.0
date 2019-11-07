@@ -14,6 +14,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import { connect } from "react-redux";
+import * as token_api from "../../Redux/Signup/Signup_action";
 
 
 function TabContainer({ children, dir }) {
@@ -39,7 +41,7 @@ const styles = theme => ({
 
 class FullWidthTabs extends React.Component {
     state = {
-        correct: "fh",
+        correct: "f",
         value: 0,
         first_name: "",
         last_name: "",
@@ -74,113 +76,6 @@ class FullWidthTabs extends React.Component {
     };
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
-    };
-
-    handleSubmitpatient = e => {
-        let gen = "";
-        gen = this.state.gender == "female" ? "زن" : "مرد";
-        fetch('http://nedabackend.pythonanywhere.com/users/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify({
-                first_name: this.state.first_name,
-                last_name: this.state.last_name,
-                username: this.state.username,
-                password: this.state.password,
-                mobile_number: this.state.mobile_number,
-                email: this.state.email,
-                is_doctor: false,
-                is_patient: true,
-                is_hospital: false,
-                social_number: this.state.social_number,
-                gender: gen,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-            json.first_name ? this.setState({ correct: true }) : this.setState({ correct: false })
-            console.log(this.state.correct)
-            if (json.first_name) {
-                window.location.assign("/login")
-            }
-        });
-
-    };
-
-
-    handleSubmitDoctor = e => {
-        let gen = "";
-        gen = this.state.gender == "female" ? "زن" : "مرد";
-        fetch('http://nedabackend.pythonanywhere.com/users/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify({
-                first_name: this.state.first_name,
-                last_name: this.state.last_name,
-                username: this.state.username,
-                password: this.state.password,
-                mobile_number: this.state.mobile_number,
-                email: this.state.email,
-                is_doctor: true,
-                is_patient: false,
-                is_hospital: false,
-                date_of_birth: this.state.date_of_birth,
-                medical_system_number: this.state.medical_system_number,
-                gender: gen,
-                expertise: this.state.expertise,
-                province: this.state.province,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-            json.first_name ? this.setState({ correct: true }) : this.setState({ correct: false })
-            console.log(this.state.correct)
-            if (json.first_name) {
-                window.location.assign("/login")
-            }
-        });
-
-    };
-
-    handleSubmitHospital = e => {
-        fetch('http://nedabackend.pythonanywhere.com/users/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify({
-                first_name: this.state.first_name,
-                address: this.state.address,
-                username: this.state.username,
-                password: this.state.password,
-                email: this.state.email,
-                is_doctor: false,
-                is_patient: false,
-                is_hospital: true,
-                phone_number: this.state.phone_number,
-                post_code: this.state.post_code,
-                province: this.state.province,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        }).then(response => {
-            return response.json()
-        }).then(json => {
-            console.log(json)
-            json.first_name ? this.setState({ correct: true }) : this.setState({ correct: false })
-            console.log(this.state.correct)
-            if (json.first_name) {
-                window.location.assign("/login")
-            }
-        });
-
     };
 
     render() {
@@ -246,7 +141,7 @@ class FullWidthTabs extends React.Component {
                             </div>
                             <div><p style={{ color: "red" }}>{this.state.correct == false ? "There is something wrong with the information you provided" : ""}</p></div>
                             <div className='btn-submit'>
-                                <Button onClick={this.handleSubmitpatient} variant="contained" color="primary" fullWidth>
+                                <Button onClick={() => this.props.patient_signup(this.state.first_name,this.state.last_name,this.state.username,this.state.password,this.state.mobile_number,this.state.email,false,true,false,this.state.social_number,this.state.gender)} variant="contained" color="primary" fullWidth>
                                     submit
                     </Button>
                             </div>
@@ -296,7 +191,7 @@ class FullWidthTabs extends React.Component {
                             </div>
                             <div><p style={{ color: "red" }}>{this.state.correct == false ? "There is something wrong with the information you provided" : ""}</p></div>
                             <div className='btn-submit'>
-                                <Button variant="contained" onClick={this.handleSubmitDoctor} color="primary" fullWidth>
+                                <Button variant="contained" onClick={() => this.props.doctor_signup(this.state.first_name,this.state.last_name,this.state.username,this.state.password,this.state.mobile_number,this.state.email,true,false,false,this.state.date_of_birth,this.state.medical_system_number,this.state.gender,this.state.expertise,this.state.province)} color="primary" fullWidth>
                                     submit
                     </Button>
                             </div>
@@ -328,7 +223,7 @@ class FullWidthTabs extends React.Component {
                             </div>
                             <div><p style={{ color: "red" }}>{this.state.correct == false ? "There is something wrong with the information you provided" : ""}</p></div>
                             <div className='btn-submit'>
-                                <Button variant="contained" onClick={this.handleSubmitHospital} color="primary" fullWidth>
+                                <Button variant="contained" onClick={() => this.props.hospital_signup(this.state.first_name,this.state.address,this.state.username,this.state.password,this.state.email,false,false,true,this.state.phone_number,this.state.post_code,this.state.province)} color="primary" fullWidth>
                                     submit
                     </Button>
                             </div>
@@ -346,4 +241,15 @@ FullWidthTabs.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(FullWidthTabs);
+const mapStateToProps = state => ({
+    ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+    // loginAction: (user, pass) => dispatch(token_api.loginAction(user, pass))
+    patient_signup: (first_name,last_name,username,password,mobile_number,email,is_doctor,is_patient,is_hospital,social_number,gender) => dispatch(token_api.patient_signup(first_name,last_name,username,password,mobile_number,email,is_doctor,is_patient,is_hospital,social_number,gender)),
+    doctor_signup: (first_name,last_name,username,password,mobile_number,email,is_doctor,is_patient,is_hospital,date_of_birth,medical_system_number,gender,expertise,province) => dispatch(token_api.doctor_signup(first_name,last_name,username,password,mobile_number,email,is_doctor,is_patient,is_hospital,date_of_birth,medical_system_number,gender,expertise,province)),
+    hospital_signup: (first_name,address,username,password,email,is_doctor,is_patient,is_hospital,phone_number,post_code,province) => dispatch(token_api.hospital_signup(first_name,address,username,password,email,is_doctor,is_patient,is_hospital,phone_number,post_code,province))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(FullWidthTabs));
