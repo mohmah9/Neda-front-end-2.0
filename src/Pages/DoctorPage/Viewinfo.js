@@ -132,7 +132,7 @@ class ViewAndEditDoctorInformation extends React.Component {
     // };
 
     render() {
-        console.log(this.props.doctor)
+        console.log(this.props.doctor.url)
         return (
             <div>
                 <div className="fields">
@@ -189,7 +189,7 @@ class ViewAndEditDoctorInformation extends React.Component {
 
                 <br />
                 <div className="fields">
-                    <Button variant="contained" onClick={() => this.props.doctorPage_Edit(this.state.first_name, this.state.last_name, this.state.username, this.state.password, this.state.mobile_number, this.state.email, this.state.medical_system_number, this.state.gender, this.state.province, this.state.social_number, this.state.phone_number, this.state.address, this.state.expertise, this.state.bio, this.props.doctor.url) } color="primary" fullWidth>
+                    <Button variant="contained" onClick={() => this.props.doctorPage_Edit(this.state.first_name, this.state.last_name, this.state.username, this.state.password, this.state.mobile_number, this.state.email, this.state.medical_system_number, this.state.gender, this.state.province, this.state.social_number, this.state.phone_number, this.state.address, this.props.doctor.expertise, this.props.doctor.bio, this.props.doctor.url) } color="primary" fullWidth>
                         Edit
                    </Button>
                 </div>

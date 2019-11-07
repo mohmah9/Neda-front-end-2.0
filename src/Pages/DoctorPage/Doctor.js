@@ -2,59 +2,12 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
 import ViewAndEditDoctorInformation from './Viewinfo';
-import Appointment from './Appointments';
+import ViewAppointment from "./ViewAppointment"
 import Addclinic from './Addclinic';
 import WorkingHour from './WorkingHour';
 import MenuAppBar from '../Home/NavBar';
 import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
-
-class ViewAppointment extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            timeresult: [],
-            
-        }
-    }
-
-    componentDidMount() {
-        console.log(this.props.doctor)
-        
-        return fetch("http://172.17.3.103:8000/appointment_times/?doctor=" + this.props.Doctor.medical_system_number, {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            }
-        })
-            .then(response => {
-                return response.json()
-            }).then(json => {
-                console.log(json)
-                this.setState({ timeresult: json })
-            });
-    }
-
-    
-
-    render() {
-        console.log(this.state.timeresult)
-        return (
-            <div>
-                {this.state.timeresult.length >= 1 ?
-                    <div>
-                        {this.state.timeresult.map(time => time.has_reserved !== false
-                            ? <Appointment Appointment={time} /> : null)}
-
-                    </div>
-                    : "loading ..."}
-            </div>
-        )
-    }
-
-}
 
 
 class Doc extends React.Component {
@@ -117,7 +70,7 @@ class Doc extends React.Component {
     }
 
     render() {
-        console.log(this.props.doctor)
+        // console.log(this.props.doctor)
         return (
             <div>
                 <MenuAppBar />

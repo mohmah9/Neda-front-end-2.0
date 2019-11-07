@@ -85,7 +85,7 @@ class UIPickers extends React.Component {
     render() {
         const { selectedDate , selectedDateE } = this.state;
         return (
-            <div>
+            <div style={{marginLeft:"30%"}}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <TimePicker
                         margin="normal"
@@ -151,5 +151,7 @@ const mapDispatchToProps = dispatch => ({
     doctorPage_addWorkingHour: (dclinic, day, price, period,selectedDate, selectedDateE, clinics) => dispatch(doctorPage_api.doctorPage_addWorkingHour(dclinic, day, price, period,selectedDate, selectedDateE, clinics))
 
 });
+
+// export default ;
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UIPickers));
