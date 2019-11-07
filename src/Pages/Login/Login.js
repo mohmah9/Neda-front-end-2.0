@@ -3,10 +3,11 @@ import './Login.css'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as token_api from "../../Redux/Login/Login_Action";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
     constructor(props) {
         super(props)
 
@@ -18,68 +19,30 @@ export default class Login extends React.Component {
         loged: false,
         wrong_input: ""
     };
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.checked });
-    };
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
-    handleSubmit = async (e) => {
-
-        let x = await fetch('http://nedabackend.pythonanywhere.com/get_token/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password
-            }),
-            headers: {
-                "Content-type": "application/json;charset=UTF-8"
-            }
-        })
-
-        x = await x.json()
-
-        if (typeof (x.token) == "undefined") {
-            this.setState({
-                wrong_input: "Your username or password is wrong !!!"
-            })
-        } else {
-            localStorage.setItem('token', x.token)
-            localStorage.setItem('kind', x.kind)
-            this.setState({
-                loged: true
-            })
-
-        }
-    };
-
 
     render() {
         const { loged, wrong_input } = this.state
-        if (loged) return <Redirect to={{ pathname: '/Homepage' }} />
+        console.log(this.props.mine)
+        if (this.props.mine) return <Redirect to={{ pathname: '/Homepage' }} />
         return (
 
             <div className="login_form">
                 <Paper elevation={4} className="login_paper" >
                     <h1 ><center>Login</center></h1>
                     <div className="fields">
-                        <TextField onChange={this.handleChanger.bind(this)} value={this.state.username} id="outlined-email-input" fullWidth className="usertext" label="userName" type="email" name="username" autoComplete="email" margin="normal" />
+                        <TextField onChange={this.handleChanger.bind(this)} value={this.state.username} id="outlined-email-input" fullWidth className="usertext" label="نام کاربری" type="email" name="username" autoComplete="email" margin="normal" />
                     </div>
                     <div className="fields">
-                        <TextField onChange={this.handleChanger.bind(this)} value={this.state.password} id="outlined-password-input" fullWidth className="passtext" label="password" name='password' type="password" autoComplete="current-password" margin="normal" />
+                        <TextField onChange={this.handleChanger.bind(this)} value={this.state.password} id="outlined-password-input" fullWidth className="passtext" label="رمز عبور" name='password' type="password" autoComplete="current-password" margin="normal" />
                     </div>
                     <div className="check_box">
-                        <Checkbox
-                            checked={this.state.checkedA}
-                            onChange={this.handleChange('checkedA')}
-                            value="checkedA"
-                            color="primary"
-                        />remember me
-                    <p style={{ color: 'red' }}>{wrong_input}</p>
+                        <p style={{ color: 'red' }}>{wrong_input}</p>
                     </div>
                     <div className='btn-submit'>
-                        <Button variant="contained" color="primary" fullWidth onClick={this.handleSubmit}>
+                        <Button variant="contained" color="primary" fullWidth onClick={() => this.props.loginAction(this.state.username,this.state.password)}>
                             Log in
                     </Button>
                     </div>
@@ -91,3 +54,13 @@ export default class Login extends React.Component {
 
     }
 }
+
+const mapStateToProps = state => ({
+    mine : state.Login_reducer.logged_in
+});
+
+const mapDispatchToProps = dispatch => ({
+    loginAction: (user, pass) => dispatch(token_api.loginAction(user, pass))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
