@@ -24,6 +24,10 @@ export const clinic_load_type = {
     APPOINTMENTTIME_CLINIC : 'APPOINTMENTTIME_CLINIC',
 }
 
+export const appointments_load_type = {
+    APPOINTMENTTIME_LOAD_SUCCESS : 'APPOINTMENTTIME_LOAD_SUCCESS',
+}
+
 export const loadDoctor_success = (res) => { 
     return {
         type: doctorPage_load_type.DOCTORPAGE_SUCCESS,
@@ -65,6 +69,13 @@ export const addWorkingHour_success = (res) => {
     }
 }
 
+export const load_all_appointments_success = (res) => { 
+    return {
+        type: appointments_load_type.APPOINTMENTTIME_LOAD_SUCCESS,
+        timeresult: res
+    }
+}
+
 export const doctorPage_load = () => {
     return function (dispatch) {
         return api.doctorPage_default()
@@ -72,21 +83,22 @@ export const doctorPage_load = () => {
                 if (response) {
                     dispatch(loadDoctor_success(response))
                 } else {
-                    console.log('there was an error with loading profile page')
+                    // console.log('there was an error with loading profile page')
                 }
             })
     }
 
 }
 
-export const doctorPage_Edit = (first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, url) => {
+export const doctorPage_Edit = (first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, bio, url) => {
+    console.log(expertise)
     return function (dispatch) {
-        return api.handleEditdoctor(first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, url)
+        return api.handleEditdoctor(first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, bio, url)
             .then((response) => {
                 if (response) {
                     dispatch(editDoctor_success(response))
                 } else {
-                    console.log('there was an error with loading profile page')
+                    // console.log('there was an error with loading profile page')
                 }
             })
     }
@@ -98,9 +110,9 @@ export const doctorPage_addClinic = (clinicname, clinicprovince, clinic_phone_nu
         return api.handleaddclinic(clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number)
             .then((response) => {
                 if (response) {
-                    dispatch(addClinic_success(response))
+                    dispatch(addClinic_success())
                 } else {
-                    console.log('there was an error with loading profile page')
+                    // console.log('there was an error with loading profile page')
                 }
             })
     }
@@ -111,9 +123,9 @@ export const doctorPage_addWorkingHour = (dclinic, day, price, period,selectedDa
         return api.addWorkingHour(dclinic, day, price, period,selectedDate, selectedDateE, clinics)
             .then((response) => {
                 if (response) {
-                    dispatch(addWorkingHour_success(response))
+                    dispatch(addWorkingHour_success())
                 } else {
-                    console.log('there was an error with loading profile page')
+                    // console.log('there was an error with loading profile page')
                 }
             })
     }
@@ -125,7 +137,7 @@ export const appointmenttimeClinic_load = (url) => {
         return api.loadAppointment_clinic(url)
             .then((response) => {
                 if (response) {
-                    console.log('response from login', response)
+                    // console.log('response from login', response)
                     dispatch(appointmentTime_loadClinic_success(response))
                 } else {
                     console.log('there was an error with loading profile page')
@@ -139,10 +151,52 @@ export const appointmenttimeDoctor_load = (url) => {
         return api.loadAppointment_patient(url)
             .then((response) => {
                 if (response) {
-                    console.log('response from login', response)
+                    // console.log('response from login', response)
                     dispatch(appointmentTime_loadDoctor_success(response))
                 } else {
                     console.log('there was an error with loading profile page')
+                }
+            })
+    }
+}
+
+export const load_all_appointments = (medical_number) => {
+    return function (dispatch) {
+        return api.load_all_appointments(medical_number)
+            .then((response) => {
+                if (response) {
+                    console.log( response)
+                    dispatch(load_all_appointments_success(response))
+                } else {
+                    console.log('there was an error with loading all appointments')
+                }
+            })
+    }
+}
+
+export const edit_medicalhistory = (url_content) => {
+    return function (dispatch) {
+        return api.edit_medicalhistory(url_content)
+            .then((response) => {
+                if (response) {
+                    console.log( response)
+                    // dispatch(load_all_appointments_success(response))
+                } else {
+                    console.log('there was an error with loading all appointments')
+                }
+            })
+    }
+}
+
+export const add_medicalhistory = (url_content) => {
+    return function (dispatch) {
+        return api.add_medicalhistory(url_content)
+            .then((response) => {
+                if (response) {
+                    console.log( response)
+                    // dispatch(load_all_appointments_success(response))
+                } else {
+                    console.log('there was an error with loading all appointments')
                 }
             })
     }
