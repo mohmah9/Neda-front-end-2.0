@@ -21,13 +21,12 @@ export const login_failure = () => {
 
 export const logout_success = () => {
     return {
-        type: session_action_types.LOGIN_SUCCESS,
+        type: session_action_types.LOGOUT_SUCCESS,
         logged_in: false
     }
 }
 
 export const loginAction = (user, pass) => {
-    // type: "login"
     return function (dispatch) {
         return api.handleSubmit(user, pass)
             .then((response) => {

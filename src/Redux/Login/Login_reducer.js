@@ -1,4 +1,3 @@
-import loginAction from "./Login_Action"
 import {session_action_types} from "./Login_Action"
 
 const initialState = {
@@ -21,7 +20,7 @@ export const Login_reducer = (state = initialState , action) => {
         case session_action_types.LOGIN_FAILURE:
             return{
                 ...state,
-                    login_error:'کاربری با این مشخصات یافت نشد.'
+                    login_error:'کاربری با  این مشخصات یافت نشد.'
             }
         default:
             return state
