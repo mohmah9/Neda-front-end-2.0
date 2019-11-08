@@ -41,7 +41,7 @@ class api{
           }),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
-            "Authorization": "Token " + localStorage.getItem('token')
+            "Authorization": "Token " + sessionStorage.getItem('token')
           }
         })
       
@@ -91,6 +91,9 @@ class api{
     if (typeof (x) == "undefined") {
         return false
     } else {
+          await localStorage.setItem("doctor_fname_"+url, x.user.first_name)
+          await localStorage.setItem("doctor_lname_"+url, x.user.last_name)
+          console.log(localStorage.getItem("doctor_fname_"+url))
         return x;
     }
   };
@@ -106,6 +109,27 @@ class api{
     x = await x.json()
   
     if (typeof (x.address) == "undefined") {
+        return false
+    } else {
+        await localStorage.setItem("clinic_name_"+url, x.name)
+        await localStorage.setItem("clinic_phonnumber_"+url, x.phone_number)
+        return x;
+    }
+  };
+  
+  static loadMedical_history = async (patient_id) => {
+    
+    let x = await fetch("http://172.17.3.103:8000/medical_histories/?patient="+patient_id, {
+      mode: "cors",
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+    })
+
+    x = await x.json()
+  
+    if (typeof (x) == "undefined") {
         return false
     } else {
         return x;

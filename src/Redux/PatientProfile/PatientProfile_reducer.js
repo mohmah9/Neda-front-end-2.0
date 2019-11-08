@@ -1,11 +1,12 @@
-import { patientProfile_load_type , doctor_load_type, clinic_load_type} from "./PatientProfile_action"
+import { medicalHistory_success_type,  patientProfile_load_type , doctor_load_type, clinic_load_type} from "./PatientProfile_action"
 import { patientProfile_edit_type } from "./PatientProfile_action"
 import {patientProfile_cancleAppointment_type} from "./PatientProfile_action"
 
 const initialState = {
     patientProfile_load_result: [],
     appointmentDoctor_result : '',
-    appointmentClinic_result : ''
+    appointmentClinic_result : '',
+    medicalHistory_result:[]
 
 }
 
@@ -36,7 +37,12 @@ export const PatientProfile_reducer = (state = initialState, action) => {
                 return{
                     ...state,
                     appointmentClinic_result : action.appointmentClinic_result
-                }    
+                }
+        case medicalHistory_success_type.MEDICALHISTORY_SUCCESS :
+            return{
+                ...state,
+                medicalHistory_result : action.medicalHistory_result
+            }
         default:
             return state
     }
