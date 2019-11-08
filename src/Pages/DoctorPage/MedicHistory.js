@@ -9,9 +9,10 @@ import * as doctorpage_api from "../../Redux/DoctorPage/DoctorPage_action";
 class MedicalHistory extends React.Component {
     constructor(props) {
         super(props);
-        let neww = true;
+        // let neww = true;
         this.state = {
-            content: ""
+            content: "",
+            neww:true
         }
     }
     componentWillMount() {
@@ -19,6 +20,13 @@ class MedicalHistory extends React.Component {
     }
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
+    };
+    handlenew() {
+        console.log("newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+        if(this.state.neww){
+            this.setState({ neww:false })
+        }
+        
     };
     render() {
         console.log(this.props.doctor)
@@ -30,9 +38,10 @@ class MedicalHistory extends React.Component {
                     {
                         this.props.medichistory.length > 0 ?
                             this.props.medichistory.map(history =>
-                                history.doctor.split("/")[4] == this.props.doctor[0].medical_system_number ? <div>
-                                    <Paper>
-                                        {this.neww = false}
+                                history.doctor.split("/")[4] === this.props.doctor[0].medical_system_number ? 
+                                <div>
+                                    {this.handlenew()}
+                                    <Paper  style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}>
                                         <p style={{ textAlign: "right", direction: "rtl", paddingRight:"7.5%" }}>
                                             تاریخ :{history.date}
                                             <br />
@@ -43,13 +52,13 @@ class MedicalHistory extends React.Component {
                                             <TextField id="outlined-email-input" value={this.state.content} onChange={this.handleChanger.bind(this)} style={{ width: "85%" }} fullWidth className="usertext" label="تغییرات" type="Name" name="content" margin="normal" variant="outlined" />
                                             </div>
                                             <br />
-                                        
-                                        <Button variant="contained" color="primary" onClick={() => this.props.edit_medicalhistory([this.props.medichistory[0], this.state.content])} style={{ background: "linear-gradient(60deg, #2196f3 30%, #21cbf3 90%)" }} fullWidth>
-                                            تغییر</Button>
-                                    </Paper>
+                                        <Button variant="contained" color="primary" onClick={() => this.props.edit_medicalhistory([history, this.state.content])} style={{ background: "linear-gradient(60deg, #2196f3 30%, #21cbf3 90%)" }} fullWidth>
+                                            تغییر
+                                        </Button>
+                                    </Paper >
                                 </div> :
                                     <div>
-                                        <Paper>
+                                        <Paper  style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}>
                                             <p style={{ textAlign: "right", direction: "rtl" }}>
                                                 زمان :{history.date}
                                                 <br />
@@ -59,7 +68,7 @@ class MedicalHistory extends React.Component {
                                         </Paper>
                                     </div>)
                             : 
-                            <Paper>
+                            <Paper  style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}>
                                 <p style={{ textAlign: "center", direction: "rtl" }}>
                                     <TextField id="outlined-email-input" value={this.state.content} onChange={this.handleChanger.bind(this)} style={{ width: "85%" }} fullWidth className="usertext" label="سابقه پزشکی" type="Name" name="content" margin="normal" variant="outlined" />
                                     <br />
@@ -68,9 +77,9 @@ class MedicalHistory extends React.Component {
                                     ایجاد سابقه</Button>
                             </Paper>
                     }
-                    {
-                        this.neww? <div>
-                            <Paper>
+                    {/* {
+                        this.state.neww? <div>
+                            <Paper  style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}>
                                 <p style={{ textAlign: "center", direction: "rtl" }}>
                                     <TextField id="outlined-email-input" value={this.state.content} onChange={this.handleChanger.bind(this)} style={{ width: "85%" }} fullWidth className="usertext" label="سابقه پزشکی" type="Name" name="content" margin="normal" variant="outlined" />
                                     <br />
@@ -80,7 +89,7 @@ class MedicalHistory extends React.Component {
                             </Paper>
                         </div>
                         :null
-                    }
+                    } */}
                 </Paper>
             </div>
         )

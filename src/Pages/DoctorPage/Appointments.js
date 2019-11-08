@@ -6,21 +6,9 @@ import MedicalHistory from "./MedicHistory"
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-});
-
 class Appointment extends React.Component {
 
     constructor(props) {
-        let day;
         super(props);
         this.state = {
             open: false,
@@ -30,9 +18,9 @@ class Appointment extends React.Component {
 
     componentWillMount() {
         this.props.appointmenttimeClinic_load('http://172.17.3.103:8000/clinics/' + this.props.Appointment.clinic + '/')
-        this.props.appointmenttimeDoctor_load('http://172.17.3.103:8000/patients/' + this.props.Appointment.patient + '/')
+        this.props.appointmenttimeDoctor_load(this.props.Appointment.patient )
         var today = new Date();
-        if ((today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()).length == 9) {
+        if ((today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()).length === 9) {
             this.setState({ date: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + "0" + today.getDate() })
         }else{
             this.setState({ date: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' +  today.getDate() })
@@ -46,12 +34,10 @@ class Appointment extends React.Component {
     }
 
     render() {
-        // console.log(this.props.Appointment)
-        // console.log("2019-11-2" == this.props.Appointment.date_time.split("T")[0])
-        // console.log(this.state.date , this.props.Appointment.date_time.split("T")[0] )
+        console.log(this.props.Appointment)
         return (
             <div>
-                <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
+                <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available"  , background : "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)" }}>
                     <div>
 
 
@@ -60,7 +46,7 @@ class Appointment extends React.Component {
                             <p>
                                 {this.props.patient.user ?
                                     <div>
-                                        <p> {this.props.patient.user.first_name} {this.props.patient.user.last_name}</p>
+                                        <p> {localStorage.getItem("patient_fname_"+this.props.Appointment.patient)} {localStorage.getItem("patient_lname_"+this.props.Appointment.patient)}</p>
                                     </div>
                                     : null
                                 }
@@ -69,11 +55,11 @@ class Appointment extends React.Component {
                             <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
                             {this.props.Clinic ?
                                 <div>
-                                    <p> مطب : {this.props.Clinic.name}</p>
+                                    <p> مطب : {localStorage.getItem("clinic_name_"+this.props.Appointment.clinic)}</p>
                                 </div>
                                 : null
                             }
-                            {this.state.date == this.props.Appointment.date_time.split("T")[0] ?
+                            {this.state.date === this.props.Appointment.date_time.split("T")[0] ?
                                 !this.state.open ? <div>
                                     <Button variant="contained" onClick={this.handlehistory} style={{ background: "linear-gradient(60deg, #2196f3 30%, #21cbf3 90%)" }}  >
                                         مشاهده و تغییر سوابق پزشکی</Button>
@@ -85,7 +71,7 @@ class Appointment extends React.Component {
                             }
                             <br />
                         </div>
-                        <Button variant="contained" color="primary" style={{ background: "linear-gradient(90deg, #FE6B8B 30%, #FF8E53 90%)" }} fullWidth onClick={() => this.props.appointmenttimeDoctor_cancel(this.props.Appointment.url)}>
+                        <Button variant="contained" color="primary" style = {{background : "linear-gradient(to right, #5c6bc0 , #001064)"}} fullWidth onClick={() => this.props.appointmenttimeDoctor_cancel(this.props.Appointment.url)}>
                             کنسل</Button>
                     </div>
                 </Paper>

@@ -1,17 +1,10 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Button } from '@material-ui/core';
-import ViewAndEditDoctorInformation from './Viewinfo';
 import Appointment from './Appointments';
-import Addclinic from './Addclinic';
-import WorkingHour from './WorkingHour';
-import MenuAppBar from '../Home/NavBar';
 import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 
 class ViewAppointment extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,10 +15,7 @@ class ViewAppointment extends React.Component {
         this.props.load_all_appointments(this.props.Doctor.medical_system_number);
     }
 
-
-
     render() {
-        // console.log(this.props.timeresult)
         return (
             <div>
                 {this.props.timeresult.length >= 1 ?

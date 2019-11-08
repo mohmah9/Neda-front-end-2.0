@@ -1,5 +1,3 @@
-import { async } from "q";
-
 class api {
     static doctorPage_default = async () => {
         let x = await fetch('http://172.17.3.103:8000/doctors/', {
@@ -19,7 +17,6 @@ class api {
         }
     };
 
-    ///in mige permossion nadari :///// ?????????/
     static handleEditdoctor = async (first_name, last_name, username, password, mobile_number, email, medical_system_number, gender, province, social_number, phone_number, address, expertise, bio, url) => {
         console.log(url)
         let x = await fetch(url, {
@@ -128,7 +125,7 @@ class api {
 
     static loadAppointment_patient = async (url) => {
 
-        let x = await fetch(url, {
+        let x = await fetch('http://172.17.3.103:8000/patients/' + url+'/', {
             mode: "cors",
             method: 'GET',
 
@@ -138,6 +135,9 @@ class api {
         if (typeof (x) == "undefined") {
             return false
         } else {
+            await localStorage.setItem("patient_fname_"+url, x.user.first_name)
+            await localStorage.setItem("patient_lname_"+url, x.user.last_name)
+            console.log(localStorage.getItem("patient_fname_"+url))
             return x;
         }
     };
@@ -155,6 +155,7 @@ class api {
         if (typeof (x.address) == "undefined") {
             return false
         } else {
+            await localStorage.setItem("clinic_name_"+url, x.name)
             return x;
         }
     };

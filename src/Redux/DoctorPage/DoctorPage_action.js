@@ -83,7 +83,7 @@ export const doctorPage_load = () => {
                 if (response) {
                     dispatch(loadDoctor_success(response))
                 } else {
-                    // console.log('there was an error with loading profile page')
+                    
                 }
             })
     }
@@ -98,7 +98,7 @@ export const doctorPage_Edit = (first_name, last_name, username, password, mobil
                 if (response) {
                     dispatch(editDoctor_success(response))
                 } else {
-                    // console.log('there was an error with loading profile page')
+                    
                 }
             })
     }
@@ -112,7 +112,7 @@ export const doctorPage_addClinic = (clinicname, clinicprovince, clinic_phone_nu
                 if (response) {
                     dispatch(addClinic_success())
                 } else {
-                    // console.log('there was an error with loading profile page')
+                    
                 }
             })
     }
@@ -125,7 +125,7 @@ export const doctorPage_addWorkingHour = (dclinic, day, price, period,selectedDa
                 if (response) {
                     dispatch(addWorkingHour_success())
                 } else {
-                    // console.log('there was an error with loading profile page')
+                   
                 }
             })
     }
@@ -137,7 +137,7 @@ export const appointmenttimeClinic_load = (url) => {
         return api.loadAppointment_clinic(url)
             .then((response) => {
                 if (response) {
-                    // console.log('response from login', response)
+                    
                     dispatch(appointmentTime_loadClinic_success(response))
                 } else {
                     console.log('there was an error with loading profile page')
@@ -151,7 +151,7 @@ export const appointmenttimeDoctor_load = (url) => {
         return api.loadAppointment_patient(url)
             .then((response) => {
                 if (response) {
-                    // console.log('response from login', response)
+                    
                     dispatch(appointmentTime_loadDoctor_success(response))
                 } else {
                     console.log('there was an error with loading profile page')
@@ -165,7 +165,7 @@ export const load_all_appointments = (medical_number) => {
         return api.load_all_appointments(medical_number)
             .then((response) => {
                 if (response) {
-                    console.log( response)
+                    
                     dispatch(load_all_appointments_success(response))
                 } else {
                     console.log('there was an error with loading all appointments')
