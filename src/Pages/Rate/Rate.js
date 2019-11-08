@@ -16,3 +16,4 @@ export default class Rate extends React.Component {
     );
   }
 }
+  
