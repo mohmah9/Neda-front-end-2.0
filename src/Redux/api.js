@@ -1,5 +1,3 @@
-import { stat } from "fs"
-
 class api{
     static appointment_times = async(id) =>{
         let x = await  fetch('http://172.17.3.103:8000/appointment_times/?clinic=' + id , {
@@ -35,6 +33,5 @@ class api{
           }
       })      
   };
-
-
-}export default api
+}
+export default api
