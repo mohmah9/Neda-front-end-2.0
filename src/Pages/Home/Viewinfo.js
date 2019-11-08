@@ -1,6 +1,5 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import DoctorProfile from "../DoctorProfile/DoctorProfile"
 import { BrowserRouter as Router, Redirect, Link } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Rate from '../Rate/Rate'
@@ -8,15 +7,13 @@ import * as viewinfo_success_api from "../../Redux/Home_viewinfo/viewinfo_action
 import { connect } from "react-redux";
 
 class ViewInfo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
     render() {
         if(this.props.go_to_doctor) return <Redirect to={{ pathname: '/DoctorProfile' }} />
         return (
             <div>
                 <Button fullWidth onClick={() => this.props.viewinfo_success(this.props.Doctor)}>
-                    <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
+                    <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" , background: "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)"}}>
                         <div>
                             <div>
                                 <img src={this.props.Doctor.picture} style={{
@@ -25,7 +22,7 @@ class ViewInfo extends React.Component {
                                 }} alt=" " />
                             </div>
                             <div style={{ position: "absolute", top: "60%", left: "5.5%" }}>
-                                <Rate Rate={this.props.Doctor.doctor_rates.rate} />
+                                <Rate Rate={this.props.Doctor.rate} />
                             </div>
                             <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
                                 <br />

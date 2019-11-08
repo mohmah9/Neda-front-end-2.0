@@ -7,7 +7,6 @@ import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import { Button } from '@material-ui/core';
 import Province from '../PatientProfile/Province'
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as filter_api from "../../Redux/Filter/Filter_action";
 
@@ -46,25 +45,9 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
-const styles = theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    margin: {
-        margin: theme.spacing.unit,
-    },
-    bootstrapFormLabel: {
-        fontSize: 18,
-    },
-});
-
-
 class Filters extends React.Component {
     constructor(props) {
         super(props)
-        let genderr = ""
-        let selectedFilters = ""
         this.state = {
             province: '',
             filters: {},
@@ -85,9 +68,8 @@ class Filters extends React.Component {
         this.genderr = event.target.value
     }
     render() {
-        // if (this.state.done) return <Redirect to={{ pathname: '/searched', data: { search_barr: this.state.result } }} />
         return (
-            <div>
+            <div >
                 <FormControl style={{ display: "block" }}>
                     <InputLabel htmlFor="age-customized-select" >
                         Province

@@ -38,7 +38,7 @@ class FullWidthGrid extends React.Component {
               </div>
           </Grid>
           <Grid item sm={3}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} style = {{background : "linear-gradient(to right, #9796f0, #fbc7d4)"}}>
               <Filters />
             </Paper>
           </Grid>
