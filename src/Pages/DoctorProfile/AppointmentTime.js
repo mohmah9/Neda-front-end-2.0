@@ -35,7 +35,7 @@ class TimeTable extends React.Component {
     return (
       <div>
 
-          <Button  variant = "contained"  fullWidth style = {{'marginTop' : "10%"}}
+          <Button  variant = "contained"  fullWidth style = {{'marginTop' : "10%", background : "linear-gradient(to bottom, #64b3f4, #64b3f4)"}}
             onClick = {this.handleClick}>
             { time[1].slice(0, -1)}
            </Button>
@@ -56,9 +56,9 @@ class AppointmentTime extends React.Component{
         appointment_times : [],
       };
 
-      componentDidMount(){//ghablan be id request mizadim va alan id nadare va felan dasti dadam ???????????
+      componentDidMount(){
 
-        this.props.appointmenttime_load(4)
+        this.props.appointmenttime_load(this.props.clinic.url.split("/")[4])
       }
     
     handleClickAway = () => {
@@ -68,6 +68,7 @@ class AppointmentTime extends React.Component{
     };  
     
     render(){
+      console.log(this.props.clinic.url.split("/")[4])
         return(
             <div>
                 <ClickAwayListener onClickAway={this.handleClickAway}>

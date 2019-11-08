@@ -39,7 +39,7 @@ export default class Calender extends React.Component {
     console.log(this.props.clinic)
     return (
       <main>
-        <div style={{ 'marginLeft': "10%", display: "flex", backgroundColor: "white" }}>
+        <div style={{ 'marginLeft': "10%", display: "flex", backgroundColor: "white",  background: "linear-gradient(to bottom, #83a4d4, #b6fbff)"}}>
           <div style={{ 'marginLeft': "10%", width: "50%" }}>
             {this.state.selectedDay ? 
             <AppointmentTime  clinic={this.props.clinic} Day = {this.state.selectedDay}/> 
@@ -50,7 +50,6 @@ export default class Calender extends React.Component {
             <DayPicker
               selectedDays={this.state.selectedDay}
               onDayClick={this.handleDayClick}
-
               disabledDays={[
                 new Date(2019, 6, 12),
                 { daysOfWeek: [5] },

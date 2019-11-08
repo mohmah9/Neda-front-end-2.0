@@ -3,7 +3,6 @@ import api from "./api"
 export const doctorProfileAacrion_types = {
     LOADAPPOINTMENTTIME: 'LOADAPPOINTMENTTIME',
     RESERVETIME: 'RESERVETIME',
-    // LOGOUT_SUCCESS: 'LOGOUT_SUCCESS'
 }
 
 export const loadAppointmentTime = (res) => {
