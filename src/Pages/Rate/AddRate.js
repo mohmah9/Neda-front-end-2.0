@@ -1,40 +1,25 @@
 import React from 'react';
 import StarRatingComponent from 'react-star-rating-component';
- 
-export default class AddRate extends React.Component {
+import { connect } from "react-redux";
+import * as token_api from "../../Redux/Rate/Rate_action";
+
+class AddRate extends React.Component {
   constructor() {
     super();
  
     this.state = {
-      rating: ''
+      rating: '',
+      nextValue : ''
     };
   }
  
   onStarClick(nextValue, prevValue, name) {
     this.setState({rating: nextValue});
-
-    fetch('http://nedabackend.pythonanywhere.com/doctor_rates/', {
-        mode: "cors",
-        method: 'POST',
-        body: JSON.stringify({
-            doctor : this.props.Doctor.medical_system_number,
-             rate :  nextValue
-        }),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            "Authorization": "Token " + localStorage.getItem('token')
-        }
-    }).then(response => {
-        return response.json()
-    }).then(json => {
-        console.log(json)
-    });
-
+    this.props.addRate(this.props.Doctor.medical_system_number, nextValue)
 }; 
   
  
   render() {
-    
     return (                
       <div>
         <StarRatingComponent 
@@ -47,3 +32,14 @@ export default class AddRate extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  addRate: (doctor, rate) => dispatch(token_api.rateAction(doctor, rate))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddRate);
+
