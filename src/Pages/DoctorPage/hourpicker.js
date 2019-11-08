@@ -56,8 +56,8 @@ const BootstrapInput = withStyles(theme => ({
 
 class UIPickers extends React.Component {
     state = {
-        selectedDate: new Date('2014-08-18T21:11:54'),
-        selectedDateE: new Date('2014-08-18T21:11:54'),
+        selectedDate: new Date('2014-08-18T21:00:00'),
+        selectedDateE: new Date('2014-08-18T21:00:00'),
         dclinic: '',
         period:'',
         price:''
@@ -85,7 +85,7 @@ class UIPickers extends React.Component {
     render() {
         const { selectedDate , selectedDateE } = this.state;
         return (
-            <div>
+            <div style={{marginLeft:"30%"}}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <TimePicker
                         margin="normal"
@@ -104,15 +104,15 @@ class UIPickers extends React.Component {
                     />
                 </MuiPickersUtilsProvider>
                 <div className="fields">
-                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="Period(minutes)" name="period" type="number" margin="normal" />
+                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="مدت زمان ویزیت" name="period" type="number" margin="normal" />
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="Price" name="price" type="number" margin="normal" />
+                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="هزینه" name="price" type="number" margin="normal" />
                 </div>
                 <div className="fields">
                     <FormControl className="fields" style={{ display: "block" }}>
                         <InputLabel htmlFor="age-customized-select" >
-                            clinic
+                            کلینیک
                       </InputLabel>
                         <Select
                             value={this.state.dclinic}
@@ -131,8 +131,9 @@ class UIPickers extends React.Component {
                 </div>
                 <br />
                 <div>
-                    <Button variant="contained" style={{ background: "linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)" }} fullWidth onClick={() => this.props.doctorPage_addWorkingHour(this.state.dclinic, this.props.day, this.state.price, this.state.period,this.state.selectedDate, this.state.selectedDateE, this.props.clinics)}>
-                        ثبت</Button>
+                    <Button variant="contained" style={{ background: "linear-gradient(to right, #4ca1af, #c4e0e5)" }} fullWidth onClick={() => this.props.doctorPage_addWorkingHour(this.state.dclinic, this.props.day, this.state.price, this.state.period,this.state.selectedDate, this.state.selectedDateE, this.props.clinics)}>
+                        ثبت
+                    </Button>
                 </div>
             </div>
 
@@ -151,5 +152,7 @@ const mapDispatchToProps = dispatch => ({
     doctorPage_addWorkingHour: (dclinic, day, price, period,selectedDate, selectedDateE, clinics) => dispatch(doctorPage_api.doctorPage_addWorkingHour(dclinic, day, price, period,selectedDate, selectedDateE, clinics))
 
 });
+
+// export default ;
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UIPickers));

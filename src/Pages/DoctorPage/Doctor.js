@@ -1,60 +1,14 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import ViewAndEditDoctorInformation from './Viewinfo';
-import Appointment from './Appointments';
+import ViewAppointment from "./ViewAppointment"
 import Addclinic from './Addclinic';
 import WorkingHour from './WorkingHour';
 import MenuAppBar from '../Home/NavBar';
 import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
-
-class ViewAppointment extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            timeresult: [],
-            
-        }
-    }
-
-    componentDidMount() {
-        console.log(this.props.doctor)
-        
-        return fetch("http://172.17.3.103:8000/appointment_times/?doctor=" + this.props.Doctor.medical_system_number, {
-            mode: "cors",
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            }
-        })
-            .then(response => {
-                return response.json()
-            }).then(json => {
-                console.log(json)
-                this.setState({ timeresult: json })
-            });
-    }
-
-    
-
-    render() {
-        console.log(this.state.timeresult)
-        return (
-            <div>
-                {this.state.timeresult.length >= 1 ?
-                    <div>
-                        {this.state.timeresult.map(time => time.has_reserved !== false
-                            ? <Appointment Appointment={time} /> : null)}
-
-                    </div>
-                    : "loading ..."}
-            </div>
-        )
-    }
-
-}
 
 
 class Doc extends React.Component {
@@ -117,7 +71,6 @@ class Doc extends React.Component {
     }
 
     render() {
-        console.log(this.props.doctor)
         return (
             <div>
                 <MenuAppBar />
@@ -127,9 +80,9 @@ class Doc extends React.Component {
                             {this.state.reserve & this.props.doctor.length >= 1?
                                 <ViewAppointment Doctor={this.props.doctor[0]} />
                                 : this.state.info ?
-                                <ViewAndEditDoctorInformation />        
+                                <Paper style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}><ViewAndEditDoctorInformation /></Paper>   
                                     : this.state.clinic ?
-                                        <Addclinic/>
+                                    <Paper><Addclinic/></Paper>
                                         : this.state.workhours & this.props.doctor.length >= 1?
                                             <WorkingHour/>
                                             :"WELCOME ..."
@@ -137,16 +90,16 @@ class Doc extends React.Component {
                         </Grid>
                         <Grid item sm={3} style={{ paddingTop: "2%", paddingRight: "2%" }}>
 
-                            <Button variant="outlined" fullWidth onClick={this.handleinfo} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%",  borderRadius: '12%' }}>
+                            <Button variant="outlined" fullWidth onClick={this.handleinfo} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%",  borderRadius: '12%', background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>مشخصات</h4>
                             </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handlereserve} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%", borderRadius: '12%' }}>
+                            <Button variant="outlined" fullWidth onClick={this.handlereserve} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%", borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>وقت های رزرو شده</h4>
                             </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handleclinic} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%" , borderRadius: '12%' }}>
+                            <Button variant="outlined" fullWidth onClick={this.handleclinic} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%" , borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>اضافه کردن مطب</h4>
                             </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handleworkhours} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%", borderRadius: '12%' }}>
+                            <Button variant="outlined" fullWidth onClick={this.handleworkhours} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%", borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>تغییر وقت کاری</h4>
                             </Button>
                         </Grid>

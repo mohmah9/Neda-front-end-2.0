@@ -12,18 +12,6 @@ import  Dialogfalse from './Diologfalse';
 import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
-
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-});
-
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
@@ -59,7 +47,6 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
-
 class Addclinic extends React.Component {
     constructor(props) {
         super(props);
@@ -87,20 +74,20 @@ class Addclinic extends React.Component {
         console.log(this.state.clinicprovince)
         return (
             <div>
-                <h4>Add Clinic</h4>
+                <h4 style = {{textAlign : "center"}}>اضافه کردن کلینیک</h4>
                 <div className="fields">
-                    <TextField id="outlined-email-input" required onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="clinicname" margin="normal" />
+                    <TextField id="outlined-email-input"  required onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="نام" type="Name" name="clinicname" margin="normal" />
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="Phone number" name="clinic_phone_number" type="tel" margin="normal" />
+                    <TextField id="outlined-password-input" required onChange={this.handleChanger.bind(this)} fullWidth className="userttext" label="شماره تلفن" name="clinic_phone_number" type="tel" margin="normal" />
                 </div>
                 <div className="fields">
-                    <TextField id="outlined-email-input" required onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Address" type="Name" name="clinicaddress" margin="normal" />
+                    <TextField id="outlined-email-input" required onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="آدرس" type="Name" name="clinicaddress" margin="normal" />
                 </div>
                 <div className="fields">
                     <FormControl className="fields" style={{ display: "block" }}>
                         <InputLabel htmlFor="age-customized-select" >
-                            Province
+                            استان
                     </InputLabel>
                         <Select
                             value={this.state.clinicprovince}
@@ -118,9 +105,9 @@ class Addclinic extends React.Component {
                     </FormControl>
                 </div>
                 <br />
-                <Button variant="contained" onClick={() => this.props.doctorPage_addClinic(this.state.clinicname, this.state.clinicprovince, this.state.clinic_phone_number, this.state.clinicaddress, this.props.doctor.medical_system_number)} color="primary" fullWidth>
-                    Add clinic
-                 </Button>
+                <Button variant="contained" style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}} onClick={() => this.props.doctorPage_addClinic(this.state.clinicname, this.state.clinicprovince, this.state.clinic_phone_number, this.state.clinicaddress, this.props.doctor.medical_system_number)} color="primary" fullWidth>
+                    ثبت
+                </Button>
 
                  {this.state.open ? <Dialogfalse /> : null}
             </div>
