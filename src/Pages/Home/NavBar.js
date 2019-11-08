@@ -70,8 +70,8 @@ class MenuAppBar extends React.Component {
         const open = Boolean(anchorEl);
         if (this.state.home & window.location.href.split("/")[3]!="Homepage") {return <Redirect to={{ pathname: '/Homepage' }} />}
         if (this.state.logout) {return <Redirect to={{ pathname: '/login' }} />}
-        if (this.state.prof && localStorage.getItem('kind') == "patient") {if(window.location.href.split("/")[3]!="PatientProfile") return <Redirect to={{ pathname: '/PatientProfile' }} />}
-        if (this.state.prof && localStorage.getItem('kind') == "doctor") {if(window.location.href.split("/")[3]!="Doctor") return <Redirect to={{ pathname: '/Doctor' }} />}
+        if (this.state.prof && sessionStorage.getItem('kind') == "patient") {if(window.location.href.split("/")[3]!="PatientProfile") return <Redirect to={{ pathname: '/PatientProfile' }} />}
+        if (this.state.prof && sessionStorage.getItem('kind') == "doctor") {if(window.location.href.split("/")[3]!="Doctor") return <Redirect to={{ pathname: '/Doctor' }} />}
         return (
             <div>
                 <div className={classes.root} >
