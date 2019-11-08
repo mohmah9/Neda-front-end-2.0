@@ -11,8 +11,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { connect } from "react-redux";
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
 
-
-
 const BootstrapInput = withStyles(theme => ({
   root: {
     'label + &': {
@@ -88,36 +86,33 @@ class ViewAndEditPatientInformation extends React.Component {
       <div>
         <br />
         <div className="fields">
-          <TextField id="outlined-email-input" value={this.state.first_name} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Name" type="Name" name="first_name" margin="normal" variant="outlined" />
+          <TextField id="outlined-email-input" value={this.state.first_name} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="نام" type="Name" name="first_name" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-password-input" value={this.state.last_name} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="Last name" name="last_name" type="Name" margin="normal" variant="outlined" />
+          <TextField id="outlined-password-input" value={this.state.last_name} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="نام خانوادگی" name="last_name" type="Name" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-email-input" value={this.state.email} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Email" type="eamil" name="email" autoComplete="email" margin="normal" variant="outlined" />
+          <TextField id="outlined-email-input" value={this.state.email} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Email" type="پست الکترونیکی" name="email" autoComplete="email" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-password-input" fullWidth className="passtext" onChange={this.handleChanger.bind(this)} label="Password" name="password" type="password" margin="normal" variant="outlined" />
+          <TextField id="outlined-email-input" value={this.state.social_number} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="شماره ملی" type="text" name="social_number" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-email-input" value={this.state.social_number} onChange={this.handleChanger.bind(this)} fullWidth className="usertext" label="Social Number" type="text" name="social_number" margin="normal" variant="outlined" />
+          <TextField id="outlined-password-input" value={this.state.mobile_number} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="شماره تلفن همراه" type="tel" name="mobile_number" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-password-input" value={this.state.mobile_number} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="mobile Number" type="tel" name="mobile_number" margin="normal" variant="outlined" />
+          <TextField id="outlined-password-input" value={this.state.phone_number} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="شماره تلفن" name="phone_number" type="text" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-password-input" value={this.state.phone_number} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="phone number" name="phone_number" type="text" margin="normal" variant="outlined" />
+          <TextField id="outlined-password-input" value={this.state.address} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="آدرس" name="address" type="text" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
-          <TextField id="outlined-password-input" value={this.state.address} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="address" name="address" type="text" margin="normal" variant="outlined" />
-        </div>
-        <div className="fields">
-          <TextField id="outlined-password-input" value={this.state.date_of_birth} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="birth day" name="date_of_birth" type="text" margin="normal" variant="outlined" />
+          <TextField id="outlined-password-input" value={this.state.date_of_birth} onChange={this.handleChanger.bind(this)} fullWidth className="passtext" label="تاریخ تولد" name="date_of_birth" type="text" margin="normal" variant="outlined" />
         </div>
         <div className="fields">
           <FormControl className="fields" style={{ display: "block" }}>
             <InputLabel htmlFor="age-customized-select" >
-              Province
+              استان
             </InputLabel>
             <Select
               value={this.state.province}
@@ -136,8 +131,8 @@ class ViewAndEditPatientInformation extends React.Component {
         </div>
         <br />
         <div className="fields">
-          <Button variant="contained" onClick={() => this.props.PatientProfile_edit(this.state.first_name,this.state.last_name,this.state.address, this.state.username, this.state.password, this.state.mobile_number,this.state.email, this.state.social_number,this.state.phone_number, this.state.province, this.state.medical_system_number, this.state.gender)} color="primary" fullWidth>
-            Edit
+          <Button variant="contained" style = {{background: "linear-gradient(to right, #240b36, #240b36)"}}onClick={() => this.props.PatientProfile_edit(this.state.first_name,this.state.last_name,this.state.address, this.state.username, this.state.password, this.state.mobile_number,this.state.email, this.state.social_number,this.state.phone_number, this.state.province, this.state.medical_system_number, this.state.gender)} color="primary" fullWidth>
+            ذخیره تغییرات
             </Button>
         </div>
         <br />

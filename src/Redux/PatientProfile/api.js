@@ -91,6 +91,9 @@ class api{
     if (typeof (x) == "undefined") {
         return false
     } else {
+          await localStorage.setItem("doctor_fname_"+url, x.user.first_name)
+          await localStorage.setItem("doctor_lname_"+url, x.user.last_name)
+          console.log(localStorage.getItem("doctor_fname_"+url))
         return x;
     }
   };
@@ -108,6 +111,8 @@ class api{
     if (typeof (x.address) == "undefined") {
         return false
     } else {
+        await localStorage.setItem("clinic_name_"+url, x.name)
+        await localStorage.setItem("clinic_phonnumber_"+url, x.phone_number)
         return x;
     }
   };

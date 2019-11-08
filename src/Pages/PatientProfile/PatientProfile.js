@@ -52,7 +52,6 @@ class PatientProfile extends React.Component {
 
 
     render() {
-        // console.log(this.props.Patient[0])
         return (
             <div>
                 <MenuAppBar />
@@ -69,7 +68,7 @@ class PatientProfile extends React.Component {
                                 </div>
                             )
                                 : this.state.info ?
-                                    <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
+                                    <Paper elevation={5} style={{ 'marginTop': "3%", 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" ,  background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}>
                                         <ViewAndEditPatientInformation />
                                     </Paper>
                                     : this.state.hsitory ? (
@@ -86,20 +85,19 @@ class PatientProfile extends React.Component {
                         </Grid>
                         <Grid item sm={3} style={{ paddingTop: "2%", paddingRight: "2%" }}>
 
-                            <Button variant="outlined" fullWidth onClick={this.handleinfo} style={{ paddingBottom: "0", paddingTop: "0", marginBottom: "3%", borderRadius: '12%' }}>
+                            <Button variant="outlined" fullWidth onClick={this.handleinfo} style={{ paddingBottom: "0", paddingTop: "0", marginBottom: "3%", borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>مشخصات</h4>
                             </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handlereserve} style={{ paddingBottom: "0", paddingTop: "0", borderRadius: '12%', marginBottom: "3%" }}>
+                            <Button variant="outlined" fullWidth onClick={this.handlereserve} style={{ paddingBottom: "0", paddingTop: "0", borderRadius: '12%', marginBottom: "3%" , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>وقت های رزرو شده</h4>
                             </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handlehistory} style={{ paddingBottom: "0", paddingTop: "0", borderRadius: '12%' , marginBottom: "3%" }}>
+                            <Button variant="outlined" fullWidth onClick={this.handlehistory} style={{ paddingBottom: "0", paddingTop: "0", borderRadius: '12%' , marginBottom: "3%" , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
                                 <h4>سوابق پزشکی</h4>
                             </Button>
                         </Grid>
                     </Grid>
                 </div>
             </div>
-
         )
     }
 }

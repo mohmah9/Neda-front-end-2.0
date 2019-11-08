@@ -2,7 +2,6 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Button } from '@material-ui/core';
 import AddRate from '../Rate/AddRate'
-import Rate from '../Rate/Rate';
 import { connect } from "react-redux";
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
 
@@ -21,10 +20,11 @@ class ViewInfo extends React.Component {
   }
 
   render() {
+    localStorage.getItem("patient_fname_"+this.props.Appointment.doctor)
     return (
       
       <div>
-          <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
+          <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available", background : "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)" }}>
             <div>
               <div>
 
@@ -36,15 +36,15 @@ class ViewInfo extends React.Component {
               <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
                 <br />
                 {this.props.Doctor.user ?
-                  <p>دکتر {this.props.Doctor.user.first_name + " " + this.props.Doctor.user.last_name}</p>
+                  <p>دکتر {localStorage.getItem("doctor_fname_"+this.props.Appointment.doctor) + " " + localStorage.getItem("doctor_lname_"+this.props.Appointment.doctor)}</p>
                   : "Loading ..."}
                 <p>تخصص و فوق تخصص :  {this.props.Doctor.expertise}</p>
                 <p>{this.props.Appointment.date_time.substring(0, 10)} : تاریخ </p>
                 <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
                 {this.props.Clinic ?
                   <div>
-                    <p>آدرس مطب : {this.props.Clinic.address}</p>
-                    <p>تلفن : {this.props.Clinic.phone_number}</p>
+                    <p>آدرس مطب : {localStorage.getItem("clinic_name_"+this.props.Appointment.clinic)}</p>
+                    <p>تلفن : {localStorage.getItem("clinic_phonnumber_"+this.props.Appointment.clinic)}</p>
                   </div>
                 : "loading"
                 }
@@ -53,7 +53,7 @@ class ViewInfo extends React.Component {
             </div>
           </Paper>
           
-        <Button variant="contained" fullWidth color="primary" onClick={() => this.props.PatientProfile_cancel(this.props.Appointment.url)}>
+        <Button variant="contained" style = {{background : "linear-gradient(to right, #5c6bc0 , #001064)"}} fullWidth color="primary" onClick={() => this.props.PatientProfile_cancel(this.props.Appointment.url)}>
           کنسل
         </Button>
         <br/>
