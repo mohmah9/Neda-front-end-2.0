@@ -137,14 +137,14 @@ class api {
         } else {
             await localStorage.setItem("patient_fname_"+url, x.user.first_name)
             await localStorage.setItem("patient_lname_"+url, x.user.last_name)
-            console.log(localStorage.getItem("patient_fname_"+url))
+            // console.log(localStorage.getItem("patient_fname_"+url))
             return x;
         }
     };
 
     static loadAppointment_clinic = async (url) => {
 
-        let x = await fetch(url, {
+        let x = await fetch('http://172.17.3.103:8000/clinics/' + url+ '/', {
             mode: "cors",
             method: 'GET',
 
@@ -155,7 +155,9 @@ class api {
         if (typeof (x.address) == "undefined") {
             return false
         } else {
+            // console.log(x)
             await localStorage.setItem("clinic_name_"+url, x.name)
+            // console.log(localStorage.getItem("clinic_name_"+url))
             return x;
         }
     };
@@ -215,6 +217,52 @@ class api {
             body: JSON.stringify({
                 content:url_content[1],
                 patient:"http://172.17.3.103:8000/patients/"+url_content[0]+"/",
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + sessionStorage.getItem('token')
+            }
+        })
+
+        x = await x.json()
+
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            return x;
+        }
+    };
+
+    static set_visiting = async (url_content) => {
+
+        let x = await fetch("http://172.17.3.103:8000/appointment_times/" + url_content + "/", {
+            mode: "cors",
+            method: 'PUT',
+            body: JSON.stringify({
+                visiting:true
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Token " + sessionStorage.getItem('token')
+            }
+        })
+
+        x = await x.json()
+
+        if (typeof (x) == "undefined") {
+            return false
+        } else {
+            return x;
+        }
+    };
+
+    static set_visited = async (url_content) => {
+
+        let x = await fetch("http://172.17.3.103:8000/appointment_times/" + url_content + "/", {
+            mode: "cors",
+            method: 'PUT',
+            body: JSON.stringify({
+                visited:true
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
