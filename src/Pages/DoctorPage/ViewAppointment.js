@@ -20,7 +20,7 @@ class ViewAppointment extends React.Component {
             <div>
                 {this.props.timeresult.length >= 1 ?
                     <div>
-                        {this.props.timeresult.map(time => time.has_reserved !== false
+                        {this.props.timeresult.map(time => time.has_reserved !== false & time.visited == false
                             ? <Appointment Appointment={time} /> : null)}
 
                     </div>

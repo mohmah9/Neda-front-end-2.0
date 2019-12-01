@@ -15,8 +15,8 @@ class Doc extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            doctor: [],
-            addclinic: false,
+            // doctor: [],
+            // addclinic: false,
             info: false,
             reserve: true,
             clinic: false,
@@ -28,11 +28,11 @@ class Doc extends React.Component {
         this.props.doctorPage_load()
     }
 
-    handleclinic = (e) => {
-        this.setState({
-            addclinic: true
-        })
-    }
+    // handleclinic = (e) => {
+    //     this.setState({
+    //         addclinic: true
+    //     })
+    // }
 
     handleinfo = (e) => {
         this.setState({
