@@ -201,3 +201,31 @@ export const add_medicalhistory = (url_content) => {
             })
     }
 }
+
+export const set_visiting = (url_content) => {
+    return function (dispatch) {
+        return api.set_visiting(url_content)
+            .then((response) => {
+                if (response) {
+                    console.log( response)
+                    // dispatch(load_all_appointments_success(response))
+                } else {
+                    console.log('there was an error with visiting')
+                }
+            })
+    }
+}
+
+export const set_visited = (url_content) => {
+    return function (dispatch) {
+        return api.set_visited(url_content)
+            .then((response) => {
+                if (response) {
+                    console.log( response)
+                    // dispatch(load_all_appointments_success(response))
+                } else {
+                    console.log('there was an error with visiting')
+                }
+            })
+    }
+}

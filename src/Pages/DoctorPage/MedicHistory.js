@@ -22,7 +22,7 @@ class MedicalHistory extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     };
     handlenew() {
-        console.log("newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+        // console.log("newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
         if(this.state.neww){
             this.setState({ neww:false })
         }
