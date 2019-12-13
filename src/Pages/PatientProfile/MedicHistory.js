@@ -1,5 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import { connect } from "react-redux";
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
 
@@ -16,20 +17,21 @@ class MedicalHistory extends React.Component {
 
     render() {
         return (
-            <div>
-                <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
+            <div  style = {{textAlign : "right" , paddingRight : "3%"}}>
+                <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}>
+                    <h1  style = {{marginRight : "10%"}}>سوابق پزشکی</h1>
+                    <Divider/>
                     {
-                        this.props.medichistory !== ""? this.props.medichistory.map(history => <div>
-                            <Paper style = {{background: "linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea)"}}>
-                            <p style={{textAlign:"center" , direction:"rtl"}}>
-                                زمان :{history.date}
-                                <br />
-                                متن توضیحات :{history.content}
-                                <br />
-                            </p>
-                            </Paper>
-                        </div>)
-                        :null
+                        this.props.medichistory !== ""? this.props.medichistory.map(history => 
+                        <div style = {{marginRight : "10%"}}>
+                            <p> تاریخ : {history.date}</p>
+                            <p>      توضیحات : {history.content} </p>
+                            <Divider/>
+                        </div>
+                        )
+                        :<div>
+                            <p>سابقه چزشکی موجود نیست</p><br/><br/>
+                        </div> 
                     }
                 </Paper>
             </div>

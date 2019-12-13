@@ -2,8 +2,13 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Button } from '@material-ui/core';
 import AddRate from '../Rate/AddRate'
+import Divider from '@material-ui/core/Divider';
+import Fade from 'react-reveal/Fade';
 import { connect } from "react-redux";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
+
+
 
 class ViewInfo extends React.Component {
   constructor(props) {
@@ -20,43 +25,48 @@ class ViewInfo extends React.Component {
   }
 
   render() {
-    localStorage.getItem("patient_fname_"+this.props.Appointment.doctor)
+    localStorage.getItem("patient_fname_" + this.props.Appointment.doctor)
+
     return (
-      
+
       <div>
-          <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available", background : "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)" }}>
+        <Fade left>
+          <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
             <div>
               <div>
 
                 <img src={this.props.Doctor.picture} style={{
                   width: "75px",
-                  height: "75px", position: "absolute", left: "5%", paddingTop: "2%"
+                  height: "75px", paddingTop: "2%", float: "right", paddingRight: "2%", overflow: "auto", clear: "both"
                 }} alt=" " />
               </div>
-              <div style={{ 'textAlign': "right", 'marginLeft': "30%", paddingRight: "2%" }}>
-                <br />
+              <div style={{ 'textAlign': "right", paddingTop: "2%", 'marginLeft': "30%", paddingRight: "15%" }}>
                 {this.props.Doctor.user ?
-                  <p>دکتر {localStorage.getItem("doctor_fname_"+this.props.Appointment.doctor) + " " + localStorage.getItem("doctor_lname_"+this.props.Appointment.doctor)}</p>
-                  : "Loading ..."}
-                <p>تخصص و فوق تخصص :  {this.props.Doctor.expertise}</p>
+                  <h2>دکتر {localStorage.getItem("doctor_fname_" + this.props.Appointment.doctor) + " " + localStorage.getItem("doctor_lname_" + this.props.Appointment.doctor)}</h2>
+                  : <CircularProgress variant="determinate" color="primary" />}
+                <p>متخصص :  {this.props.Doctor.expertise}</p>
+                <Divider />
                 <p>{this.props.Appointment.date_time.substring(0, 10)} : تاریخ </p>
                 <p>ساعت : {this.props.Appointment.date_time.substring(11, 16)}</p>
+                <Divider />
                 {this.props.Clinic ?
                   <div>
-                    <p>آدرس مطب : {localStorage.getItem("clinic_name_"+this.props.Appointment.clinic)}</p>
-                    <p>تلفن : {localStorage.getItem("clinic_phonnumber_"+this.props.Appointment.clinic)}</p>
+                    <p>آدرس مطب : {localStorage.getItem("clinic_name_" + this.props.Appointment.clinic)}</p>
+                    <p>تلفن : {localStorage.getItem("clinic_phonnumber_" + this.props.Appointment.clinic)}</p>
                   </div>
-                : "loading"
+                  : <CircularProgress variant="determinate" color="primary" />
                 }
-                <AddRate  Doctor = {this.props.Doctor}/>
+                <AddRate Doctor={this.props.Doctor} />
               </div>
             </div>
+
+            <Button variant="outlined" style={{ 'marginLeft': "15%", marginTop: "1%", marginBottom: "1%" }} color="secondary" onClick={() => this.props.PatientProfile_cancel(this.props.Appointment.url)}>
+              لغو نوبت
+            </Button>
+            <br />
           </Paper>
-          
-        <Button variant="contained" style = {{background : "linear-gradient(to right, #5c6bc0 , #001064)"}} fullWidth color="primary" onClick={() => this.props.PatientProfile_cancel(this.props.Appointment.url)}>
-          کنسل
-        </Button>
-        <br/>
+        </Fade>
+        <br />
         <br />
       </div>
     )
@@ -65,13 +75,13 @@ class ViewInfo extends React.Component {
 
 const mapStateToProps = state => ({
   ...state,
-  Doctor :state.PatientProfile_reducer.appointmentDoctor_result,
-  Clinic :state.PatientProfile_reducer.appointmentClinic_result
+  Doctor: state.PatientProfile_reducer.appointmentDoctor_result,
+  Clinic: state.PatientProfile_reducer.appointmentClinic_result
 });
 
 const mapDispatchToProps = dispatch => ({
-  appointmenttimeClinic_load : (url) => dispatch(patientProfile_api.appointmenttimeClinic_load(url)),
-  appointmenttimeDoctor_load : (url) => dispatch(patientProfile_api.appointmenttimeDoctor_load(url)),
+  appointmenttimeClinic_load: (url) => dispatch(patientProfile_api.appointmenttimeClinic_load(url)),
+  appointmenttimeDoctor_load: (url) => dispatch(patientProfile_api.appointmenttimeDoctor_load(url)),
   PatientProfile_cancel: (url) => dispatch(patientProfile_api.PatientProfile_cancel(url))
 });
 
