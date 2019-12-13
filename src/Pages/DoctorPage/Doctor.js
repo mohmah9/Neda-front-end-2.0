@@ -6,6 +6,7 @@ import ViewAppointment from "./ViewAppointment"
 import Addclinic from './Addclinic';
 import WorkingHour from './WorkingHour';
 import MenuAppBar from '../Home/NavBar';
+import Chat from '../Chat/Chat'
 import { connect } from "react-redux";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,6 +19,7 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import AddAlarm from '@material-ui/icons/AddAlarm';
 import Forward from '@material-ui/icons/Forward';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 
@@ -152,6 +154,7 @@ class Doc extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
+                <Chat />
             </div>
         )
     }
