@@ -1,5 +1,6 @@
 import React from 'react';
 import Appointment from './Appointments';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
@@ -20,11 +21,11 @@ class ViewAppointment extends React.Component {
             <div>
                 {this.props.timeresult.length >= 1 ?
                     <div>
-                        {this.props.timeresult.map(time => time.has_reserved !== false & time.visited == false
+                        {this.props.timeresult.map(time => time.has_reserved !== false & time.visited === false
                             ? <Appointment Appointment={time} /> : null)}
 
                     </div>
-                    : "loading ..."}
+                    : <CircularProgress  color="primary" />}
             </div>
         )
     }

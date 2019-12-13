@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import ViewAndEditDoctorInformation from './Viewinfo';
 import ViewAppointment from "./ViewAppointment"
@@ -8,6 +7,17 @@ import Addclinic from './Addclinic';
 import WorkingHour from './WorkingHour';
 import MenuAppBar from '../Home/NavBar';
 import { connect } from "react-redux";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import Person from '@material-ui/icons/Person';
+import InsertInvitation from '@material-ui/icons/InsertInvitation';
+import LibraryAdd from '@material-ui/icons/LibraryAdd';
+import AddAlarm from '@material-ui/icons/AddAlarm';
+import Forward from '@material-ui/icons/Forward';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 
@@ -23,6 +33,8 @@ class Doc extends React.Component {
             workhours: false,
         }
     }
+
+    
 
     componentWillMount() {
         this.props.doctorPage_load()
@@ -76,32 +88,67 @@ class Doc extends React.Component {
                 <MenuAppBar />
                 <div>
                     <Grid container spacing={24}>
-                        <Grid item sm={9} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
+                        <Grid item sm={9} style={{ paddingTop: "5%", paddingLeft: "15%", paddingRight: "5%" ,  marginTop : "4%"}}>
                             {this.state.reserve & this.props.doctor.length >= 1?
                                 <ViewAppointment Doctor={this.props.doctor[0]} />
                                 : this.state.info ?
-                                <Paper style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}><ViewAndEditDoctorInformation /></Paper>   
+                                <Paper><ViewAndEditDoctorInformation /></Paper>   
                                     : this.state.clinic ?
                                     <Paper><Addclinic/></Paper>
                                         : this.state.workhours & this.props.doctor.length >= 1?
                                             <WorkingHour/>
-                                            :"WELCOME ..."
+                                            :<CircularProgress color="primary" />
                             }
                         </Grid>
-                        <Grid item sm={3} style={{ paddingTop: "2%", paddingRight: "2%" }}>
-
-                            <Button variant="outlined" fullWidth onClick={this.handleinfo} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%",  borderRadius: '12%', background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
-                                <h4>مشخصات</h4>
-                            </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handlereserve} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%", borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
-                                <h4>وقت های رزرو شده</h4>
-                            </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handleclinic} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%" , borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
-                                <h4>اضافه کردن مطب</h4>
-                            </Button>
-                            <Button variant="outlined" fullWidth onClick={this.handleworkhours} style={{ paddingBottom: "0", paddingTop: "0",marginBottom:"3%", borderRadius: '12%' , background: "linear-gradient(to right, #9cecfb, #6C9CE9, #9cecfb)" }}>
-                                <h4>تغییر وقت کاری</h4>
-                            </Button>
+                        <Grid item sm={3} style={{ paddingTop: "5%", paddingRight: "10%" ,  marginTop : "3%"}}>
+                        <Paper>
+                            <div>
+                            <List onClick={this.handleinfo}>
+                                <ListItem button>
+                                <ListItemText primary="اطلاعات کاربری" style = {{'textAlign' : "right"}}/>
+                                <ListItemIcon>
+                                    <Person />
+                                </ListItemIcon>
+                                </ListItem>
+                            </List>
+                            <Divider />
+                            <List onClick={this.handlereserve}>
+                                <ListItem button>
+                                <ListItemText primary="وقت های رزرو شده" style = {{'textAlign' : "right"}}/>
+                                <ListItemIcon>
+                                <InsertInvitation />
+                                </ListItemIcon>
+                                </ListItem>
+                            </List>
+                            <Divider />
+                            <List onClick={this.handleclinic}>
+                                <ListItem button>
+                                <ListItemText primary="اضافه کردن مطب" style = {{'textAlign' : "right"}}/>
+                                <ListItemIcon>
+                                <LibraryAdd />
+                                </ListItemIcon>    
+                                </ListItem>
+                            </List>
+                            <Divider />
+                            <List onClick={this.handleworkhours}>
+                                <ListItem button>
+                                <ListItemText primary="ثبت وقت کاری" style = {{'textAlign' : "right"}}/>
+                                <ListItemIcon>
+                                <AddAlarm />
+                                </ListItemIcon>    
+                                </ListItem>
+                            </List>
+                            <Divider />
+                            <List> 
+                                <ListItem button>
+                                <ListItemText primary="خروج" style = {{'textAlign' : "right"}}/>
+                                <ListItemIcon>
+                                <Forward />
+                                </ListItemIcon>    
+                                </ListItem>
+                            </List>
+                            </div>
+                            </Paper>
                         </Grid>
                     </Grid>
                 </div>
