@@ -6,6 +6,7 @@ import FullWidthGrid from './grid';
 import Search_com from './search';
 import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
 import MenuAppBar from './NavBar'
+import Footer from './Footer'
 import { connect } from "react-redux";
 import * as home_default_api from "../../Redux/Homepage/Homepage_action";
 
@@ -36,9 +37,11 @@ class MenuApp extends React.Component {
 
     componentWillMount() {
         this.props.home_default()
+        
     }
 
     render() {
+        
         console.log(this.props.doctor_result.home_default_result)
         return (
             <div>
@@ -59,6 +62,7 @@ class MenuApp extends React.Component {
                     <FullWidthGrid />
 
                 </div>
+                <Footer/>
             </div>
         );
     }

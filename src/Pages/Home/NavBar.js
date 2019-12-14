@@ -10,6 +10,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { BrowserRouter as Router, Route, Redirect, withRouter } from "react-router-dom";
+import 'react-sticky-header/styles.css';
+import StickyHeader from 'react-sticky-header';
 import { connect } from "react-redux";
 import * as token_api from "../../Redux/Login/Login_Action";
 import * as viewinfo_action from "../../Redux/Home_viewinfo/viewinfo_action"
@@ -68,11 +70,13 @@ class MenuAppBar extends React.Component {
         const { classes } = this.props;
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
-        if (this.state.home & window.location.href.split("/")[3]!="Homepage") {return <Redirect to={{ pathname: '/Homepage' }} />}
+        if (this.state.home & window.location.href.split("/")[3]!=="Homepage") {return <Redirect to={{ pathname: '/Homepage' }} />}
         if (this.state.logout) {return <Redirect to={{ pathname: '/login' }} />}
-        if (this.state.prof && sessionStorage.getItem('kind') == "patient") {if(window.location.href.split("/")[3]!="PatientProfile") return <Redirect to={{ pathname: '/PatientProfile' }} />}
-        if (this.state.prof && sessionStorage.getItem('kind') == "doctor") {if(window.location.href.split("/")[3]!="Doctor") return <Redirect to={{ pathname: '/Doctor' }} />}
+        if (this.state.prof && sessionStorage.getItem('kind') === "patient") {if(window.location.href.split("/")[3]!="PatientProfile") return <Redirect to={{ pathname: '/PatientProfile' }} />}
+        if (this.state.prof && sessionStorage.getItem('kind') === "doctor") {if(window.location.href.split("/")[3]!="Doctor") return <Redirect to={{ pathname: '/Doctor' }} />}
         return (
+            <StickyHeader
+            header = {
             <div>
                 <div className={classes.root} >
                     <AppBar position='static' style={bar_style}>
@@ -113,7 +117,7 @@ class MenuAppBar extends React.Component {
                         </Toolbar>
                     </AppBar>
                 </div>
-            </div>
+            </div>}/>
         );
     }
 }

@@ -6,7 +6,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import { Button } from '@material-ui/core';
-import Province from '../PatientProfile/Province'
+import Province from '../PatientProfile/Province';
+import 'react-sticky-header/styles.css';
+import StickyHeader from 'react-sticky-header';
 import { connect } from "react-redux";
 import * as filter_api from "../../Redux/Filter/Filter_action";
 
@@ -69,6 +71,7 @@ class Filters extends React.Component {
     }
     render() {
         return (
+            <StickyHeader>
             <div >
                 <FormControl style={{ display: "block" }}>
                     <InputLabel htmlFor="age-customized-select" >
@@ -110,6 +113,7 @@ class Filters extends React.Component {
                 </FormControl>
 
             </div>
+            </StickyHeader>
         )
     }
 }
