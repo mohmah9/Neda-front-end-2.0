@@ -1,17 +1,13 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Button } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { connect } from "react-redux";
 import MedicalHistory from "./MedicHistory"
+import Fade from 'react-reveal/Fade';
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-// import "./visit.css"
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import Filters from "./Filters"
-// import ViewInfo from "./Viewinfo"
-// import { connect } from "react-redux";
+
 
 class Appointment extends React.Component {
 
@@ -52,10 +48,11 @@ class Appointment extends React.Component {
 
     render() {
         console.log(this.props.Appointment)
-        // console.log(localStorage.getItem("clinic_name_"+this.props.Appointment.clinic))
+        
         return (
             <div>
-                <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available", background: "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)" }}>
+                <Fade left>
+                <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
                     <div>
 
 
@@ -94,7 +91,8 @@ class Appointment extends React.Component {
                                 <Grid item sm={6}>
                                     <div>
                                         {this.state.visiting?<Button variant="contained" color="primary" style={{paddingTop:"2%",paddingBottom:"2%", background: "linear-gradient(to right, #780206 10%, #061161)" }} fullWidth onClick={this.handlevisiting}>
-                                            در حال ویزیت</Button> 
+                                            در حال ویزیت
+                                            </Button> 
                                             :this.state.visited ?<p style={{textAlign:"center" }}>
                                                 شما در حال ویزیت این بیمار می باشید
                                             </p>:null}
@@ -103,7 +101,8 @@ class Appointment extends React.Component {
                                 <Grid item sm={6}>
                                     <div>
                                         {this.state.visited? <Button variant="contained" color="primary" style={{paddingTop:"2%",paddingBottom:"2%", background: "linear-gradient(to right, #780206 10%, #061161)" }} fullWidth onClick={this.handlevisited}>
-                                            اتمام ویزیت</Button> 
+                                            اتمام ویزیت
+                                            </Button> 
                                             : null}
                                     </div>
                                 </Grid>
@@ -111,11 +110,11 @@ class Appointment extends React.Component {
                         </div>
                         <br />
                         <Button variant="contained" color="primary" style={{ background: "linear-gradient(to right, #5c6bc0 , #001064)" }} fullWidth onClick={() => this.props.appointmenttimeDoctor_cancel(this.props.Appointment.url)}>
-                            کنسل</Button>
+                            کنسل
+                            </Button>
                     </div>
                 </Paper>
-
-
+                </Fade>
                 <br />
             </div>
 

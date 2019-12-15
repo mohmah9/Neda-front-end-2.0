@@ -68,7 +68,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel1'}
                     onChange={this.handleChange('panel1')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -80,7 +80,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel2'}
                     onChange={this.handleChange('panel2')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>یکشنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -92,7 +92,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel3'}
                     onChange={this.handleChange('panel3')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:"linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>دوشنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -104,7 +104,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel4'}
                     onChange={this.handleChange('panel4')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:"linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>سه شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -116,7 +116,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel5'}
                     onChange={this.handleChange('panel5')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:"linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>چهار شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails >
@@ -128,7 +128,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel6'}
                     onChange={this.handleChange('panel6')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:"linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>پنج شنبه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -140,7 +140,7 @@ class WorkingHour extends React.Component {
                     expanded={expanded === 'panel7'}
                     onChange={this.handleChange('panel7')}
                 >
-                    <ExpansionPanelSummary style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}}>
+                    <ExpansionPanelSummary style = {{background:"linear-gradient(to left, #2980b9, #6dd5fa, #ffffff)"}}>
                         <Typography>جمعه</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
