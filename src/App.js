@@ -5,11 +5,9 @@ import Homepage from './Pages/Home/Home'
 import Docprofile from './Pages/DoctorProfile/DoctorProfile'
 import PatientProfile from './Pages/PatientProfile/PatientProfile'
 import Doc from './Pages/DoctorPage/Doctor'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
  
-export default class Routing extends  React.Component {
-  render (){
-    return(
+const routing = (
     <Router>
       <div>
         <Route path="/Login" component={Login} />
@@ -20,7 +18,5 @@ export default class Routing extends  React.Component {
         <Route path="/Doctor" component={Doc} />
       </div>
     </Router>
-    )
-  }
-}
-
+)
+export default routing
