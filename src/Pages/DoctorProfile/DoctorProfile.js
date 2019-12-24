@@ -9,9 +9,17 @@ import MenuAppBar from '../Home/NavBar'
 import { connect } from "react-redux";
 import Rate from '../Rate/Rate'
 import Chat from '../Chat/Chat'
-import App from '../Map/Map'
-import { Button } from '@material-ui/core';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
+import Divider from '@material-ui/core/Divider';
+import doctor_female from '../../Images/doctor_female.png';
+import doctor_men from '../../Images/doctor_men.png'
+import Map from '../Map/Map';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InsertInvitation from '@material-ui/icons/InsertInvitation';
+import Place from '@material-ui/icons/Place';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class DoctorProfile extends React.Component {
 
@@ -19,13 +27,8 @@ class DoctorProfile extends React.Component {
         clickOnClinic: false,
         selectedClinic: [],
         clinics: [], 
-        Map : false
 
     };
-
-    handleClickOnMap = () => {
-        this.setState({ Map: true})
-      };
 
     handleclick = async (clinic) => {
         await this.setState({ selectedClinic: null, clickOnClinic: false })
@@ -39,7 +42,6 @@ class DoctorProfile extends React.Component {
     }
 
     render() {
-        if (this.state.Map) return <Redirect to={{ pathname: '/Map' }} />
         return (
             <div>
                 <MenuAppBar />
@@ -49,13 +51,13 @@ class DoctorProfile extends React.Component {
                         <Paper></Paper>
 
                     </Grid>
-                    <Grid item sm={5} style={{ paddingTop: "2%", paddingLeft: "5%", paddingRight: "5%" }}>
-                        <Paper style={{ opacity: "0.9", background: "linear-gradient(to bottom, #83a4d4, #b6fbff)" }}>
+                    <Grid item sm={5} style={{ paddingTop: "5%", paddingLeft: "5%", paddingRight: "5%" }}>
+                        <Paper style={{ opacity: "0.9"}}>
                             {this.state.clickOnClinic ? <Calender clinic={this.state.selectedClinic} /> : null}
                         </Paper>
                     </Grid>
-                    <Grid item sm={2} style={{ paddingTop: "2%", paddingRight: "5%" }}>
-                        <Paper style={{ opacity: "0.9", background: " linear-gradient(to left, #1c92d2, #f2fcfe)" }}>
+                    <Grid item sm={2} style={{ paddingTop: "5%", paddingRight: "5%" }}>
+                        <Paper style={{ opacity: "0.9" }}>
                             <MenuList>
                                 <p style={{ 'paddingRight': "5%", 'textAlign': "right" }}>مطب ها و بیمارستان ها</p>
                                 {this.props.doctor.doctor_clinics.map(clinic =>
@@ -63,58 +65,62 @@ class DoctorProfile extends React.Component {
                                         onClick={() => this.handleclick(clinic)}>
                                         <p style={{ direction: 'rtl' }}>{clinic.name}</p>
                                         <br />
+                                        <Divider/>
+                                        <Divider />
                                     </MenuItem>)}
                             </MenuList>
                         </Paper>
                     </Grid>
 
-                    <Grid style={{ paddingRight: "4%" }} item sm={5}>
-                        <Paper elevation={5} style={{ 'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9", background: "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)" }}>
+                    <Grid style={{ paddingRight: "10%", paddingTop: "5%" }} item sm={5}>
+                        <Paper elevation={5} style={{ 'paddingRight': "2%", 'paddingLeft': "1%", opacity: "0.9"}}>
                             <div>
                                 <div>
-                                    <div style={{ 'marginTop': "3%", 'marginRight': "15%" }}>
-                                        <img src={this.props.doctor.picture}
-                                            alt={this.props.doctor.user.first_name + " " + this.props.doctor.user.last_name}
-                                            style=
-                                            {{
-                                                'alignSelf': "right",
-                                                'marginLeft': "90%",
-                                                width: "135px",
-                                                height: "135px",
-                                                'borderRadius': "50%",
-
-                                            }} />
+                                    <div >
+                                    {this.props.doctor.gender === "زن" ?
+                                    <img src={doctor_female} style={{
+                                        width: "120px",
+                                        height: "120px", paddingTop: "2%", paddingLeft: "60%", overflow: "auto", clear: "both"
+                                    }} alt=" " />
+                                    : <img src={doctor_men} style={{
+                                        width: "120px",
+                                        height: "120px", paddingTop: "2%", paddingLeft: "60%", overflow: "auto", clear: "both"
+                                    }} alt=" " />}
                                     </div>
                                 </div>
-                                <div style={{ 'textAlign': "right", 'marginLeft': "30%" }}>
+                                
+                                <div style={{ 'textAlign': "right", 'marginLeft': "30%" , paddingRight : "20%"}}>
                                     <div style={{ 'paddingTop': "2%" }}>
                                         <p>دکتر {this.props.doctor.user.first_name + " " + this.props.doctor.user.last_name}</p>
                                     </div>
                                     <div>
-                                        <Rate Rate={this.props.doctor.rate} /> :
+                                        <Rate Rate={this.props.doctor.rate} />
                                     </div>
+                                    <Divider />
                                     <div style={{ 'paddingTop': "2%" }}>
                                         <p>درباره پزشک</p>
                                         <p style={{ color: "grey" }}>{this.props.doctor.bio}</p>
                                     </div>
-                                    <p style={{ 'paddingTop': "2%" }}>شماره نظام پزشکی  {this.props.doctor.medical_system_number}</p>
+                                    <Divider />
+                                    <p style={{ 'paddingTop': "2%" }}>شماره نظام پزشکی  : {this.props.doctor.medical_system_number}</p>
+                                    <Divider />
                                     <div style={{ 'paddingTop': "2%" }}>
                                         <p>تخصص و فوق تخصص</p>
                                         <p style={{ color: "grey" }}>{this.props.doctor.expertise}</p>
                                     </div>
+                                    <Divider />
                                 </div>
-                            </div>
-                            <Button variant="contained"  style={{ 'marginTop': "10%" }}
-                                onClick={this.handleClickOnMap}> مشاهده نقشه</Button>
-
-                            <br />
-                            <br/>
-
+                        <ListItemIcon>
+                        <Map/>
+                        <Place />
+                        </ListItemIcon>
+                        </div>
                         </Paper>
+                        <br />
+                        <br/>
+            
+
                         
-                     
-
-
                     </Grid>
             </Grid>
             <Chat />
@@ -126,7 +132,6 @@ class DoctorProfile extends React.Component {
 const mapStateToProps = state => ({
     ...state,
     doctor: state.Viewinfo_reducer.doctor_info,
-
 });
 
 export default connect(mapStateToProps)(DoctorProfile)

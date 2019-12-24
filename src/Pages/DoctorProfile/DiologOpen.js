@@ -37,13 +37,12 @@ class DiologOpen extends React.Component {
   handleClose() {
     this.setState({open : false})
   }
+
   reserveTime = async (e) => {      
       this.props.reserve_time(this.props.time.id)
       await this.setState({open : false})
       
   };
-
-  
 
   render() {
     return (
