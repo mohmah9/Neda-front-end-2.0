@@ -23,14 +23,13 @@ class ViewAppointment extends React.Component {
                     <div>
                         {this.props.timeresult.map(time => time.has_reserved !== false & time.visited === false
                             ? <Appointment Appointment={time} /> : null)}
-
                     </div>
                     : <CircularProgress  color="primary" />}
             </div>
         )
     }
-
 }
+
 const mapStateToProps = state => ({
     ...state,
     timeresult: state.DoctorPage_reducer.timeresult
@@ -39,4 +38,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     load_all_appointments: (medical_number) => dispatch(doctorPage_api.load_all_appointments(medical_number))
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(ViewAppointment);

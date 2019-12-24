@@ -9,29 +9,27 @@ import * as doctorpage_api from "../../Redux/DoctorPage/DoctorPage_action";
 class MedicalHistory extends React.Component {
     constructor(props) {
         super(props);
-        // let neww = true;
         this.state = {
             content: "",
             neww:true
         }
     }
+
     componentWillMount() {
         this.props.medicalhistory_load(this.props.Appointment.patient)
     }
+
     handleChanger(e) {
         this.setState({ [e.target.name]: e.target.value });
     };
+
     handlenew() {
-        // console.log("newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
         if(this.state.neww){
             this.setState({ neww:false })
         }
-        
     };
+
     render() {
-        console.log(this.props.doctor)
-        console.log(this.props.medichistory)
-        console.log(this.props.Appointment.patient)
         return (
             <div style={{ paddingLeft: "2%" }}>
                 <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
@@ -77,19 +75,6 @@ class MedicalHistory extends React.Component {
                                     ایجاد سابقه</Button>
                             </Paper>
                     }
-                    {/* {
-                        this.state.neww? <div>
-                            <Paper  style = {{ background: "linear-gradient(to top, #8e9eab, #eef2f3)"}}>
-                                <p style={{ textAlign: "center", direction: "rtl" }}>
-                                    <TextField id="outlined-email-input" value={this.state.content} onChange={this.handleChanger.bind(this)} style={{ width: "85%" }} fullWidth className="usertext" label="سابقه پزشکی" type="Name" name="content" margin="normal" variant="outlined" />
-                                    <br />
-                                </p>
-                                <Button variant="contained" color="primary" onClick={() => this.props.add_medicalhistory([this.props.Appointment.patient ,this.state.content])} style={{ background: "linear-gradient(60deg, #2196f3 30%, #21cbf3 90%)" }} fullWidth>
-                                    ایجاد سابقه</Button>
-                            </Paper>
-                        </div>
-                        :null
-                    } */}
                 </Paper>
             </div>
         )

@@ -26,7 +26,7 @@ class Appointment extends React.Component {
         this.props.appointmenttimeDoctor_load(this.props.Appointment.patient)
         var today = new Date();
         if ((today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()).length === 9) {
-            this.setState({ date: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + "0" + today.getDate() })
+            this.setState({ date: today.getFullYear() + '-' + (today.getMonth() + 1) + '-0' + today.getDate() })
         } else {
             this.setState({ date: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() })
         }
@@ -47,15 +47,11 @@ class Appointment extends React.Component {
     }
 
     render() {
-        console.log(this.props.Appointment)
-        
         return (
             <div>
                 <Fade left>
                 <Paper style={{ boxShadow: "2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", width: "-webkit-fill-available" }}>
                     <div>
-
-
                         <div style={{ 'textAlign': "right", 'marginLeft': "0%", paddingRight: "2%" }}>
                             <br />
                             <p>
@@ -87,6 +83,7 @@ class Appointment extends React.Component {
                             <br />
                         </div>
                         <div style={{marginLeft:"2%" , marginRight:"2%"}}>
+                            
                             <Grid container spacing={24}>
                                 <Grid item sm={6}>
                                     <div>
@@ -98,6 +95,7 @@ class Appointment extends React.Component {
                                             </p>:null}
                                     </div>
                                 </Grid>
+                               
                                 <Grid item sm={6}>
                                     <div>
                                         {this.state.visited? <Button variant="contained" color="primary" style={{paddingTop:"2%",paddingBottom:"2%", background: "linear-gradient(to right, #780206 10%, #061161)" }} fullWidth onClick={this.handlevisited}>
@@ -109,9 +107,10 @@ class Appointment extends React.Component {
                             </Grid>
                         </div>
                         <br />
+                        
                         <Button variant="contained" color="primary" style={{ background: "linear-gradient(to right, #5c6bc0 , #001064)" }} fullWidth onClick={() => this.props.appointmenttimeDoctor_cancel(this.props.Appointment.url)}>
                             کنسل
-                            </Button>
+                        </Button>
                     </div>
                 </Paper>
                 </Fade>
@@ -122,6 +121,7 @@ class Appointment extends React.Component {
     }
 
 }
+
 const mapStateToProps = state => ({
     ...state,
     patient: state.PatientProfile_reducer.appointmentDoctor_result,
@@ -136,5 +136,4 @@ const mapDispatchToProps = dispatch => ({
     set_visiting: (url) => dispatch(doctorPage_api.set_visiting(url)),
     set_visited: (url) => dispatch(doctorPage_api.set_visited(url))
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Appointment)
