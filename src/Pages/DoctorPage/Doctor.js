@@ -6,8 +6,6 @@ import ViewAppointment from "./ViewAppointment"
 import Addclinic from './Addclinic';
 import WorkingHour from './WorkingHour';
 import MenuAppBar from '../Home/NavBar';
-import Chat from '../Chat/Chat'
-import { connect } from "react-redux";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -19,7 +17,10 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import AddAlarm from '@material-ui/icons/AddAlarm';
 import Forward from '@material-ui/icons/Forward';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Chat from '../Chat/Chat_doctor'
+import Fade from 'react-reveal/Fade';
+import { BrowserRouter as Router, Route, Link , Redirect} from "react-router-dom";
+import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
 
 
@@ -27,26 +28,17 @@ class Doc extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // doctor: [],
-            // addclinic: false,
             info: false,
-            reserve: true,
+            reserve: false,
             clinic: false,
             workhours: false,
+            logout : false
         }
     }
-
-    
 
     componentWillMount() {
         this.props.doctorPage_load()
     }
-
-    // handleclinic = (e) => {
-    //     this.setState({
-    //         addclinic: true
-    //     })
-    // }
 
     handleinfo = (e) => {
         this.setState({
@@ -83,8 +75,15 @@ class Doc extends React.Component {
             clinic: false
         })
     }
+    
+    handleclose = () =>{
+        this.setState({
+            logout : true
+        })
+    }
 
     render() {
+        if (this.state.logout) {return <Redirect to={{ pathname: '/login' }} />}
         return (
             <div>
                 <MenuAppBar />
@@ -94,14 +93,21 @@ class Doc extends React.Component {
                             {this.state.reserve & this.props.doctor.length >= 1?
                                 <ViewAppointment Doctor={this.props.doctor[0]} />
                                 : this.state.info ?
-                                <Paper><ViewAndEditDoctorInformation /></Paper>   
-                                    : this.state.clinic ?
-                                    <Paper><Addclinic/></Paper>
-                                        : this.state.workhours & this.props.doctor.length >= 1?
-                                            <WorkingHour/>
-                                            :<CircularProgress color="primary" />
+                                <Fade>
+                                    <Paper>
+                                        <ViewAndEditDoctorInformation />
+                                    </Paper>   
+                                </Fade>
+                                : this.state.clinic ?
+                                    <Paper>
+                                        <Addclinic/>
+                                    </Paper>
+                                : this.state.workhours & this.props.doctor.length >= 1?
+                                <WorkingHour/>
+                                :<CircularProgress color="primary" />
                             }
                         </Grid>
+
                         <Grid item sm={3} style={{ paddingTop: "5%", paddingRight: "10%" ,  marginTop : "3%"}}>
                         <Paper>
                             <div>
@@ -113,7 +119,9 @@ class Doc extends React.Component {
                                 </ListItemIcon>
                                 </ListItem>
                             </List>
+
                             <Divider />
+
                             <List onClick={this.handlereserve}>
                                 <ListItem button>
                                 <ListItemText primary="وقت های رزرو شده" style = {{'textAlign' : "right"}}/>
@@ -122,7 +130,9 @@ class Doc extends React.Component {
                                 </ListItemIcon>
                                 </ListItem>
                             </List>
+
                             <Divider />
+
                             <List onClick={this.handleclinic}>
                                 <ListItem button>
                                 <ListItemText primary="اضافه کردن مطب" style = {{'textAlign' : "right"}}/>
@@ -131,7 +141,9 @@ class Doc extends React.Component {
                                 </ListItemIcon>    
                                 </ListItem>
                             </List>
+
                             <Divider />
+
                             <List onClick={this.handleworkhours}>
                                 <ListItem button>
                                 <ListItemText primary="ثبت وقت کاری" style = {{'textAlign' : "right"}}/>
@@ -140,8 +152,10 @@ class Doc extends React.Component {
                                 </ListItemIcon>    
                                 </ListItem>
                             </List>
-                            <Divider />
-                            <List> 
+
+                            <Divider/>
+
+                            <List  onClick={this.handleclose}> 
                                 <ListItem button>
                                 <ListItemText primary="خروج" style = {{'textAlign' : "right"}}/>
                                 <ListItemIcon>
@@ -154,7 +168,9 @@ class Doc extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
-                <Chat />
+
+                <Chat/>
+
             </div>
         )
     }

@@ -12,6 +12,9 @@ import  Dialogfalse from './Diologfalse';
 import Divider from '@material-ui/core/Divider';
 import { connect } from "react-redux";
 import * as doctorPage_api from "../../Redux/DoctorPage/DoctorPage_action";
+import Map from '../Map/AddLocation';
+import { BrowserRouter as Router, Route, Link , Redirect} from "react-router-dom";
+
 
 const BootstrapInput = withStyles(theme => ({
     root: {
@@ -48,6 +51,7 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
+
 class Addclinic extends React.Component {
     constructor(props) {
         super(props);
@@ -59,8 +63,10 @@ class Addclinic extends React.Component {
             clinic_phone_number: "",
             clinicaddress: "",
             clinicprovince: "",
-            open : false
-
+            open : false,
+            AddLoaction : false,
+            Lng : '',
+            Lat : ''
         }
     }
 
@@ -71,8 +77,9 @@ class Addclinic extends React.Component {
     handleChangerr = event => {
         this.setState({ clinicprovince: event.target.value })
     }
+
     render() {
-        console.log(this.state.clinicprovince)
+        if (this.state.AddLoaction) {return <Redirect to={{ pathname: '/AddLoaction' }} />}
         return (
             <div>
                 <br/>
@@ -105,18 +112,23 @@ class Addclinic extends React.Component {
                             {Province.map(p => (<MenuItem name={p.value} value={p.value} onclick={this.handleChanger.bind(this)}>{p.value}</MenuItem>))}
 
                         </Select>
+                        <br/>
                     </FormControl>
                 <br />
-                <Button variant="contained" style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}} onClick={() => this.props.doctorPage_addClinic(this.state.clinicname, this.state.clinicprovince, this.state.clinic_phone_number, this.state.clinicaddress, this.props.doctor.medical_system_number)} color="primary" fullWidth>
+                <div style = {{marginRight : "30%", width:"40vw"}}>
+                 <Map/>
+                </div>
+                <br/>
+                
+                <Button variant="contained" style = {{background:" linear-gradient(to left, #2196f3 30%, #21cbf3 90%)"}} onClick={() => this.props.doctorPage_addClinic(this.state.clinicname, this.state.clinicprovince, this.state.clinic_phone_number, this.state.clinicaddress, this.props.doctor.medical_system_number,localStorage.getItem("Lat"), localStorage.getItem("Lng"))} color="primary" fullWidth>
                     ثبت
                 </Button>
                 </div>
                 <br/>
-                 {this.state.open ? <Dialogfalse /> : null}
+                {this.state.open ? <Dialogfalse /> : null}
             </div>
         )
     }
-
 }
 
 const mapStateToProps = state => ({
@@ -126,7 +138,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    doctorPage_addClinic: (clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number) => dispatch(doctorPage_api.doctorPage_addClinic(clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number))
+    doctorPage_addClinic: (clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number, Lat, Lng) => dispatch(doctorPage_api.doctorPage_addClinic(clinicname, clinicprovince, clinic_phone_number, clinicaddress, medical_system_number, Lat, Lng))
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Addclinic)

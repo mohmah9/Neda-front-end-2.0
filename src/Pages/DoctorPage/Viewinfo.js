@@ -89,7 +89,7 @@ class ViewAndEditDoctorInformation extends React.Component {
 
     render() {
         return (
-            <div style = {{textAlign : "right" , paddingRight : "3%", paddingTop : "1%"}}>
+                <div style = {{textAlign : "right" , paddingRight : "3%", paddingTop : "1%"}}>
                 <h1>اطلاعات کاربری</h1>
                 <Divider/>
                 <div className="fields">
@@ -127,8 +127,6 @@ class ViewAndEditDoctorInformation extends React.Component {
                         </Select>
                     </FormControl>
                 </div>
-
-
                 <br />
                 <div className="fields">
                     <Button variant="contained" style = {{ background: "linear-gradient(to right,#90caf9, #1e88e5, #64b5f6)"}} onClick={() => this.props.doctorPage_Edit(this.state.first_name, this.state.last_name, this.state.username, this.state.password, this.state.mobile_number, this.state.email, this.state.medical_system_number, this.state.gender, this.state.province, this.state.social_number, this.state.phone_number, this.state.address, this.state.expertise, this.state.bio, this.props.doctor.url) } color="primary" fullWidth>
@@ -136,7 +134,6 @@ class ViewAndEditDoctorInformation extends React.Component {
                    </Button>
                 </div>
                 <br />
-
             </div>
         )
     }

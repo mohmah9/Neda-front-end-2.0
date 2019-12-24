@@ -19,6 +19,8 @@ const styles = {
         width: '60%',
     },
 };
+
+
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
@@ -54,6 +56,7 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
+
 class UIPickers extends React.Component {
     state = {
         selectedDate: new Date('2014-08-18T21:00:00'),
@@ -66,6 +69,7 @@ class UIPickers extends React.Component {
     handleDateChange = date => {
         this.setState({ selectedDate: date });
     };
+
     handleDateChangeE = date => {
         this.setState({ selectedDateE: date });
     };
@@ -78,10 +82,12 @@ class UIPickers extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
 
     };
+
     handleChangerr = event => {
         this.selectedFilters = event.target.value
         this.setState({ dclinic: event.target.value })
     }
+
     render() {
         const { selectedDate , selectedDateE } = this.state;
         return (
@@ -136,7 +142,6 @@ class UIPickers extends React.Component {
                     </Button>
                 </div>
             </div>
-
         );
     }
 }
@@ -152,7 +157,4 @@ const mapDispatchToProps = dispatch => ({
     doctorPage_addWorkingHour: (dclinic, day, price, period,selectedDate, selectedDateE, clinics) => dispatch(doctorPage_api.doctorPage_addWorkingHour(dclinic, day, price, period,selectedDate, selectedDateE, clinics))
 
 });
-
-// export default ;
-
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UIPickers));
