@@ -20,7 +20,7 @@ export default class ReviewCard extends React.Component {
   }
 
 render(){
-  if(this.state.click) return <Redirect to={{ pathname: '/HomePage' }} />
+  if(this.state.click) return <Redirect to={{ pathname: '/LearnInfo' , info:{title:"Shrimp and Chorizo Paella" , typo:"This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like." , detail:"this is where we vomit cuz we are so tired of this shit ..." , image:this.props.image} }} />
   return (
     
     <Card style = {{marginRight : "10%", marginLeft : " 10%"}} onClick={console.log("heloo")}>
@@ -57,7 +57,7 @@ render(){
           <ShareIcon />
         </IconButton>
         <Button size="small" color="primary" onClick = {()=> this.setState({click : true})}>
-          LreanMore
+          LearnMore
         </Button>
       </CardActions>
     </Card>
