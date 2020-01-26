@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from "react-redux";
 import * as doctorProfile_api from "../../Redux/DoctorProfile/DoctorProfile_action"
+import { BrowserRouter as Router, Route, Link , Redirect} from "react-router-dom";
 
 
 function ViewAppointmentInformation(props) {
@@ -29,6 +30,7 @@ class DiologOpen extends React.Component {
     super(props);
     this.state = {
       open: true,
+      pay: false
     };
 
   }
@@ -39,12 +41,14 @@ class DiologOpen extends React.Component {
   }
 
   reserveTime = async (e) => {      
-      this.props.reserve_time(this.props.time.id)
+      // this.props.reserve_time(this.props.time.id)
+      this.setState({pay : true})
       await this.setState({open : false})
       
   };
 
   render() {
+    if (this.state.pay) {return <Redirect to={{ pathname: '/Payment' , time : this.props.time.id }} />}
     return (
       <div>
         <Dialog
