@@ -32,13 +32,13 @@ class FullWidthGrid extends React.Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
-          <Grid item sm={9}>
+          <Grid item sm={9}  style={{ paddingLeft: "10%", paddingRight : "5%" }}>
               <div>
                 {this.props.doctor_result.home_default_result.map(doctor => <ViewInfo Doctor={doctor} />)}
               </div>
           </Grid>
           <Grid item sm={3}>
-            <Paper className={classes.paper} style = {{background : "linear-gradient(to right, #9796f0, #fbc7d4)"}}>
+            <Paper className={classes.paper}>
               <Filters />
             </Paper>
           </Grid>
