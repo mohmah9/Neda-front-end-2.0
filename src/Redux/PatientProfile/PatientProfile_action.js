@@ -24,6 +24,18 @@ export const medicalHistory_success_type = {
     MEDICALHISTORY_SUCCESS: 'MEDICALHISTORY_SUCCESS'
 }
 
+export const medicine_saving_success_type = {
+    MEDICINE_SAVING_SUCCESS: 'MEDICINE_SAVING_SUCCESS'
+}
+
+export const medicine_load_success_type = {
+    MEDICINE_LOAD_SAVING_SUCCESS: 'MEDICINE_LOAD_SAVING_SUCCESS'
+}
+
+export const medicine_dialog_trans_type = {
+    MEDICINE_DIALOG_TRANS_SUCCESS: 'MEDICINE_DIALOG_TRANS_SUCCESS'
+}
+
 export const loadPatient_success = (res) => { 
     return {
         type: patientProfile_load_type.PATIENTPROFILELOAD_SUCCESS,
@@ -62,6 +74,27 @@ export const medicalHistory_success = (res) => {
     return {
         type: medicalHistory_success_type.MEDICALHISTORY_SUCCESS,
         medicalHistory_result: res
+    }
+}
+
+export const medicine_saving_success = (res) => { 
+    return {
+        type: medicine_saving_success_type.MEDICINE_SAVING_SUCCESS,
+        medicine_saving_result: res
+    }
+}
+
+export const medicine_load_success = (res) => { 
+    return {
+        type: medicine_load_success_type.MEDICINE_LOAD_SAVING_SUCCESS,
+        medicine_load_result: res
+    }
+}
+
+export const medicine_dialog_trans = () => { 
+    // console.log("fjnhfgjkb")
+    return {
+        type: medicine_dialog_trans_type.MEDICINE_DIALOG_TRANS_SUCCESS,
     }
 }
 
@@ -143,6 +176,32 @@ export const patientProfile_medicalhistory = (patient_id) =>{
                     dispatch(medicalHistory_success(response))
                 } else {
                     console.log('there was an error with loading medical history')
+                }
+            })
+    }
+}
+export const medicine_reminder = (info) =>{
+    return function (dispatch) {
+        return api.medicine_saving(info)
+            .then((response) => {
+                if (response) {
+                    console.log('response from medicine', response)
+                    dispatch(medicine_saving_success(response))
+                } else {
+                    console.log('there was an error with medicine')
+                }
+            })
+    }
+}
+export const medicine_load = (url) =>{
+    return function (dispatch) {
+        return api.med_load(url)
+            .then((response) => {
+                if (response) {
+                    console.log('response from medicine', response)
+                    dispatch(medicine_load_success(response))
+                } else {
+                    console.log('there was an error with medicine load')
                 }
             })
     }

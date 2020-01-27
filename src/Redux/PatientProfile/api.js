@@ -136,4 +136,48 @@ class api{
     }
   };
   
+  static medicine_saving = async (info) => {
+    
+    let x = await fetch("http://172.17.3.103:8000/medical_reminder/", {
+      mode: "cors",
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "Token " + sessionStorage.getItem("token")
+      },
+      body: JSON.stringify({
+        name: info[0],
+        total_number : info[3],
+        start_time : info[1],
+        period :info[2]
+      })
+    })
+
+    x = await x.json()
+  
+    if (typeof (x) == "undefined") {
+        return false
+    } else {
+        return x;
+    }
+  };
+
+  static med_load = async (url) => {
+    let x = await fetch("http://172.17.3.103:8000/medical_reminder/?patient=" + url, {
+      mode: "cors",
+      method: 'GET',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "Token " + sessionStorage.getItem("token")
+      }
+    })
+
+    x = await x.json()
+  
+    if (typeof (x) == "undefined") {
+        return false
+    } else {
+        return x;
+    }
+  };
 }export default api;

@@ -5,7 +5,7 @@ import MenuAppBar from '../Home/NavBar';
 import ViewInfo from "./AppointmentTimeInfo";
 import Medicalhistory from "./MedicHistory";
 import ViewAndEditPatientInformation from "./PatientInfo";
-import { connect } from "react-redux";
+import Medic from "./Medicine"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -15,8 +15,11 @@ import Person from '@material-ui/icons/Person';
 import InsertInvitation from '@material-ui/icons/InsertInvitation';
 import Assignment from '@material-ui/icons/Assignment';
 import Forward from '@material-ui/icons/Forward';
+import LocalHospital from '@material-ui/icons/LocalHospital';
+import { BrowserRouter as Router, Route, Link , Redirect} from "react-router-dom";
+import { connect } from "react-redux";
+import Fade from 'react-reveal/Fade';
 import * as patientProfile_api from "../../Redux/PatientProfile/PatientProfile_action";
-
 
 
 class PatientProfile extends React.Component {
@@ -28,13 +31,23 @@ class PatientProfile extends React.Component {
             hsitory: false,
             info: false,
             reserve: true,
+            medicine : false,
+            logout : false
         };
 
     }
 
     componentWillMount() {
         this.props.PatientProfile_load()
+    }
 
+    handlemedicine = (e) => {
+        this.setState({
+            info: false,
+            reserve: false,
+            hsitory:false,
+            medicine : true
+        })
     }
 
     handlehistory = (e) => {
@@ -42,12 +55,15 @@ class PatientProfile extends React.Component {
             info: false,
             reserve: false,
             hsitory:true,
+            medicine : false
         })
     }
+
     handleinfo = (e) => {
         this.setState({
             info: true,
             reserve: false,
+            medicine : false,
             hsitory:false
         })
     }
@@ -56,14 +72,20 @@ class PatientProfile extends React.Component {
         this.setState({
             reserve: true,
             info: false,
+            medicine : false,
             hsitory:false
         })
     }
 
+    handleclose = () =>{
+        this.setState({
+            logout : true
+        })
+    }
 
     render() {
+        if (this.state.logout) {return <Redirect to={{ pathname: '/login' }} />}
         return (
-            
             <div>
                 <MenuAppBar />
                 <div>
@@ -79,9 +101,11 @@ class PatientProfile extends React.Component {
                                 </div>
                             )
                                 : this.state.info ?
+                                <Fade>
                                     <Paper elevation={5} style={{'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
                                         <ViewAndEditPatientInformation />
                                     </Paper>
+                                    </Fade>
                                     : this.state.hsitory ? (
                                         <div>
                                             {typeof (this.props.Patient[0]) != "undefined" ?
@@ -90,7 +114,16 @@ class PatientProfile extends React.Component {
                                                 </div>
                                                 : console.log("khodeti")}
                                         </div>
+                                    )
+                                    : this.state.medicine ? (
+                                        <Fade>
+
+                                    <Paper elevation={5} style={{'paddingRight': "4%", 'paddingLeft': "1%", opacity: "0.9" }}>
+                                        <Medic />
+                                    </Paper>
+                                        </Fade>
                                     ) :
+                                    
                                         "welcome ...   "
                             }
                         </Grid>
@@ -107,7 +140,9 @@ class PatientProfile extends React.Component {
                                 </ListItemIcon>
                                 </ListItem>
                             </List>
+
                             <Divider />
+
                             <List onClick={this.handlereserve}>
                                 <ListItem button>
                                 <ListItemText primary="نوبت های من" style = {{'textAlign' : "right"}}/>
@@ -116,7 +151,9 @@ class PatientProfile extends React.Component {
                                 </ListItemIcon>
                                 </ListItem>
                             </List>
+
                             <Divider />
+
                             <List onClick={this.handlehistory}>
                                 <ListItem button>
                                 <ListItemText primary="سوابق پزشکی" style = {{'textAlign' : "right"}}/>
@@ -125,8 +162,21 @@ class PatientProfile extends React.Component {
                                 </ListItemIcon>    
                                 </ListItem>
                             </List>
+
                             <Divider />
-                            <List> 
+                            
+                            <List onClick={this.handlemedicine}>
+                                <ListItem button>
+                                <ListItemText primary="داروهای من" style = {{'textAlign' : "right"}}/>
+                                <ListItemIcon>
+                                <LocalHospital/>
+                                </ListItemIcon>
+                                </ListItem>
+                            </List>
+
+                            <Divider />
+
+                            <List onClick={this.handleclose}> 
                                 <ListItem button>
                                 <ListItemText primary="خروج" style = {{'textAlign' : "right"}}/>
                                 <ListItemIcon>
@@ -144,6 +194,7 @@ class PatientProfile extends React.Component {
         )
     }
 }
+
 const mapStateToProps = state => ({
     ...state,
     Patient: state.PatientProfile_reducer.patientProfile_load_result
